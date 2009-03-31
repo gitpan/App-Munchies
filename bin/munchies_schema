@@ -1,0 +1,119 @@
+#!/usr/bin/perl
+
+# @(#)$Id: munchies_schema 589 2009-01-21 16:00:16Z pjf $
+
+use strict;
+use warnings;
+use File::Spec::Functions;
+use FindBin  qw( $Bin );
+use lib catfile( $Bin, updir, q(lib) );
+
+use App::Munchies::Schema;
+
+use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 589 $ =~ /\d+/gmx );
+
+exit App::Munchies::Schema->new( appclass => q(App::Munchies) )->dispatch;
+
+__END__
+
+=pod
+
+=head1 NAME
+
+munchies_schema - Prodcues the SQL statements needed to create an App::Munchies database
+
+=head1 SYNOPSIS
+
+=over 3
+
+=item B<munchies_schema> B<-c> I<subroutine> [B<-o> I<var=value,...>]
+
+Execute named subroutine
+
+=item B<munchies_schema> B<-H>|B<-h>
+
+Display man page/usage string
+
+=back
+
+=head1 VERSION
+
+$Revision: 589 $
+
+=head1 DESCRIPTION
+
+=head1 REQUIRED ARGUMENTS
+
+=over 3
+
+=item B<-c> I<subroutine>
+
+=back
+
+=head1 OPTIONS
+
+=over 3
+
+=item B<-D>
+
+Turn debugging on
+
+=item B<-m> I<path>
+
+Append to logfile on completion
+
+=item B<-n>
+
+Do not prompt for debugging
+
+=back
+
+=head1 DIAGNOSTICS
+
+Prints errors to stderr
+
+=head1 EXIT STATUS
+
+Returns zero on success, non zero on failure
+
+=head1 CONFIGURATION
+
+Uses the constructor's I<appl> attribute to locate a configuration file
+
+=head1 INCOMPATIBILITIES
+
+Perl::Critic is not compatible with Pod::Usage
+
+=head1 DEPENDENCIES
+
+=over 3
+
+=item L<CatalystX::Usul::Programs>
+
+=back
+
+=head1 BUGS AND LIMITATIONS
+
+Send reports to Support at RoxSoft.co.uk
+
+=head1 AUTHOR
+
+Peter Flanigan
+
+=head1 LICENSE AND COPYRIGHT
+
+Copyright (c) 2008 RoxSoft Limited.
+
+Copied from mojomojo_spawndb.pl by Jonathan Rockway
+<jrockway@cpan.org> Copied from older mojomojo_spawndb.pl by
+K. J. Cheetham <jamie@shadowcatsystems.co.uk>
+
+This is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=cut
+
+# Local Variables:
+# mode: perl
+# tab-width: 3
+# End:

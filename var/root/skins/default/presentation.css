@@ -1,0 +1,745 @@
+/* @(#)$Id: presentation.css 620 2009-03-30 19:24:24Z pjf $ */
+
+/*  Elements */
+
+body {
+   border: 0px;
+   border-left: 1px solid #336; border-right: 1px solid #336;
+   font-family: tahoma, verdana, arial, sans-serif;
+   margin: 0px; padding: 0px; height: 100%; max-height: 100%;
+}
+br { clear: left; }
+fieldset { margin-bottom: 0.5em; }
+html {
+   border: 0px; height: 100%; max-height: 100%; margin: 0px;
+   overflow: hidden; padding: 0px;
+}
+img { border: 0px; margin: 0px; padding: 0px; }
+legend {
+   border: 1px solid #336;
+   padding: 0.25em;
+}
+pre { margin: 0px; padding: 0px; }
+textarea { margin-bottom: 0.5em; }
+
+/* Classes */
+
+.bigger { font-size: 1.33em; }
+.centre { text-align: center; }
+.error { background-color: #FCC; color: black; }
+.heading { font-weight: bold; }
+.hidden { visibility: hidden; }
+.info { color: #00F; font-size: 0.75em; }
+.instructions { float: left; font-size: 0.75em; text-align: left; }
+.left { text-align: left; }
+.minimal { width: 1%; }
+.mono {
+   font-family: "Andale Mono", monaco, "Courier New", courier, monospace;
+}
+.most { width: 98%; }
+.note { font-size: 0.75em; font-weight: bold; }
+.nowrap { white-space: nowrap; }
+.quickLinkSep { padding-left: 0.25em; }
+.rule { width: 100%; }
+.separator { float: left; }
+.small { font-size: 0.75em; }
+.smaller { font-size: 0.87em; }
+.some { width: 5%; }
+.source {
+   font-family: "Andale Mono", monaco, "Courier New", courier, monospace;
+   font-size: 0.75em; margin: 0px; padding: 0px;
+}
+.subheading {  font-weight: bold; }
+.warning { background: Yellow; display: block; }
+
+/* Anchors */
+
+a.headerFade { font-weight: bold; text-decoration: none; }
+a.libraryFade {
+   border: 1px solid transparent; display: block;
+   padding: 4px; text-decoration: none;
+}
+a.libraryFade:hover { border: 1px outset #336; }
+a.libraryHeaderFade { display: block; text-decoration: none; }
+a.librarySubHeader {
+   display: block; font-size: 0.75em; text-decoration: none;
+}
+a.linkFade {
+   border: 1px solid transparent; display: block;
+   padding: 0px 0px 0.12em 0.12em; text-decoration: none;
+}
+a.linkFade:hover { border: 1px solid #336; }
+a.searchFade { padding: 0px 5px; text-decoration: none; }
+a.toolWidget { height: 20px; line-height: 20px; }
+
+/* Divs */
+
+div.appendItem { display: inline; }
+div.appendItem label.prompt { font-weight: bold; }
+
+div.button { margin-bottom: 10px; }
+div.clearLeft { clear: left; }
+div.container { float: left; margin-bottom: 2px; position: relative; }
+div.footerItem { display: inline; font-weight: bold; }
+div.grid_container { float: left; overflow: hidden; }
+div.iFrameItem input, password, select, textarea {
+   border-bottom: 1px solid #336;
+   border-left: 1px solid #336; border-right: 1px solid #336;
+   border-top: 1px solid #336; color: #336;
+   font-family: tahoma, verdana, arial, sans-serif; font-size: 0.85em;
+   margin-right: 2px;
+}
+div.iFrameItem input.required, password.required, select.required, textarea.required {
+   border-right: 3px solid #F00; margin-right: 0px;
+}
+div.iFrameItem legend { font-weight: bold; }
+div.iFrameHeading {
+   font-family: tahoma, verdana, arial, sans-serif;
+   font-size: 1.5em; font-weight: bold; text-align: center;
+}
+div.libraryHeader {
+   border: 1px solid #336; margin: 3px; padding: 3px;
+   position: relative; text-align: center;
+}
+div.libraryPanel {
+   border: 1px solid #336; clear: left; margin-left: 6px;
+}
+div.librarySubject { float: left; }
+div.narrow { clear: left; margin-left: 4em; margin-right: 4em; }
+div.paraColumn {
+	float: left; padding-left: 1.00em;
+	padding-right: 1.00em; text-align: justify;
+}
+div.sidebarContent { padding: 3px; }
+div.sidebarHeader {
+   border-left: 1px solid #336; border-right: 1px solid #336;
+   font-size: 14px; height: 25px;
+   overflow: hidden; padding: 0px 0px 0px 3px;
+   vertical-align: top;
+}
+div.sidebarHeader:hover { cursor: pointer; }
+div.sidebarHeaderFirst { border-top: 1px solid #336; }
+div.sidebarPanel {
+   border-bottom: 1px solid #336;
+   border-left: 1px solid #336;
+   border-right: 1px solid #336;
+}
+div.slider {
+	border: 1px solid #336;
+	height: 8px; left: 50px; margin-top: 4px;
+	position: absolute; top: 0px;
+	width: 222px;
+}
+div.slider div.knob {
+	border: 1px solid #336;
+	height: 18px; margin-top: -2px; width: 18px;
+}
+div.tick {
+   border-right: 1px solid #336;
+   height: 8px;
+   position: absolute;
+   top: 12px;
+   width: 19px;
+}
+div.tools {
+   height: 31px; line-height: 31px;
+}
+div.tree {
+   border: 1px solid #336; height: 12em;
+   font-family: tahoma, verdana, arial, sans-serif; font-size: 0.75em;
+   margin-bottom: 10px; overflow: auto; position: relative; width: 30em;
+}
+div.treeContainer {
+   margin: 0px; padding: 0px; white-space: nowrap;
+}
+div.treeItem {
+   margin: 0px; padding: 0px; position: relative; white-space: nowrap;
+}
+div.treeItem a.treeFade {
+   border: 1px solid transparent; margin-left: 3px;
+   position: relative; text-decoration: none;
+}
+div.treeItem a.treeFade:hover {
+   border: 1px solid #336;
+}
+div.treeItem img.treeIcon {
+	border: 0px; height: 16px; margin: 0px; padding: 0px;
+   vertical-align: middle; width: 16px;
+}
+
+/* Headers */
+
+h1.split {
+   font-size: 26px; margin: 0px; padding: 0px; position: relative;
+}
+h1.split span {
+   left: -1px; position: absolute; top: -1px;
+}
+h1.split:before {
+   content: attr(title); left: 0; position: absolute; top: 0;
+}
+
+/* Horizontal Rules */
+
+hr.footer {
+   border-top: 1px dashed #F00;
+   height: 1px; margin: 0px; padding: 0px;
+}
+
+/* Images */
+
+img.libraryHeader {
+   height: 20px; position: absolute; right: 0px; width: 20px;
+}
+img.tools {
+   height: 17px; padding-right: 1px; padding-bottom: 1px; width: 17px;
+}
+
+/* Labels */
+
+label.prompt {
+   cursor: pointer; display: block; float: left;
+   margin-bottom: 10px; text-align: right;
+}
+
+/* Select menus */
+
+select.group {
+   margin-top: 7px; min-width: 10em;
+}
+
+/* Spans */
+
+span.dropcap {
+   float: left; font-size: 2.75em; line-height: 83%; margin-right: 3px;
+}
+span.error {
+   border: 1px solid #336; clear: left; display: block;
+   font-size: 0.75em; white-space: nowrap;
+}
+span.help { cursor: help; }
+span.label {
+   display: block; float: left; margin-bottom: 10px;
+}
+span.lineNumber {
+   display: block; float: left;
+   font-family: "Andale Mono", monaco, "Courier New", courier, monospace;
+   font-size: 0.75em; margin-bottom: 10px; margin-right: 0.33em;
+   margin-top: 0.33em; text-align: right; width: 1.66em;
+}
+span.prompt {
+   display: block; float: left; margin-bottom: 10px;
+}
+span.textarea {
+   float: right;
+}
+span.title {
+   left: 0px; min-width: 8em; padding: 3px; position: absolute;
+   right: 0px; white-space: nowrap;
+}
+
+/* Tables */
+
+table.form {
+	width: 400px;
+}
+table.recipe {
+   clear: left;
+}
+table.recipe td {
+   padding: 0.12em 0.5em;
+}
+table.std {
+   margin: 5px; padding: 5px; width: 100%;
+}
+td.csv {
+   white-space: nowrap;
+}
+td.first {
+   border-right: 1px solid #336; width: 1%;
+}
+td.fixed {
+   width: 20px;
+}
+td.grid_cell {
+   height: 25px; white-space: nowrap;
+}
+td.lineNumber {
+   font-family: "Andale Mono", monaco, "Courier New", courier, monospace;
+   padding-right: 3px; text-align: right;
+}
+th.first {
+   text-align: center; width: 1%;
+}
+th.grid_header {
+   border-bottom: 1px solid #336; font-size: 0.75em; text-align: left;
+}
+th.select {
+   width: 48px;
+}
+th.table {
+   text-align: center;
+}
+tr.dataValue{ vertical-align: top; }
+tr.grid {
+   font-size: 0.75em;
+}
+tr.logfile {
+   font-family: "Andale Mono", monaco, "Courier New", courier, monospace;
+   white-space: nowrap;
+}
+
+/* Named elements */
+
+#append {
+   bottom: 0px; font-size: 0.85em; left: 10px; position: fixed; z-index: 4;
+}
+#bookmark {
+   display: block;
+}
+#buttonDisp {
+   bottom: 55px; padding-right: 3px; position: fixed;
+   right: 0px; top: 82px; width: 35px;
+}
+#buttonList {
+   margin-top: 10px;
+}
+#content {
+   border: 1px solid #336; bottom: 0px;
+/*   font-family: georgia, "Times New Roman", times, serif; */
+   font-family: tahoma, verdana, arial, sans-serif;
+   left: 10px; margin-right: 35px; margin-bottom: 5px;
+   overflow: auto; padding: 10px;
+   position: absolute; right: 10px; top: 82px; z-index: 3;
+   -moz-border-radius: 10px;
+}
+#footerDisp {
+   bottom: 0px; display: inherit;
+   font-size: 0.75em; height: 60px; left: 0px; position: fixed;
+   right: 0px; vertical-align: top; z-index: 2;
+}
+#footer {
+   cursor: pointer; display: inline; width: 20px;
+}
+#footerLeft {
+   display: inline;
+}
+#footerLogo {
+   height: 32px; width: 259px;
+}
+#footerMid {
+   display: inline; text-align: center; vertical-align: baseline;
+}
+#footerRight {
+   bottom: 5px; position: absolute; right: 10px; text-align: right;
+}
+#footerRule {
+   width: 100%;
+}
+#footerRule td {
+   vertical-align: middle;
+}
+#headerBottom {
+   height: 31px; left: 0px; position: absolute; right: 0px; top: 46px;
+}
+#headerDisp {
+   height: 77px; left: 0px; position: fixed; right: 0px; top: 0px; z-index: 10;
+}
+#headerQuickLinks {
+   bottom: 0px; font-size: 12px; padding-right: 5px; padding-top: 1px;
+   position: absolute; right: 100px; text-align: right;
+}
+#headerSubTitle {
+   font-size: 13px; padding-top: 1px; position: absolute;
+   padding-right: 5px; right: 100px; text-align: right;
+}
+#headerTitle {
+   float: left; padding: 0px 0px 0px 10px;
+}
+#headerTop {
+   height: 46px; left: 0px; overflow: hidden; position: absolute; top: 0px;
+   right: 0px; white-space: nowrap;
+}
+#companyLogo {
+   border-bottom: 1px solid #336; height: 71px;
+   position: absolute; right: 0px; top: 0px; width: 100px;
+   z-index: 5;
+}
+#sidebar {
+   display: block;
+}
+#sidebarDisp {
+   border: 1px solid #336; bottom: 0px; left: 0px; overflow: hidden;
+   padding: 0px; position: fixed; top: 82px; width: 150px;
+   -moz-border-radius: 10px;
+}
+#sidebarFill {
+   border: 5px solid #CC9;
+   -moz-border-radius: 10px;
+}
+#sidebarGrippy {
+	cursor: w-resize; margin-top: 200px; float:right;	
+}
+
+/* Flyover tool tips */
+
+div.tool-tip { color: #fff; text-align: center; z-index: 13000; }
+td.tool-tip-topLeft { background: url(bubble.png) top left; }
+td.tool-tip-topLeft span {
+   color: #9FD4FF; display: block;
+   font-weight: bold; font-size: 14px; padding: 8px 0px 4px 16px;
+}
+td.tool-tip-topRight { background: url(bubble.png) top right; }
+td.tool-tip-topRight span {
+   color: #9FD4FF; display: block;
+	font-weight: bold; font-size: 14px; padding: 8px 8px 4px 8px;
+}
+td.tool-tip-bottomLeft { background: url(bubble.png) bottom left; }
+td.tool-tip-bottomLeft span {
+   display: block; font-size: 14px; padding: 4px 0px 16px 16px;
+}
+td.tool-tip-bottomRight { background: url(bubble.png) bottom right; }
+td.tool-tip-bottomRight span {
+   display: block; font-size: 14px; padding: 4px 8px 16px 8px;
+}
+
+/* Navigation menu and tools menu */
+
+#sidebarCap {
+   border-top: 5px solid #8b8b32; border-bottom: 1px solid #336;
+   height: 20px; padding: 1px 0px 4px 0px; position: absolute;
+}
+#sidebarImg {
+   height: 17px; padding: 3px 5px 4px 10px; width: 17px;
+}
+#sidebarImg:hover { cursor: pointer; }
+#navigation {
+   display: table-row; height: 31px; left: 32px;
+	position: absolute; right: 0px;
+}
+div.navigationMenu {
+   display: table-cell; height: 31px;
+}
+div.navigationFiller {
+   display: table-cell; height: 31px; vertical-align: top; width: 99%;
+}
+div.navigationTools {
+   height: 31px; position: absolute; right: 100px;
+   vertical-align: top; z-index: 3;
+}
+span.navigationFiller {
+   border-top: 1px solid transparent; border-bottom: 1px solid #336;
+   display: block; font-size: 0.66em; height: 19px;
+   margin: 0px; padding: 1px 0px 4px 0px;
+}
+#menu {
+   display: table-row; list-style-type: none; margin: 0px;
+   padding: 0px; white-space: nowrap;
+}
+#menu li { display: table-cell; vertical-align: middle; }
+#menu dl { position: absolute; margin: 0px; padding: 0px; top: 30px; }
+#menu dt { margin: 0px; padding: 0px; }
+#menu dd { clear: left; display: none; margin: 0px; padding: 0px; }
+#menu li:hover dd, #menu li a:hover dd { display: block; }
+#menu li a.menuTitleFade {
+   border-top: 1px solid transparent; border-bottom: 1px solid #336;
+   border-left: 1px solid transparent; border-right: 1px solid transparent;
+   display: block; font-size: 0.83em; height: 19px;
+   padding: 1px 1em 4px 1em; text-align: center; text-decoration: none;
+   white-space: nowrap;
+}
+#menu li a.menuTitleFade:hover { display: block; }
+#menu li a.menuSelectedFade {
+   border-bottom: 1px solid transparent; border-left: 1px solid #336;
+   border-right: 1px solid #336; border-top: 1px solid transparent;
+   display: block; font-size: 0.83em; font-weight: bold; height: 19px;
+   padding: 1px 1em 4px 1em; text-align: center; text-decoration: none;
+   white-space: nowrap;
+}
+#menu li a.menuSelectedFade:hover { display: block; }
+#menu li a.menuLinkFade {
+   border-bottom: 1px solid transparent; border-left: 1px solid #336;
+   border-right: 1px solid #336; border-top: 1px solid transparent;
+   display: block; font-size: 0.83em; height: 19px;
+   padding: 1px 1em 4px 1em; text-align: center; text-decoration: none;
+   white-space: nowrap;
+}
+#menu li a.menuLinkFade:hover { display: block; }
+#tools {
+   display: table-row; list-style-type: none; margin: 0px; padding: 0px;
+}
+#tools li { display: table-cell; }
+#tools li:hover dd, #tools li a:hover dd { display: block; }
+#tools dl { position: absolute; margin: 0px; padding: 0px; top: 30px; }
+#tools dt { margin: 0px; }
+#tools dd {
+   background: transparent; clear: left; display: none;
+   margin: 0px; padding: 0px;
+}
+#tools li a.toolsSelectedFade {
+   border-bottom: 1px solid transparent; border-left: 1px solid #336;
+   border-right: 1px solid #336; border-top: 1px solid transparent;
+   display: block; font-size: 0.66em; height: 20px; line-height: 20px;
+   padding: 0px 0.25em 4px 0.25em; text-align: center; text-decoration: none;
+   white-space: nowrap;
+}
+#tools li a.toolsSelectedFade:hover { display: block; }
+#tools li a.toolsTitleFade {
+   border-bottom: 1px solid #336; border-left: 1px solid transparent;
+   border-right: 1px solid transparent; border-top: 1px solid transparent;
+   display: block; font-size: 0.66em; height: 20px; line-height: 20px;
+   padding: 0px 2px 4px 2px; text-align: center; text-decoration: none;
+   white-space: nowrap;
+}
+#tools li a.toolsTitleFade:hover { display: block; }
+#tools li a.toolsLinkFade {
+   border-bottom: 1px solid transparent; border-left: 1px solid #336;
+   border-right: 1px solid #336; border-top: 1px solid transparent;
+   clear: left; display: block;
+   font-size: 0.66em; height: 19px;
+   padding: 1px 1em 4px 1em; text-align: center; text-decoration: none;
+   white-space: nowrap;
+}
+#tools li a.toolsLinkFade:hover { display: block; }
+
+/* Rounded corners in menu */
+
+b.pad {
+   display: block; height: 5px; margin: 0px; padding: 0px;
+}
+b.bottom {
+   display: block; font-size: 1px; height: 5px;
+   margin: 0px; padding: 0px;
+}
+b.top {
+   display: block; height: 5px;
+   margin: 0px; padding: 0px; position: relative;
+}
+b.left {
+   display: block; font-size: 1px; position: absolute;
+}
+b.right {
+   display: block; font-size: 1px; position: absolute; right: 0px; top: 0px;
+}
+b.b1, b.b2, b.b3, b.b4 {
+   display: block; overflow: hidden;
+}
+b.tl1, b.tl2, b.tl3, b.tl4, b.tr1, b.tr2, b.tr3, b.tr4 {
+   display: block; overflow: hidden;
+}
+b.b1, b.b2, b.b3, b.tl1, b.tl2, b.tl3, b.tr1, b.tr2, b.tr3 {
+   height: 1px;
+}
+b.b2, b.b3, b.b4 {
+   border-left: 1px solid #336; border-right: 1px solid #336;
+}
+b.tl2, b.tl3, b.tl4 {
+   border-right: 1px solid #336;
+}
+b.tr2, b.tr3, b.tr4 {
+   border-left: 1px solid #336;
+}
+b.b1 {
+   margin: 0px 5px;
+}
+b.tl1 {
+   margin: 0px; border-right: 1px solid #336;
+}
+b.tr1 {
+   margin: 0px; border-left: 1px solid  #336;
+}
+b.b2 {
+   margin: 0px 3px; border-width: 0px 2px;
+}
+b.tl2 {
+   margin-right: 1px; border-width: 0px 2px 0px 0px;
+}
+b.tr2 {
+   margin-left: 1px; border-width: 0px 0px 0px 2px;
+}
+b.b3 {
+   margin: 0px 2px;
+}
+b.tl3 {
+   margin-right: 2px;
+}
+b.tr3 {
+   margin-left: 2px;
+}
+b.b4 {
+   margin: 0px 1px; height: 2px;
+}
+b.tl4 {
+   margin-right: 3px; height: 2px;
+}
+b.tr4 {
+   margin-left: 3px; height: 2px;
+}
+
+/* The main calendar widget.  DIV containing a table. */
+
+div.calendar {
+	margin-left: -16px; position: relative; z-index: 50;
+}
+
+.calendar, .calendar table {
+  border: 1px solid #336;
+  font-size: 11px;
+  cursor: default;
+  font-family: tahoma,verdana,sans-serif;
+}
+
+/* Header part -- contains navigation buttons and day names. */
+
+.calendar .button { /* "<<", "<", ">", ">>" buttons have this class */
+  text-align: center;    /* They are the navigation buttons */
+  padding: 2px;          /* Make the buttons seem like they're pressing */
+  font-size: 90%;
+}
+
+.calendar thead .title { /* This holds the current "month, year" */
+  font-weight: bold;      /* Pressing it will take you to the current date */
+  text-align: center;
+  padding: 2px;
+}
+
+.calendar thead .headrow { /* Row <TR> containing navigation buttons */
+}
+
+.calendar thead .name { /* Cells <TD> containing the day names */
+  border-bottom: 1px solid #336;
+  padding: 2px;
+  text-align: center;
+}
+
+.calendar thead .hilite { /* How do the buttons in header appear when hover */
+  border: 1px solid #336;
+  padding: 1px;
+}
+
+.calendar thead .active { /* Active (pressed) buttons in header */
+  padding: 2px 0px 0px 2px;
+}
+
+/* The body part -- contains all the days in month. */
+
+.calendar tbody .day { /* Cells <TD> containing month days dates */
+  width: 2em;
+  text-align: right;
+  padding: 2px 4px 2px 2px;
+}
+.calendar tbody .day.othermonth {
+  font-size: 80%;
+}
+
+.calendar table .wn {
+  padding: 2px 3px 2px 2px;
+  border-right: 1px solid #336;
+}
+
+.calendar tbody td.hilite { /* Hovered cells <TD> */
+  padding: 1px 3px 1px 1px;
+  border: 1px solid #bbb;
+}
+
+.calendar tbody td.active { /* Active (pressed) cells <TD> */
+  padding: 2px 2px 0px 2px;
+}
+
+.calendar tbody td.selected { /* Cell showing today date */
+  font-weight: bold;
+  border: 1px solid #000;
+  padding: 1px 3px 1px 1px;
+}
+
+.calendar tbody td.today {
+	font-weight: bold;
+}
+
+.calendar tbody .emptycell { /* Empty cells (the best is to hide them) */
+  visibility: hidden;
+}
+
+.calendar tbody .emptyrow { /* Empty row (some months need less than 6 rows) */
+  display: none;
+}
+
+/* The footer part -- status bar and "Close" button */
+
+.calendar tfoot .footrow { /* The <TR> in footer (only one right now) */
+  text-align: center;
+}
+
+.calendar tfoot .ttip { /* Tooltip (status bar) cell <TD> */
+  padding: 2px;
+}
+
+.calendar tfoot .hilite { /* Hover style for buttons in footer */
+  border: 1px solid #084;
+  padding: 1px;
+}
+
+.calendar tfoot .active { /* Active (pressed) style for buttons in footer */
+  padding: 2px 0px 0px 2px;
+}
+
+/* Combo boxes (menus that display months/years for direct selection) */
+
+.calendar .combo {
+  position: absolute;
+  display: none;
+  top: 0px;
+  left: 0px;
+  width: 4em;
+  cursor: default;
+  border: 1px solid #336;
+  font-size: 90%;
+  z-index: 100;
+}
+
+.calendar .combo .label,
+.calendar .combo .label-IEfix {
+  text-align: center;
+  padding: 1px;
+}
+
+.calendar .combo .label-IEfix {
+  width: 4em;
+}
+
+.calendar .combo .active {
+  border-top: 1px solid #6a4;
+  border-bottom: 1px solid #6a4;
+  font-weight: bold;
+}
+
+.calendar td.time {
+  border-top: 1px solid #336;
+  padding: 1px 0px;
+  text-align: center;
+}
+
+.calendar td.time .hour,
+.calendar td.time .minute,
+.calendar td.time .ampm {
+  padding: 0px 3px 0px 4px;
+  border: 1px solid #336;
+  font-weight: bold;
+}
+
+.calendar td.time .ampm {
+  text-align: center;
+}
+
+.calendar td.time .colon {
+  padding: 0px 2px 0px 3px;
+  font-weight: bold;
+}
+
+.calendar td.time span.hilite {
+  border-color: #000;
+}
+
+.calendar td.time span.active {
+  border-color: #f00;
+}

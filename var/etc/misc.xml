@@ -1,0 +1,8 @@
+<!ELEMENT waitFor (ARRAY)*>
+<config>
+  <_cvs_model>@(#)$Id: misc.xml 582 2008-12-30 20:53:44Z pjf $</_cvs_model>
+  <wait_for>
+    <name>test</name>
+    <path>/tmp/ex.dat</path>
+  </wait_for>
+</config>

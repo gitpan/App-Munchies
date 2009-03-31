@@ -1,0 +1,15 @@
+<!--
+@(#)$Id: custom.tt 593 2009-02-15 17:45:12Z pjf $
+-->
+<div class="narrow">
+   <h3>Custom Template Demonstration</h3>
+   <span class="comment">Append &quot;/number&quot; to the URI to change the
+   number of paragrahs</span>
+   <span class="info">
+      <p>[% c.model( 'DemoText' ).lorem( count ) %]</p>
+   </span>
+   [% self = '' %]
+   <span class="comment">
+      Localisation test [% self.loc( 'eNotFound', 'dummy' ) %]
+   </span>
+</div>

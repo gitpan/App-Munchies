@@ -1,0 +1,45 @@
+<!ELEMENT userProfiles (ARRAY)*>
+<config>
+  <_cvs_model>@(#)$Id: identity.xml 617 2009-03-30 01:53:38Z pjf $</_cvs_model>
+  <userProfiles>
+    <name>develop</name>
+    <baseid>1000</baseid>
+    <desc>The Meek</desc>
+    <homedir>/home</homedir>
+    <increment>1</increment>
+    <passwd>jahweh</passwd>
+    <pattern>[a-z]+</pattern>
+    <permissions>750</permissions>
+    <prefix>rox</prefix>
+    <project>Non quiche eaters</project>
+    <roles>users</roles>
+    <shell>/bin/ksh</shell>
+  </userProfiles>
+  <userProfiles>
+    <name>support</name>
+    <baseid>1000</baseid>
+    <desc>Sys Admins</desc>
+    <homedir>/home</homedir>
+    <increment>1</increment>
+    <passwd>jahweh</passwd>
+    <pattern>[a-z]+</pattern>
+    <permissions>750</permissions>
+    <prefix>rox</prefix>
+    <project>Born to be root</project>
+    <roles>users</roles>
+    <shell>/bin/pdksh</shell>
+  </userProfiles>
+  <userProfiles>
+    <name>users</name>
+    <baseid>1000</baseid>
+    <desc>Little People</desc>
+    <homedir>/home/common</homedir>
+    <increment>1</increment>
+    <passwd>default</passwd>
+    <pattern>[a-zA-Z]+</pattern>
+    <permissions>755</permissions>
+    <prefix>rox</prefix>
+    <project>Application User</project>
+    <shell>/bin/pdksh</shell>
+  </userProfiles>
+</config>

@@ -1,0 +1,337 @@
+<!ELEMENT acl         (ARRAY)*>
+<!ELEMENT buttons     (ARRAY)*>
+<!ELEMENT credentials (ARRAY)*>
+<!ELEMENT fields      (ARRAY)*>
+<!ELEMENT globals     (ARRAY)*>
+<!ELEMENT keys        (ARRAY)*>
+<!ELEMENT levels      (ARRAY)*>
+<!ELEMENT messages    (ARRAY)*>
+<!ELEMENT pages       (ARRAY)*>
+<!ELEMENT rooms       (ARRAY)*>
+<!ELEMENT vals        (ARRAY)*>
+<config>
+  <_cvs_lang_level>@(#)$Id: entrance_en.xml 625 2009-03-31 00:35:40Z pjf $</_cvs_lang_level>
+  <buttons>
+    <name>authentication.login</name>
+    <error>Failed to authenticate with the system because</error>
+    <help>Unauthorized access is an offence</help>
+  </buttons>
+  <buttons>
+    <name>change_password.set</name>
+    <error>Failed to change the password because</error>
+    <help>Replace the tired old password with a shiney new one</help>
+  </buttons>
+  <buttons>
+    <name>register.insert</name>
+    <error>Failed to create the account because</error>
+    <help>Create this account</help>
+  </buttons>
+  <buttons>
+    <name>sampler.save</name>
+    <help>Save the contents of the sampler form</help>
+  </buttons>
+  <fields>
+    <name>authentication.passwd</name>
+    <prompt>Password</prompt>
+  </fields>
+  <fields>
+    <name>authentication.user</name>
+    <prompt>Login id</prompt>
+  </fields>
+  <fields>
+    <name>change_password.newPass1</name>
+    <prompt>Enter your &lt;b&gt;new&lt;/b&gt; password</prompt>
+  </fields>
+  <fields>
+    <name>change_password.oldPass</name>
+    <prompt>Enter your &lt;b&gt;old&lt;/b&gt; password</prompt>
+  </fields>
+  <fields>
+    <name>change_password.realm</name>
+    <prompt>Authentication realm</prompt>
+  </fields>
+  <fields>
+    <name>change_password.user</name>
+    <prompt>Login id</prompt>
+  </fields>
+  <fields>
+    <name>register.captcha</name>
+    <fhelp>Captcha Image</fhelp>
+    <prompt>Your security code is</prompt>
+  </fields>
+  <fields>
+    <name>register.email_address</name>
+    <prompt>Enter your email address</prompt>
+  </fields>
+  <fields>
+    <name>register.first_name</name>
+    <prompt>Enter your first name</prompt>
+  </fields>
+  <fields>
+    <name>register.home_phone</name>
+    <prompt>Enter your home telephone number</prompt>
+  </fields>
+  <fields>
+    <name>register.last_name</name>
+    <prompt>Enter your last name</prompt>
+  </fields>
+  <fields>
+    <name>register.location</name>
+    <prompt>Enter your usual desk location</prompt>
+  </fields>
+  <fields>
+    <name>register.newPass1</name>
+    <prompt>Enter your password</prompt>
+  </fields>
+  <fields>
+    <name>register.project</name>
+    <prompt>Enter your project/job title</prompt>
+  </fields>
+  <fields>
+    <name>register.security</name>
+    <prompt>Enter security code</prompt>
+  </fields>
+  <fields>
+    <name>register.work_phone</name>
+    <prompt>Enter your work telephone number</prompt>
+  </fields>
+  <messages>
+    <name>accountActivated</name>
+    <text>Account activated for [_1]. Click on the Login link to authenticate</text>
+  </messages>
+  <messages>
+    <name>authentication.header</name>
+    <text>Stop! You have your papers?</text>
+  </messages>
+  <messages>
+    <name>awaitingAuthorisation</name>
+    <text>Account created. Awaiting authorisation</text>
+  </messages>
+  <messages>
+    <name>change_password.select</name>
+    <text>Change the login password for [% name %] ([% user %])</text>
+  </messages>
+  <messages>
+    <name>change_password.selectUnknown</name>
+    <text>Change your password on this server</text>
+  </messages>
+  <messages>
+    <name>eLoginParameters</name>
+    <text>You did not enter both login id and password</text>
+  </messages>
+  <messages>
+    <name>login_now_text</name>
+    <markdown>1</markdown>
+    <text>
+As your current identity is unknown to the site, select
+User Authentication from the navigation bar now and
+identify yourself with your login id and password.
+    </text>
+  </messages>
+  <messages>
+    <name>login_text</name>
+    <markdown>1</markdown>
+    <text>
+Programs and data held on this system are private  
+property and may be accessed only by authorised  
+users for purposes which have been authorised.  
+
+Unauthorised access to this system contravenes  
+Company rules and is a disciplinary offence.  
+Unauthorised access is a criminal offence and may  
+lead to criminal penalties and civil damages.  
+
+If you are not an authorised user, disconnect immediately.  
+    </text>
+  </messages>
+  <messages>
+    <name>passwordChanged</name>
+    <text>Password for [% user %] changed</text>
+  </messages>
+  <messages>
+    <name>register.legend</name>
+    <text>Create an account on this site</text>
+  </messages>
+  <messages>
+    <name>sitemapHeading</name>
+    <text>Site Map of [% application %]&amp;nbsp;[% platform %]</text>
+  </messages>
+  <messages>
+    <name>test_card</name>
+    <text>&lt;img alt=&quot;Test Card&quot; src=&quot;[% assets %]construct.gif&quot; /&gt;</text>
+  </messages>
+  <pages>
+    <name>reception</name>
+    <heading>Welcome to the [% application %] application</heading>
+    <vals>
+      <name>para0</name>
+      <text>
+Having installed Catalyst, the Perl MVC framework, these modules
+implement some controllers and data models that should be useful
+to many web applications
+      </text>
+    </vals>
+    <vals>
+      <name>para1</name>
+      <markdown>1</markdown>
+      <text>----</text>
+    </vals>
+    <vals>
+      <name>para2</name>
+      <text>
+Web application developers writing for the corporate intranet. The
+Identity data model uses the OS user database, providing methods
+to authenticate, create, and update accounts. It is assumed that
+this is appropriate for the target audience although the model
+allows for different storage databases to be used instead
+      </text>
+    </vals>
+    <vals>
+      <name>para3</name>
+      <markdown>1</markdown>
+      <text>----</text>
+    </vals>
+    <vals>
+      <name>para4</name>
+      <markdown>1</markdown>
+      <text>
+* Skins   
+Selected from the tools menu a skin contains the CSS, TT template, and
+Javascript files used to present the pages of this
+application. These files control font selection, colours, content
+positioning, and interactive behaviour. Replace the contents of
+the image files as required, the one TT template contains the HTML
+element container relationships for all pages
+* XML configuration editors   
+All of the textual content is stored XML files for which editors are
+provided within the application. The application name 'Munchies'
+can be altered from Admin &amp;gt; Configuration page. MyApp
+becomes YourApp, MyCompany becomes YourCompany, etc. This text can
+be altered from the Admin &amp;gt; Configuration &amp;gt; Messages
+page
+* Internationalization   
+With all the literal text stored in XML files and copies translated
+into multiple languages, providing localised applications is
+straightforward
+      </text>
+    </vals>
+    <vals>
+      <name>para5</name>
+      <markdown>1</markdown>
+      <text>----</text>
+    </vals>
+    <vals>
+      <name>subHeading0</name>
+      <text>What's it all about ?</text>
+    </vals>
+    <vals>
+      <name>subHeading2</name>
+      <text>Who is it aimed at ?</text>
+    </vals>
+    <vals>
+      <name>subHeading4</name>
+      <text>What are it's main features ?</text>
+    </vals>
+  </pages>
+  <pages>
+    <name>tutorial</name>
+    <heading>Introductory Tutorial for [% application %]</heading>
+    <vals>
+      <name>para0</name>
+      <dropcap>1</dropcap>
+      <text>Think of this system as a building. It has a navigation bar that provides access to all levels within the building. Each level contains one or more rooms. The reception room on each level contains more information about that level</text>
+    </vals>
+    <vals>
+      <name>para1</name>
+      <markdown>1</markdown>
+      <text>At the top of each room is a title bar. Beneath that there is the navigation bar. When you click the &lt;img alt=&quot;Pin&quot; src=&quot;[% assets %]pushpin.gif&quot; /&gt; icon on the navigation bar it expands/collapses the side panel. Mousing over a link on the navigation bar will display more information about that level after a short delay. Clicking on a link will take you to that level</text>
+    </vals>
+    <vals>
+      <name>para2</name>
+      <text>The second and subsequent items on the navigation bar allow you enter the different rooms on the current level. Some rooms do not appear until a record has been selected in the current room</text>
+    </vals>
+    <vals>
+      <name>para3</name>
+      <text>If you try to enter a room not open to anonymous access you wil be redirected to User Authentication on the Entrance level. There you will be forced to prove your identity by entering your login id and password. Levels requiring authentication will not appear on the navigation bar if user identity is unknown. Your current identity is shown in bottom right corner of the footer bar followed by some useful numbers</text>
+    </vals>
+    <vals>
+      <name>para4</name>
+      <text>Near the top right corner of the room are some clickable icons. The &lt;img alt=&quot;Tools&quot; src=&quot;[% assets %]tools.gif&quot; /&gt; icon is a drop menu containing options that affect the way the user interface works. The Turn Footer On/Off option toggles the footer display.  The Feedback option creates a mail message with a context sensitive subject string. This message allows you to share your experience of Munchies Development with it's administrators.  The Feedback option only appears if your identity is known. The &lt;img alt=&quot;Help&quot; src=&quot;[% assets %]help.gif&quot; /&gt; icon will display the relevant help text for the current room in another browser window.  The &lt;img alt=&quot;Exit&quot; src=&quot;[% assets %]exit.gif&quot; /&gt; icon will reset your identity to unknown, exit the building and return you to the root page of this web server</text>
+    </vals>
+  </pages>
+  <rooms>
+    <name>activate_account</name>
+    <text>Activate Account</text>
+    <tip>Activate a newly created account</tip>
+  </rooms>
+  <rooms>
+    <name>authentication</name>
+    <text>Login</text>
+    <tip>Identify yourself to the site</tip>
+  </rooms>
+  <rooms>
+    <name>change_password</name>
+    <text>Change Password</text>
+    <tip>Change your site password</tip>
+  </rooms>
+  <rooms>
+    <name>clock</name>
+    <text>Clock</text>
+    <tip>SVG Animated system clock</tip>
+  </rooms>
+  <rooms>
+    <name>custom</name>
+    <text>Custom</text>
+    <tip>An example of a custom template</tip>
+  </rooms>
+  <rooms>
+    <name>documentation</name>
+    <text>Documentation</text>
+    <tip>HTML formatted from POD</tip>
+  </rooms>
+  <rooms>
+    <name>module_docs</name>
+    <text>POD</text>
+    <tip>Displays the POD for the selected module</tip>
+  </rooms>
+  <rooms>
+    <name>modules</name>
+    <text>Modules</text>
+    <tip>List the modules and versions loaded by this application</tip>
+  </rooms>
+  <rooms>
+    <name>reception</name>
+    <text>Reception</text>
+    <tip>Welcome to this site</tip>
+  </rooms>
+  <rooms>
+    <name>register</name>
+    <text>Site Registration</text>
+    <tip>Create an account on this site</tip>
+  </rooms>
+  <rooms>
+    <name>sampler</name>
+    <text>Sampler</text>
+    <tip>Displays the list of available form widgets</tip>
+  </rooms>
+  <rooms>
+    <name>sitemap</name>
+    <text>Site Map</text>
+    <tip>View links to all the pages within this application</tip>
+  </rooms>
+  <rooms>
+    <name>test_card</name>
+    <text>Test Card</text>
+    <tip>Apologise to the BBC</tip>
+  </rooms>
+  <rooms>
+    <name>tutorial</name>
+    <text>Tutorial</text>
+    <tip>More help in getting started</tip>
+  </rooms>
+  <rooms>
+    <name>wikipedia</name>
+    <text>Wikipedia</text>
+    <tip>Lookup the Wikipedia entry for the supplied argument</tip>
+  </rooms>
+</config>

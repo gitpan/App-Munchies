@@ -1,0 +1,232 @@
+/* @(#)$Id: green.css 620 2009-03-30 19:24:24Z pjf $ */
+a.headerFade { color: #333366; }
+a.libraryFade { color: #000; }
+a.libraryFade:hover { background-color: #FFC; }
+a.libraryHeaderFade { color: #000; }
+a.librarySubHeader { color: #000; }
+a.linkFade { color: #000; }
+a.linkFade:hover { background-color: #FFC; }
+a.toolWidget:hover { background-color: #FFC; }
+body {
+   /*   background-color: #9C9; */
+   background-image: url(background.jpg);
+}
+div.iFrameItem input, password, select, textarea {
+   background-color: #CC9; color: #336;
+}
+div.iFrameItem input:focus, password:focus, select:focus, textarea:focus {
+   background-color: #9C9; color: #000;
+}
+div.libraryHeader { background-color: #CC9; }
+div.slider { background-color: #CC9 }
+div.slider div.knob { background-color: #9C9 }
+div.tree { background-color: #CC9; }
+div.treeItem a.selected a.selected-inactive { color: #000; }
+div.treeItem a.treeFade:hover { background-color: #FFC; }
+h1.split span { color: #336; }
+h1.split:before { color: #FFC; }
+hr.footer { background-color: transparent; }
+legend { background-color: #CC9; }
+span.title { background: #663; color: #FFC; }
+table.grid { background-color: #CC9; }
+table.recipe td.label { background-color: #CC9; }
+th.grid_header { background-color: #663; }
+th.table { background-color: #663; color: #FFC; }
+.calendar { background-color: #FFC; }
+.even { background: #CC9; }
+.even:hover { background: #FFC; }
+.odd { background: #9C9; }
+.odd:hover { background: #FFC; }
+#bookmark { background-color: #663; }
+#content { background-color: #FFC; }
+#conversionPanel { background-color: #FFC; }
+#footerDisp { background-color: transparent; }
+#headerTop { background: #666633 repeat-x url(header.png); color: #FFC; }
+#informationPanel { background-color: #FFC; }
+#companyLogo { background-color: #663; }
+#overviewPanel { background-color: #FFC; }
+#searchPanel { background-color: #FFC; }
+#toolTip { background-color: #9CC; }
+
+/* Navigation menu and tools menu */
+
+#sidebarCap { background-color: #CC9; }
+#sidebarImg:hover { background-color: #FFC; }
+span.navigationFiller { background-color: #CC9; }
+#menu dd { background: transparent; }
+#menu li a.menuTitleFade { background-color: #CC9; color: #000; }
+#menu li a.menuTitleFade:hover { background-color: #FFC; }
+#menu li a.menuSelectedFade { color: #000; }
+#menu li a.menuSelectedFade:hover { background-color: #FFC; }
+#menu li a.menuLinkFade { background-color: #CC9; color: #000; }
+#menu li a.menuLinkFade:hover { background-color: #FFC; }
+#tools dd { background: transparent; }
+#tools li a.toolsSelectedFade { color: #000; }
+#tools li a.toolsSelectedFade:hover { background-color: #FFC; }
+#tools li a.toolsTitleFade { background-color: #CC9; color: #000; }
+#tools li a.toolsTitleFade:hover { background-color: #FFC; }
+#tools li a.toolsLinkFade { background-color: #CC9; color: #000; }
+#tools li a.toolsLinkFade:hover { background-color: #FFC; }
+
+/* Rounded corners in menu */
+
+b.pad { background-color: #8b8b32; }
+b.bottom { background-color: transparent; }
+b.top { background-color: transparent; }
+b.b2, b.b3, b.b4 { background: #CC9; }
+b.tl2, b.tl3, b.tl4 { background: #8b8b32; }
+b.tr2, b.tr3, b.tr4 { background: #8b8b32; }
+b.b1 { background: #336; }
+b.tl1 { background: #8b8b32; }
+b.tr1 { background: #8b8b32; }
+
+/* The main calendar widget.  DIV containing a table. */
+
+.calendar, .calendar table {
+  color: #000;
+  background: #efe;
+}
+
+/* Header part -- contains navigation buttons and day names. */
+
+.calendar .button { /* "<<", "<", ">", ">>" buttons have this class */
+  background: #663;
+  color: #FFC;
+}
+
+.calendar .nav {
+  background: #663 url(menuarrow.gif) no-repeat 100% 100%;
+}
+
+.calendar thead .title { /* This holds the current "month, year" */
+  background: #250;
+  color: #efa;
+}
+
+.calendar thead .name { /* Cells <TD> containing the day names */
+  color: #000;
+}
+
+.calendar thead .weekend { /* How a weekend day name shows in header */
+  color: #a66;
+}
+
+.calendar thead .hilite { /* How do the buttons in header appear when hover */
+  background-color: #afa;
+  color: #000;
+}
+
+.calendar thead .active { /* Active (pressed) buttons in header */
+  background-color: #7c7;
+}
+
+.calendar thead .daynames { /* Row <TR> containing the day names */
+  background: #dfb;
+}
+
+/* The body part -- contains all the days in month. */
+
+.calendar tbody .day { /* Cells <TD> containing month days dates */
+  color: #564;
+}
+.calendar tbody .day.othermonth {
+  color: #bbb;
+}
+.calendar tbody .day.othermonth.oweekend {
+  color: #fbb;
+}
+
+.calendar table .wn {
+  background: #dfb;
+}
+
+.calendar tbody .rowhilite td {
+  background: #dfd;
+}
+
+.calendar tbody .rowhilite td.wn {
+  background: #efe;
+}
+
+.calendar tbody td.hilite { /* Hovered cells <TD> */
+  background: #efd;
+}
+
+.calendar tbody td.active { /* Active (pressed) cells <TD> */
+  background: #dec;
+}
+
+.calendar tbody td.selected { /* Cell showing today date */
+  background: #f8fff8;
+  color: #000;
+}
+
+.calendar tbody td.weekend { /* Cells showing weekend days */
+  color: #a66;
+}
+
+.calendar tbody td.today {
+	color: #0a0;
+}
+
+.calendar tbody .disabled {
+	color: #999;
+}
+
+/* The footer part -- status bar and "Close" button */
+
+.calendar tfoot .footrow { /* The <TR> in footer (only one right now) */
+  background: #565;
+  color: #fff;
+}
+
+.calendar tfoot .ttip { /* Tooltip (status bar) cell <TD> */
+  background: #250;
+  color: #efa;
+}
+
+.calendar tfoot .hilite { /* Hover style for buttons in footer */
+  background: #afa;
+  color: #000;
+}
+
+.calendar tfoot .active { /* Active (pressed) style for buttons in footer */
+  background: #7c7;
+}
+
+/* Combo boxes (menus that display months/years for direct selection) */
+
+.calendar .combo {
+  background: #efd;
+  color: #000;
+}
+
+.calendar .combo .hilite {
+  background: #af8;
+}
+
+.calendar .combo .active {
+  background: #efe;
+}
+
+.calendar td.time {
+  background-color: #dfb;
+}
+
+.calendar td.time .hour,
+.calendar td.time .minute,
+.calendar td.time .ampm {
+  background-color: #FFC;
+}
+
+.calendar td.time span.hilite {
+  border-color: #000;
+  background-color: #686;
+  color: #fff;
+}
+
+.calendar td.time span.active {
+  border-color: #f00;
+  background-color: #000;
+  color: #0f0;
+}

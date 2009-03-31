@@ -1,0 +1,35 @@
+<config>
+ <fields>text</fields>
+ <rows>NULL</rows>
+ <rows>Root</rows>
+ <rows>General</rows>
+ <rows>Alphabetical</rows>
+ <rows>Recipes</rows>
+ <rows>Documentation</rows>
+ <rows>A</rows>
+ <rows>B</rows>
+ <rows>C</rows>
+ <rows>D</rows>
+ <rows>E</rows>
+ <rows>F</rows>
+ <rows>G</rows>
+ <rows>H</rows>
+ <rows>I</rows>
+ <rows>J</rows>
+ <rows>K</rows>
+ <rows>L</rows>
+ <rows>M</rows>
+ <rows>N</rows>
+ <rows>O</rows>
+ <rows>P</rows>
+ <rows>Q</rows>
+ <rows>R</rows>
+ <rows>S</rows>
+ <rows>T</rows>
+ <rows>U</rows>
+ <rows>V</rows>
+ <rows>W</rows>
+ <rows>X</rows>
+ <rows>Y</rows>
+ <rows>Z</rows>
+</config>

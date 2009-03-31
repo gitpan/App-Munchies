@@ -1,0 +1,77 @@
+/* @(#)$Id: blue.css 431 2008-06-29 09:29:40Z pjf $ */
+a.headerFade { color: #FFC; }
+a.libraryFade { color: #000; }
+a.libraryFade:hover { background-color: #FFC; }
+a.libraryHeaderFade { color: #000; }
+a.librarySubHeader { color: #000; }
+a.linkFade { color: #000; }
+a.linkFade:hover { background-color: #FFC; }
+a.toolWidget:hover { background-color: #FFC; }
+body {
+   background-color: #8CF;
+}
+div.iFrameItem input, password, select, textarea {
+   background-color: #FB8; color: #336;
+}
+div.iFrameItem input:focus, password:focus, select:focus, textarea:focus {
+   background-color: #8CF; color: #000;
+}
+div.libraryHeader { background-color: #FB8; }
+div.tree { background-color: #FB8; }
+div.treeItem a.selected a.selected-inactive { color: #000; }
+div.treeItem a.treeFade:hover { background-color: #FFC; }
+h1.split span { color: #336; }
+h1.split:before { color: #FFC; }
+hr.footer { background-color: transparent; }
+legend { background-color: #FB8; }
+span.title { background: #663; color: #FFC; }
+table.grid { background-color: #FB8; }
+table.recipe td.label { background-color: #FB8; }
+th.grid_header { background-color: #663; }
+th.table { background: #663; color: #FFC; }
+.calendar { background-color: #FFC; }
+.even { background: #FB8; }
+.even:hover { background: #FFC; }
+.odd { background: #8CF; }
+.odd:hover { background: #FFC; }
+#bookmark { background-color: #663; }
+#content { background-color: #FFC; }
+#footerDisp { background-color: transparent; }
+#headerTop { background-color: #663; color: #FFC; }
+#informationPanel { background-color: #FFC; }
+#companyLogo { background-color: #663; }
+#overviewPanel { background-color: #FFC; }
+#searchPanel { background-color: #FFC; }
+#toolTip { background-color: #9CC; }
+
+/* Navigation menu and tools menu */
+
+#sideBarCap { background-color: #FB8; }
+#sideBarImg:hover { background-color: #FFC; }
+span.navigationFiller { background-color: #FB8; }
+#menu dd { background: transparent; }
+#menu li a.menuTitleFade { background-color: #FB8; color: #000; }
+#menu li a.menuTitleFade:hover { background-color: #FFC; }
+#menu li a.menuSelectedFade { color: #000; }
+#menu li a.menuSelectedFade:hover { background-color: #FFC; }
+#menu li a.menuLinkFade { background-color: #FB8; color: #000; }
+#menu li a.menuLinkFade:hover { background-color: #FFC; }
+#tools dd { background: transparent; }
+#tools li a.toolsSelectedFade { color: #000; }
+#tools li a.toolsSelectedFade:hover { background-color: #FFC; }
+#tools li a.toolsTitleFade { background-color: #FB8; color: #000; }
+#tools li a.toolsTitleFade:hover { background-color: #FFC; }
+#tools li a.toolsLinkFade { background-color: #FB8; color: #000; }
+#tools li a.toolsLinkFade:hover { background-color: #FFC; }
+
+/* Rounded corners in menu */
+
+b.pad { background-color: #663; }
+b.bottom { background-color: transparent; }
+b.top { background-color: transparent; }
+b.b2, b.b3, b.b4 { background: #FB8; }
+b.tl2, b.tl3, b.tl4 { background: #663; }
+b.tr2, b.tr3, b.tr4 { background: #663; }
+b.b1 { background: #336; }
+b.tl1 { background: #663; }
+b.tr1 { background: #663; }

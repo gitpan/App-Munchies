@@ -1,0 +1,7 @@
+<config>
+ <fields>role</fields>
+ <rows>dummy</rows>
+ <rows>develop</rows>
+ <rows>support</rows>
+ <rows>user</rows>
+</config>

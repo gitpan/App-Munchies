@@ -1,0 +1,6 @@
+<config>
+ <fields>user_id role_id</fields>
+ <rows>1, 1</rows>
+ <rows>1, 2</rows>
+ <rows>2, 3</rows>
+</config>

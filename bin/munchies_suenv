@@ -1,0 +1,20 @@
+#!/bin/ksh
+
+# @(#)$Id: munchies_suenv 589 2009-01-21 16:00:16Z pjf $
+
+if [ ! "${DT}" ]
+then
+   kbs=$(tput kbs) ; export ERASE=${kbs} ; stty erase ${kbs} -echoctl
+fi
+
+if [ -d ${HOME}/.sh_history ]
+then
+   export HISTFILE=${HOME}/.sh_history/$(basename $(tty))
+else
+   export HISTFILE=${HOME}/.sh_history
+fi
+
+export START=${HOME}/.kshrc
+export ENV='${START[(_$- = 1)+(_ = 0)-(_$- != _${-%%*i*})]}'
+
+exec ${SHELL} -o emacs

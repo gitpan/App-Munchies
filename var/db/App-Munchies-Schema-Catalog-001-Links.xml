@@ -1,0 +1,7 @@
+<config>
+ <fields>nid name text url info</fields>
+ <rows>1, NULL, NULL, NULL, NULL</rows>
+ <rows>2, ProjectDocs, Project Documentation,
+       /html/index.html,
+       Documentation for this application</rows>
+</config>

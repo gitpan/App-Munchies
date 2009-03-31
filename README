@@ -1,0 +1,155 @@
+Name
+    App::Munchies - Catalyst example application using food recipes as a
+    data set
+
+Version
+    0.1.$Revision: 627 $
+
+Synopsis
+    Start the development mini server with
+
+       bin/munchies_server.pl
+
+Description
+    This is an example application for the CatalystX::Usul base classes
+
+    Some web applications require common controllers and data models. For
+    example; welcome mat, authentication, password changing, navigation
+    tools and site map are some of the controllers implemented here. Since
+    these modules are not an end in themselves, most of the visible text is
+    stored in XML configuration files and can be customised using the
+    controllers and data models provided. The string "Munchies" for example
+    is a generic application name and it is meant to be replaced with a more
+    specific application name once it has been written
+
+    Pages are rendered using a single TT template. The template, CSS,
+    Javascript and collection of GIFs, PNG, etc are stored together and form
+    a "skin" for which a switching mechanism is provided. This enables
+    development of the web application to proceed independently of the
+    interface development. Content (provided by Perl on Catalyst) has been
+    separated from layout (TT+CSS), presentation (CSS) and behaviour (JS).
+    If the interface is not to your liking, write your own skin. These ideas
+    and techniques have been aquired from <http://www.csszengarden.com/> and
+    <http://www.cssplay.co.uk/>
+
+    Don't even think about using anything other than a modern version of
+    Firefox to display these pages
+
+Installation
+    Run these commands as root to install this application from a
+    distribution tarball:
+
+       tar -xvzf app_munchies-?.?.?.tar.gz
+       cd app_munchies-?.?.?
+       ./install.sh
+
+    It defaults to installing all files (including the var data) under
+    /opt/app-munchies (which is easy to remove if this is not a permanent
+    installation)
+
+    If you want to customise the installation then instead of "install.sh"
+    run
+
+       ./Build.PL
+       ./Build --ask
+       ./Build distclean
+       cd ..
+       tar -czf app_munchies-local.tar.gz app_munchies-?.?.?
+
+    which will create a local tarball. Install from this and you will not be
+    prompted to answer any more questions
+
+    Once the schema has been deployed and populated the following (optional)
+    commands will be run:
+
+       bin/munchies_misc   -n -c pod2html    -o uid=[% uid %] -o gid=[% gid %]
+       bin/munchies_schema -n -c catalog_mmf -o uid=[% uid %] -o gid=[% gid %]
+
+    as the *munchies* user. They may take some time to finish. When complete
+    the var area of the application is about 60Mb in size
+
+    This distribution contains a setuid root program. It is used to provide
+    limited access to root only functions, e.g. authentication against
+    /etc/shadow. The build process asks if this should be enabled
+
+    N.B. Remove *user_root* from var/secure/support.sub if it exists
+
+Subroutines/Methods
+  list_sessions
+    Lists the users session data stored in
+    Catalyst::Plugin::Session::Store::FastMmap
+
+    This method should be implemented on each of the C::P::S::Store::*
+    backends
+
+Diagnostics
+    Append "-d" to "bin/munchies_server.pl" to start the mini server in
+    debug mode
+
+    Replace the prepare body method in *Catalyst.pm* with this one
+
+       sub prepare_body {
+          my $c = shift;
+
+          # Do we run for the first time?
+          return if defined $c->request->{_body};
+
+          # Initialize on-demand data
+          $c->engine->prepare_body( $c, @_ );
+          $c->prepare_parameters;
+          $c->prepare_uploads;
+
+          if ( $c->debug && keys %{ $c->req->body_parameters } ) {
+             my $params = $c->req->body_parameters;
+             my $re = $c->config->{Debug}->{skip_dump_parameters};
+             my $t = Text::SimpleTable->new( [ 35, 'Parameter' ], [ 36, 'Value' ] );
+
+             for my $key ( sort keys %{ $params } ) {
+                my $param = exists $params->{ $key } ? $params->{ $key } : q();
+                my $value = ref $param eq q(ARRAY)
+                          ? (join q(, ), @{ $param }) : $param;
+
+                $value = q(*) x length $value if ($re && $key =~ m{ \A $re \z }mx);
+
+                $t->row( $key, $value );
+             }
+
+             $c->log->debug( "Body Parameters are:\n" . $t->draw );
+          }
+       }
+
+Configuration and Environment
+    Application configuration is in the file
+    lib/app_munchies/app_munchies.xml
+
+Dependencies
+    Catalyst
+    Catalyst::Plugin::ConfigComponents
+    Catalyst::Plugin::InflateMore
+    CatalystX::Usul
+
+Incompatibilities
+    Cygwin - Has a wierd gecos field in the passwd file that is a problem
+    for the identity model.
+
+Bugs and Limitations
+    There are no known bugs in this module. Please report problems to the
+    address below. Patches are welcome
+
+    Remember to patch "M::B::PodParser::textblock". Change tests to case
+    insensitive pattern matches. Delete requirement for authors to have @s
+    Otherwise "Build dist" will fail to create META.yml
+
+Author
+    Peter Flanigan, "<Support at RoxSoft.co.uk>"
+
+License and Copyright
+    Copyright (c) 2008 RoxSoft Limited. All rights reserved
+
+    This program is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself. See perlartistic
+
+    This program is distributed in the hope that it will be useful, but
+    WITHOUT WARRANTY; without even the implied warranty of MERCHANTABILITY
+    or FITNESS FOR A PARTICULAR PURPOSE
+

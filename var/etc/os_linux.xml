@@ -1,0 +1,28 @@
+<!ELEMENT os (ARRAY)*>
+<config>
+  <_cvs_os>@(#)$Id: os_linux.xml 585 2009-01-05 00:36:46Z pjf $</_cvs_os>
+  <os>
+     <name>fortune</name>
+     <value>/usr/games/fortune</value>
+  </os>
+  <os>
+     <name>fs_type</name>
+     <value>ext3</value>
+  </os>
+  <os>
+     <name>fuser</name>
+     <value>/usr/bin/fuser</value>
+  </os>
+  <os>
+     <name>lock_type</name>
+     <value>sysv</value>
+  </os>
+  <os>
+     <name>logger</name>
+     <value>/usr/bin/logger</value>
+  </os>
+  <os>
+     <name>snmptrap</name>
+     <value>/usr/local/bin/snmptrap</value>
+  </os>
+</config>

@@ -1,0 +1,179 @@
+#!/usr/bin/perl
+
+# @(#)$Id: munchies_lock 589 2009-01-21 16:00:16Z pjf $
+
+use strict;
+use warnings;
+use File::Spec::Functions;
+use FindBin  qw( $Bin );
+use lib catfile( $Bin, updir, q(lib) );
+
+use CatalystX::Usul::Programs;
+
+use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 589 $ =~ /\d+/gmx );
+
+my ($line, $locks, $prog, $rc, $ref);
+
+$prog = CatalystX::Usul::Programs->new( appclass => q(App::Munchies),
+                                        arglist  => q(k=s p=s t=s) );
+
+$prog->usage(1) if     (exists $prog->args->{h});
+$prog->usage(2) if     (exists $prog->args->{H});
+$prog->usage(0) unless ($prog->method);
+
+if ($prog->method eq q(list)) {
+   if ($locks = $prog->lock->list) {
+      for $ref (@{ $locks }) {
+         $line  = $ref->{key}.q(,).$ref->{pid}.q(,);
+         $line .= $prog->time2str('%Y-%m-%d %H:%M:%S', $ref->{stime}).q(,);
+         $line .= $ref->{timeout};
+         $prog->output( $line, { no_lead => 1 } );
+      }
+   }
+
+   exit 0;
+}
+elsif ($prog->method eq q(reset)) { $prog->lock->reset($prog->args) && exit 0 }
+elsif ($prog->method eq q(set))   { $prog->lock->set($prog->args)   && exit 0 }
+
+$prog->error( 'Subroutine '.$prog->method.' unknown' );
+
+exit 1;
+
+__END__
+
+=pod
+
+=head1 NAME
+
+Lock - Provide set/reset locking semantics
+
+=head1 SYNOPSIS
+
+=over 3
+
+=item B<munchies_lock> B<-c list>
+
+List the contents of the lock table
+
+=item B<munchies_lock> B<-c reset> B<-k> I<key>
+
+Reset the lock for key
+
+=item B<munchies_lock> B<-c set> B<-k> I<key> B<-p> I<pid> [B<-t> I<timeout>]
+
+Set the lock for key. Caller must provide it's PID. Timeout defaults to five
+minutes
+
+=item B<munchies_lock> B<-H>|B<-h>
+
+Display man page/usage string
+
+=back
+
+=head1 VERSION
+
+$Revision: 589 $
+
+=head1 DESCRIPTION
+
+This program exposes the subroutines in the IPC::SRLock module
+
+Use one of three mechanisms to provide set/reset locking semantics. On Unix
+systems where the SysV IPC works use semaphores and shared memory. On Cygwin
+use flock(3m). There is also an implementation using I<libmemcached>
+
+Perl's portable flock(3m) mechanism to single thread access to the
+lock table. The lock table is a text file in XML format. Successful
+lock setting results in a line entry being written to the lock
+table. Other processes wishing to set the lock will suspend until the
+lock is released or times out. When released or timed out the line
+entry is removed from the lock table. The I<key> can be any string (no
+commas), the I<pid> should be the PID of the lock setting process,
+i.e. ${$} in Shell. The timeout defaults to five minutes.
+
+=head1 REQUIRED ARGUMENTS
+
+=over 3
+
+=item B<-c> I<subroutine>
+
+One of list, reset, or set
+
+=back
+
+=head1 OPTIONS
+
+=over 3
+
+=item B<-D>
+
+Turn debugging on
+
+=item B<-n>
+
+Do not prompt for debugging
+
+=back
+
+=head1 DIAGNOSTICS
+
+Prints errors to stderr
+
+=head1 EXIT STATUS
+
+Returns zero on success, non zero on failure
+
+=head1 CONFIGURATION
+
+Uses the constructor's I<appl> attribute to locate a configuration file
+
+Locking mechanisms are selected in the OS dependant configuration
+file. Setting lock_type in the global config to ipc selects the SysV
+IPC method.
+
+=over 3
+
+=item F<var/tmp/ipc_srlock.lck>
+
+The one true lock file
+
+=item F<var/tmp/ipc_srlock.shm>
+
+The lock table
+
+=back
+
+=head1 INCOMPATIBILITIES
+
+Perl::Critic is not compatible with Pod::Usage
+
+=head1 DEPENDENCIES
+
+=over 3
+
+=item L<CatalystX::Usul::Programs>
+
+=back
+
+=head1 BUGS AND LIMITATIONS
+
+Send reports to Support at RoxSoft.co.uk
+
+=head1 AUTHOR
+
+Peter Flanigan
+
+=head1 LICENSE AND COPYRIGHT
+
+Copyright (c) 2008 RoxSoft Limited.
+
+This is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=cut
+
+# Local Variables:
+# mode: perl
+# tab-width: 3
+# End:

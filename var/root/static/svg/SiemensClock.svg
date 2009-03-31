@@ -1,0 +1,212 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Copyright Stefan Oskamp http://oskamp.dyndns.org/ -->
+<svg
+  id="SiemensClock"
+  width="512px" height="512px" 
+  onload="init()"
+  xmlns="http://www.w3.org/2000/svg" 
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <style type="text/css">
+      .hand {
+        fill: #202020;
+      }
+      /* .hand:hover {
+       *   opacity:0.5;
+       * } 
+       */
+    </style>
+
+    <script type="text/javascript">
+      <![CDATA[
+        var lastSeconds;
+        var lastMinutes;
+        var lastHours;
+        var Seconds;
+        var Minutes;
+        var Hours;
+
+        function getTime ()
+        {
+            var Now = new Date();
+            lastSeconds = Seconds;
+            lastMinutes = Minutes;
+            lastHours   = Hours;
+            Seconds = Now.getSeconds();
+            Minutes = Now.getMinutes();
+            Hours   = Now.getHours() + Minutes / 60;
+        }
+
+        function showTime ()
+        {
+            getTime ();
+            
+            document.getElementById("seconds").setAttribute('transform', 'rotate(' + (Seconds * 6) + ')');
+            
+            if (Minutes != lastMinutes) {
+                document.getElementById("minutes").setAttribute('transform', 'rotate(' + (Minutes * 6) + ')');
+            }
+            if (Hours != lastHours) {
+                document.getElementById("hours").setAttribute('transform', 'rotate(' + (Hours * 30) + ')');
+            }
+        }
+        
+
+        function init ()
+        {
+            /* Set the initial position of the hands:
+             */
+            showTime ();
+
+            /* Make the clock tick through JavaScript because Mozilla s native SVG
+             * support does not yet include descriptive animations:
+             * (Call this function once a second.)
+             */
+            setInterval ("showTime ()",1000);
+
+            var appCodeName;
+            try {
+                appCodeName = document.defaultView.navigator.appCodeName;
+            }
+            catch (e) {
+                //alert ("document.defaultView.navigator.appCodeName not defined");
+            }
+            
+            if (appCodeName == "Mozilla") {
+                //alert ("Mozilla with native SVG");
+
+                /* Note: When Mozilla with the Adobe SVG viewer is used, we would
+                 * _not_ get here.
+                 */
+
+                /* Make the background rectangle transparent:
+                 * (This is easier than getting the background color parameter from the URL.
+                 * We could skip this if the background rectangle would not be there at all,
+                 * but it is needed for setting the background color in Adobe SVG Viewer 3.)
+                 */
+                document.getElementById ("background").setAttribute ("style", "fill-opacity:0.0");
+            }
+            else {   // Probably Adobe SVG viewer.
+                /* The script engine of the Adobe SVG viewer cannot access the HTML document.
+                 * We therefore get the proper background color via the URL. (It has been set 
+                 * via JavaScript, in the main HTML document.)
+                 */
+                var parameterPart = document.URL.split('?')[1];
+                if (parameterPart) {
+                    var parameters = parameterPart.split('&');
+                    //alert ("parameters: " + parameters);
+                    for(var i = 0; parameters && i < parameters.length; i++) {
+                        var parameter = parameters[i].split('=');
+                        if (parameter[0] == "background-color") {
+                            var color = unescape (parameter[1]);
+                            //alert ("color: " + color);
+                            document.getElementById("background").setAttribute ("style", "fill:" + color);
+                        } // End if (parameter background-color given).
+                    } // End for (all parameters)
+                } // End if (parameters given)
+
+                /* Use declarative animation to run the clock:
+                 * (Just set the begin attribute of the animation.)
+                 * document.getElementById("minuteTransform").setAttribute('begin', '' + (60 - Seconds) + 's');
+                 * document.getElementById("hourTransform").setAttribute('begin', '' + (60 - Seconds) + 's');
+                 */
+            } // End else (no Mozilla native SVG support).
+        } // End init().
+
+      ]]>
+    </script>
+
+    <filter id="dropShadowFilter" filterUnits="userSpaceOnUse">
+      <feColorMatrix type="matrix" in="SourceAlpha" result="lightened"
+           values="1   0   0   0   0 
+                   0   1   0   0   0
+                   0   0   1   0   0
+                   0   0   0 0.7   0"/>
+      <feGaussianBlur in="lightened" stdDeviation="5" result="blurred"/>
+      <feMorphology operator="erode" in="blurred" radius="3" result="eroded"/>
+      <feOffset in="eroded" dx="10" dy="1" result="moved"/>
+      <feMerge>
+        <feMergeNode in="moved"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+  </defs>
+
+  <!-- Use a rect as background:
+       (The background of the svg element cannot be set in Adobe SVG Viewer version 3.)
+  -->
+  <rect id="background" x="0" y="0" width="512" height="512" style="fill:white"/>
+
+  <!-- Set background image:
+       (Note that Mozilla with integrated SVG rendering has learned the image tag only 
+       recently. Previously you had to use an html:img tag as a foreign object.)
+  -->
+  <image id="background-image" x="0" y="0" width="512" height="512" 
+    xlink:href="/static/images/SiemensClock-512x512.png"
+  /> <!-- End background image -->
+
+  <g style="filter:url(#dropShadowFilter)">
+    <g transform="translate(257, 255) scale(0.72)">
+      <!--
+      <line x1="0" y1="-250" x2="0" y2="250" style="stroke-width:1;stroke:gray"/>
+      <line x1="-250" y1="0" x2="250" y2="0" style="stroke-width:1;stroke:gray"/>
+      <circle cx="0" cy="0" r="17.5" style="fill:yellow" transform="translate(0,0)"/>
+      -->
+
+      <path id="hours" class="hand"
+        d="
+        M0,-170
+        L-25,-130
+        C-32.5,-115 -30,-95 -10,-90
+        L-10,-15
+        A18,18 0 0 0 -10,15
+        C-10,22.5 -12.5,47.5 -15,55
+        A57.5,57.5 0 0 0 15,55
+        C12.5,47.5 10,22.5 10,15
+        A18,18 0 0 0 10,-15
+        L10,-90
+        C30,-95 32.5,-115 25,-130
+        Z
+        M-5,-5
+        A5,5 0 0 1 5,5
+        A5,5 0 0 1 -5,-5
+        Z
+        "
+      >
+        <!--animateTransform id="hourTransform" attributeName="transform" type="rotate" calcMode="linear" begin="60s" keyTimes="0.0; 0.004; 1.0" values="0; 0.5; 0.5" dur="60s" accumulate="sum" repeatCount="indefinite"/-->
+        <!--animateTransform id="hourTransform"   attributeName="transform" type="rotate" by="0.5" calcMode="discrete" begin="60s" dur="60s" accumulate="sum" repeatCount="indefinite" /-->
+      </path>
+
+      <path id="minutes" class="hand" 
+        d="
+        M0,-250
+        L-15,-120
+        L-10,-15
+        A18,18 0 0 0 -10,15
+        C-10,22.5 -12.5,47.5 -15,55
+        A57.5,57.5 0 0 0 15,55
+        C12.5,47.5 10,22.5 10,15
+        A18,18 0 0 0 10,-15
+        L15,-120
+        Z
+        M-5,-5
+        A5,5 0 0 1 5,5
+        A5,5 0 0 1 -5,-5
+        Z
+        "
+      >
+        <!--animateTransform id="minuteTransform" attributeName="transform" type="rotate" calcMode="linear" begin="60s" keyTimes="0.0; 0.004; 1.0" values="0; 6; 6" dur="60s" accumulate="sum" repeatCount="indefinite"/-->
+        <!--animateTransform id="minuteTransform" attributeName="transform" type="rotate" by="6" calcMode="discrete" begin="60s" dur="60s" accumulate="sum" repeatCount="indefinite" /-->
+      </path>
+
+      <g id="seconds">
+        <circle cx="0" cy="0" r="5" style="fill:red"/>
+        <line x1="0" y1="0" x2="0" y2="-247" style="stroke-width:1.5;stroke:red"/>
+        <!--animateTransform attributeName="transform" type="rotate" by="6" calcMode="discrete" dur="1s" accumulate="sum" repeatCount="indefinite"/-->
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,5 @@
+<p>Welcome [% first_name %].</p>
+<p>An account has been created using your email address on the
+[% app_name %] application with a login id of [% username %].</p>
+<p>Click on this <a href=[% link %]>link</a> to activate
+your account</p>
