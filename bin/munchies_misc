@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-# @(#)$Id: munchies_misc 589 2009-01-21 16:00:16Z pjf $
+# @(#)$Id: munchies_misc 636 2009-04-01 11:51:05Z pjf $
 
 use strict;
 use warnings;
@@ -10,7 +10,7 @@ use lib catfile( $Bin, updir, q(lib) );
 
 use App::Munchies::Programs::Misc;
 
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 589 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 636 $ =~ /\d+/gmx );
 
 my $prog = App::Munchies::Programs::Misc->new( appclass => q(App::Munchies) );
 
@@ -22,7 +22,7 @@ __END__
 
 =head1 NAME
 
-Miscellaneous Subroutines - A collection
+munchies_misc - A collection of miscellaneous subroutines
 
 =head1 SYNOPSIS
 
@@ -40,7 +40,7 @@ Display man page/usage string
 
 =head1 VERSION
 
-$Revision: 589 $
+$Revision: 636 $
 
 =head1 DESCRIPTION
 

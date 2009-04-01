@@ -1,8 +1,8 @@
-2008-02-15  Peter Flanigan  <pjf@road.home>
+Revision history for App::Munchies
 
-	* Completed renaming from working title to App::Munchies
+0.1.637  01/04/2009
+         - Fixed documentation typos
+         - Fixed tree widget icons for non root deployment
 
-2008-02-10  Peter Flanigan  <pjf@road.home>
-
-	* Started this log
-
+0.1.1    10/02/2008
+         - Started this log

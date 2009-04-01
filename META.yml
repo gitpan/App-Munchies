@@ -1,6 +1,6 @@
 ---
 name: App-Munchies
-version: 0.1.627
+version: 0.1.637
 author:
   - 'Peter Flanigan, C<< <Support at RoxSoft.co.uk> >>'
 abstract: Catalyst example application using food recipes as a data set
@@ -38,7 +38,7 @@ recommends:
 provides:
   App::Munchies:
     file: lib/App/Munchies.pm
-    version: 0.1.627
+    version: 0.1.637
   App::Munchies::Controller::Admin:
     file: lib/App/Munchies/Controller/Admin.pm
     version: 0.1.481
@@ -71,10 +71,10 @@ provides:
     version: 0.1.624
   App::Munchies::Model::MealMaster::KinoSearch:
     file: lib/App/Munchies/Model/MealMaster/KinoSearch.pm
-    version: 0.1.517
+    version: 0.1.637
   App::Munchies::Programs::Misc:
     file: lib/App/Munchies/Programs/Misc.pm
-    version: 0.1.4
+    version: 0.1.636
   App::Munchies::Programs::Suid:
     file: lib/App/Munchies/Programs/Suid.pm
     version: 0.1.51
@@ -83,43 +83,37 @@ provides:
     version: 0.1.629
   App::Munchies::Schema::Authentication:
     file: lib/App/Munchies/Schema/Authentication.pm
-    version: 0.1.515
+    version: 0.1.636
   App::Munchies::Schema::Authentication::Roles:
     file: lib/App/Munchies/Schema/Authentication/Roles.pm
-    version: 0.1.515
+    version: 0.1.636
   App::Munchies::Schema::Authentication::UserRoles:
     file: lib/App/Munchies/Schema/Authentication/UserRoles.pm
-    version: 0.1.515
+    version: 0.1.636
   App::Munchies::Schema::Authentication::Users:
     file: lib/App/Munchies/Schema/Authentication/Users.pm
-    version: 0.1.515
+    version: 0.1.636
   App::Munchies::Schema::Base:
     file: lib/App/Munchies/Schema/Base.pm
-    version: 0.1.515
+    version: 0.1.636
   App::Munchies::Schema::Catalog:
     file: lib/App/Munchies/Schema/Catalog.pm
-    version: 0.1.541
+    version: 0.1.636
   App::Munchies::Schema::Catalog::Result::Links:
     file: lib/App/Munchies/Schema/Catalog/Result/Links.pm
-    version: 0.1.541
+    version: 0.1.636
   App::Munchies::Schema::Catalog::Result::Names:
     file: lib/App/Munchies/Schema/Catalog/Result/Names.pm
-    version: 0.1.541
+    version: 0.1.636
   App::Munchies::Schema::Catalog::Result::Nodes:
     file: lib/App/Munchies/Schema/Catalog/Result/Nodes.pm
-    version: 0.1.541
+    version: 0.1.636
   App::Munchies::Schema::Catalog::ResultSet::Links:
     file: lib/App/Munchies/Schema/Catalog/ResultSet/Links.pm
-    version: 0.1.621
+    version: 0.1.636
   App::Munchies::Schema::Catalog::ResultSet::Nodes:
     file: lib/App/Munchies/Schema/Catalog/ResultSet/Nodes.pm
-    version: 0.1.541
-  MealMaster::KinoSearch::Schema:
-    file: lib/App/Munchies/Model/MealMaster/KinoSearch.pm
-  MealMaster::KinoSearch::Schema::NoAnalNoIndexNoVector:
-    file: lib/App/Munchies/Model/MealMaster/KinoSearch.pm
-  MealMaster::KinoSearch::Schema::NoAnalNoVector:
-    file: lib/App/Munchies/Model/MealMaster/KinoSearch.pm
+    version: 0.1.636
 generated_by: Module::Build version 0.31
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html

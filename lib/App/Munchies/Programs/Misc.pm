@@ -1,6 +1,6 @@
 package App::Munchies::Programs::Misc;
 
-# @(#)$Id: Misc.pm 4 2008-02-13 15:54:03Z pjf $
+# @(#)$Id: Misc.pm 636 2009-04-01 11:51:05Z pjf $
 
 use strict;
 use warnings;
@@ -15,7 +15,7 @@ use File::Path;
 use File::Spec;
 use XML::Simple;
 
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 4 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 636 $ =~ /\d+/gmx );
 
 my $NUL = q();
 
@@ -199,16 +199,21 @@ __END__
 
 =head1 Name
 
-<Module::Name> - <One-line description of module's purpose>
+App::Munchies::Programs::Misc - A collection of miscellaneous subroutines
 
 =head1 Version
 
-0.1.$Revision$
+0.1.$Revision: 636 $
 
 =head1 Synopsis
 
-   use <Module::Name>;
-   # Brief but working code examples
+   #!/usr/bin/perl
+
+   use App::Munchies::Programs::Misc;
+
+   my $prog = App::Munchies::Programs::Misc->new( appclass => q(App::Munchies) );
+
+   exit $prog->dispatch;
 
 =head1 Description
 

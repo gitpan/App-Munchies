@@ -223,7 +223,7 @@ __END__
 
 =head1 Name
 
-<Module::Name> - <One-line description of module's purpose>
+App::Munchies::Programs::Suid - Methods that run as the super user
 
 =head1 Version
 

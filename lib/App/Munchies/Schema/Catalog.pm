@@ -1,13 +1,13 @@
 package App::Munchies::Schema::Catalog;
 
 # Created by DBIx::Class::Schema::Loader v0.03009 @ 2007-03-04 02:50:46
-# @(#)$Id: Catalog.pm 541 2008-11-11 21:48:51Z pjf $
+# @(#)$Id: Catalog.pm 636 2009-04-01 11:51:05Z pjf $
 
 use strict;
 use warnings;
 use base qw(DBIx::Class::Schema);
 
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 541 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 636 $ =~ /\d+/gmx );
 
 __PACKAGE__->load_namespaces;
 
@@ -29,11 +29,11 @@ __END__
 
 =head1 Name
 
-<Module::Name> - <One-line description of module's purpose>
+App::Munchies::Schema::Catalog - Schema base class
 
 =head1 Version
 
-0.1.$Revision: 541 $
+0.1.$Revision: 636 $
 
 =head1 Synopsis
 

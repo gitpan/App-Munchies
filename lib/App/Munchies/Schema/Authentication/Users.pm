@@ -1,13 +1,13 @@
 package App::Munchies::Schema::Authentication::Users;
 
 # Created by DBIx::Class::Schema::Loader v0.03009 @ 2007-03-04 02:50:46
-# @(#)$Id: Users.pm 515 2008-10-04 14:20:40Z pjf $
+# @(#)$Id: Users.pm 636 2009-04-01 11:51:05Z pjf $
 
 use strict;
 use warnings;
 use base qw(App::Munchies::Schema::Base);
 
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 515 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 636 $ =~ /\d+/gmx );
 
 __PACKAGE__->table( 'users' );
 __PACKAGE__->add_columns( qw(id active username password email_address
@@ -27,11 +27,11 @@ __END__
 
 =head1 Name
 
-<Module::Name> - <One-line description of module's purpose>
+App::Munchies::Schema::Authentication::Users - Class definitions for the users table
 
 =head1 Version
 
-0.1.$Revision: 515 $
+0.1.$Revision: 636 $
 
 =head1 Synopsis
 

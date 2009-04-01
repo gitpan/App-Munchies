@@ -1,13 +1,13 @@
 package App::Munchies::Schema::Catalog::ResultSet::Links;
 
-# @(#)$Id: Links.pm 621 2009-03-30 22:45:41Z pjf $
+# @(#)$Id: Links.pm 636 2009-04-01 11:51:05Z pjf $
 
 use strict;
 use warnings;
 use base qw(DBIx::Class::ResultSet);
 use List::Util qw(first);
 
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 621 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 636 $ =~ /\d+/gmx );
 
 sub list {
    my ($self, $cat, $labels, $current) = @_; my ($links, $ref);
@@ -41,11 +41,11 @@ __END__
 
 =head1 Name
 
-<Module::Name> - <One-line description of module's purpose>
+App::Munchies::Schema::Catalog::ResultSet::Links - Canned queries against the links table
 
 =head1 Version
 
-0.1.$Revision: 621 $
+0.1.$Revision: 636 $
 
 =head1 Synopsis
 

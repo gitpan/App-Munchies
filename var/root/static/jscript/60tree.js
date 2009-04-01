@@ -1,4 +1,4 @@
-/* @(#)$Id: 60tree.js 587 2009-01-17 12:31:14Z pjf $ */
+/* @(#)$Id: 60tree.js 633 2009-03-31 12:16:38Z pjf $ */
 
 /* Originally Cross Browser Tree Widget 1.17
  * Created by Emil A Eklund (http://webfx.eae.net/contact.html#emil)
@@ -7,20 +7,20 @@
 var Tree = {};
 
 Tree.Config = new Abstract({
-	rootIcon        : '/static/images/foldericon.png',
-	openRootIcon    : '/static/images/openfoldericon.png',
-	folderIcon      : '/static/images/foldericon.png',
-	openFolderIcon  : '/static/images/openfoldericon.png',
-	fileIcon        : '/static/images/file.png',
-	iIcon           : '/static/images/I.png',
-	lIcon           : '/static/images/L.png',
-	lMinusIcon      : '/static/images/Lminus.png',
-	lPlusIcon       : '/static/images/Lplus.png',
-	tIcon           : '/static/images/T.png',
-	tMinusIcon      : '/static/images/Tminus.png',
-	tPlusIcon       : '/static/images/Tplus.png',
-	blankIcon       : '/static/images/blank.png',
-   selectedIcon    : '/static/images/current.png',
+	rootIcon        : behaviour.baseURL + 'static/images/foldericon.png',
+	openRootIcon    : behaviour.baseURL + 'static/images/openfoldericon.png',
+	folderIcon      : behaviour.baseURL + 'static/images/foldericon.png',
+	openFolderIcon  : behaviour.baseURL + 'static/images/openfoldericon.png',
+	fileIcon        : behaviour.baseURL + 'static/images/file.png',
+	iIcon           : behaviour.baseURL + 'static/images/I.png',
+	lIcon           : behaviour.baseURL + 'static/images/L.png',
+	lMinusIcon      : behaviour.baseURL + 'static/images/Lminus.png',
+	lPlusIcon       : behaviour.baseURL + 'static/images/Lplus.png',
+	tIcon           : behaviour.baseURL + 'static/images/T.png',
+	tMinusIcon      : behaviour.baseURL + 'static/images/Tminus.png',
+	tPlusIcon       : behaviour.baseURL + 'static/images/Tplus.png',
+	blankIcon       : behaviour.baseURL + 'static/images/blank.png',
+   selectedIcon    : behaviour.baseURL + 'static/images/current.png',
 	defaultText     : 'Tree Leaf',
 	defaultAction   : 'javascript:void(0);',
 	defaultBehavior : 'classic',

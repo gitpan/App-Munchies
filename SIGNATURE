@@ -15,24 +15,24 @@ not run its Makefile.PL or Build.PL.
 Hash: SHA1
 
 SHA1 7593b401018ae5a62c15adee0d981e3cbb86696d Build.PL
-SHA1 a0624fd367e061ad6b177227f5b77c76dab3862b Changes
+SHA1 fb9d3530779245a79ff444892aa39c79be7a0615 Changes
 SHA1 0190f62d6871f7927dcc90e40797c0f20645ddea LICENSE
 SHA1 d05264cdc15156b84ae274160f545fcf5a44a5ec MANIFEST
-SHA1 3630063cece0147954d9b732deeaff81e96c98c5 META.yml
-SHA1 be42714906ad4685a615cc04b22803b9e46178bf README
+SHA1 4ae87b7d87eddbb525e303079dd7b9c4fff993b5 META.yml
+SHA1 e4ec35bbdadd741c7c1245081202db49a0966eeb README
 SHA1 ebdb0a7f3891eaadf43410a54c13f1b23db37a5c bin/munchies_cgi.pl
 SHA1 dfeeeb32d6357e4a104b1e80d30530a98605aa41 bin/munchies_create.pl
 SHA1 c050160d6e9c99e1f1aff782d6aaff0581ada224 bin/munchies_fastcgi.pl
-SHA1 9b7db900d83a8fad69aad35906b3fbd6da7140dc bin/munchies_lock
-SHA1 99749c6fa061cb91afbf12de154f0834a01341e9 bin/munchies_misc
+SHA1 8c6411fe6f24bfa765176478ddf0fbb92f541f70 bin/munchies_lock
+SHA1 2dad4d8ec2b88ebf64f8ba74938d8b93e8c02ef4 bin/munchies_misc
 SHA1 fd0403f89a30bded546fe5e8215c38b53124945f bin/munchies_schema
 SHA1 88c7da1b002d3c40bec711080ac8011e047085b5 bin/munchies_server.pl
 SHA1 c32274c1fc770119dd6881674882527d48505d84 bin/munchies_suenv
-SHA1 f5b1d0b233a6ac2e843185c0e30844847421ec5d bin/munchies_suid
+SHA1 0df42e60f0367601553ea00384e9a8c1533d16ee bin/munchies_suid
 SHA1 76a64b9fcacb434e583288acec03f37fa90191fa bin/munchies_test.pl
 SHA1 c8ce6912f162d3a5bfd69a5fce5515432fe122b0 build.xml
 SHA1 c5d6f2e5e5243777d081f91e9ef06acd7bd9eb3e install.sh
-SHA1 f10294bde3c38114d054614e69d64eecac136dc3 lib/App/Munchies.pm
+SHA1 8d3012f47113736c445ff7d1c8c3725f12f3f1cd lib/App/Munchies.pm
 SHA1 12a89d315c44017015ff67cf441d3ed8d27b19fa lib/App/Munchies/Controller/Admin.pm
 SHA1 135a61fa66847437f812a0d96c4e6f2f678c52d6 lib/App/Munchies/Controller/Entrance.pm
 SHA1 329bb07ff72452a1d653b877afc8b13813de528d lib/App/Munchies/Controller/Library.pm
@@ -43,21 +43,21 @@ SHA1 b4d8b8f95d7b32c1aea28057a4390b644e20dde1 lib/App/Munchies/Model/Authenticat
 SHA1 f13d8d20999a93d16d915aacd7656e261dc4fb3a lib/App/Munchies/Model/Catalog.pm
 SHA1 68dbdd8f1db1c6bbd5cd251a0353e2326a92dacf lib/App/Munchies/Model/DemoText.pm
 SHA1 d1807590557a7915e28fd2440251472fdbd11276 lib/App/Munchies/Model/MealMaster.pm
-SHA1 1bece513d8a40cc6530be13844f663ef4851a977 lib/App/Munchies/Model/MealMaster/KinoSearch.pm
-SHA1 766b1fb1f8559489fe3161694db6c2f90335afb2 lib/App/Munchies/Programs/Misc.pm
-SHA1 5b4616f8ca06c99680ebc500b7006d400023fee1 lib/App/Munchies/Programs/Suid.pm
+SHA1 5396466f2fcc12df54b449cfc9d297544838f81f lib/App/Munchies/Model/MealMaster/KinoSearch.pm
+SHA1 16170e8f8768db6f3f59a9132e5565df7719f953 lib/App/Munchies/Programs/Misc.pm
+SHA1 627e6ffd4bd5a2f02f17d62679d3a4aa8dab7fac lib/App/Munchies/Programs/Suid.pm
 SHA1 456f0b14e09e19d0cf047d30fd6a6d6a8fdb0467 lib/App/Munchies/Schema.pm
-SHA1 7cf470d74cfa32555a7d7bed44c16aea9c85fe16 lib/App/Munchies/Schema/Authentication.pm
-SHA1 8bcf9baf731391967523c209cf335f33ea5b342a lib/App/Munchies/Schema/Authentication/Roles.pm
-SHA1 e180bd56d3ce46b717e54df9986e20335ea61e77 lib/App/Munchies/Schema/Authentication/UserRoles.pm
-SHA1 33c833995d3d59c705380947828986a911f345b0 lib/App/Munchies/Schema/Authentication/Users.pm
-SHA1 e116fa8b285ecf75f3f3eb964b17846b5eaa9368 lib/App/Munchies/Schema/Base.pm
-SHA1 dcb4c878be111ed3666fcb58a058a0329c5b0abe lib/App/Munchies/Schema/Catalog.pm
-SHA1 2d5bda37b2bffb176972e05de4f26fdf1097ed6f lib/App/Munchies/Schema/Catalog/Result/Links.pm
-SHA1 6dd45d135c2baf2bc864becff9c5f7892a6e9857 lib/App/Munchies/Schema/Catalog/Result/Names.pm
-SHA1 46a60392ca5bab5315ee21c4606afdab987347d5 lib/App/Munchies/Schema/Catalog/Result/Nodes.pm
-SHA1 56d54aab42606f1412898269f5e80f7da8184eb2 lib/App/Munchies/Schema/Catalog/ResultSet/Links.pm
-SHA1 01a95d12e9c182f457481e8ac47c5669f3194106 lib/App/Munchies/Schema/Catalog/ResultSet/Nodes.pm
+SHA1 5298c2055a4c857ab773426d741aa7da7d0b1d1a lib/App/Munchies/Schema/Authentication.pm
+SHA1 24990221b7b3ee6d5630ee9ff6cc389d3c650aa8 lib/App/Munchies/Schema/Authentication/Roles.pm
+SHA1 3f46499714f8e7f15bac1f7dcff24317cc7cf875 lib/App/Munchies/Schema/Authentication/UserRoles.pm
+SHA1 fc62a5ffd5bb944fb0820c98eff4b434d24ca5ee lib/App/Munchies/Schema/Authentication/Users.pm
+SHA1 c95f5079a16abd90fbaf73434029842d70b05032 lib/App/Munchies/Schema/Base.pm
+SHA1 c837d0e032f9bb2dd9f1b213af71111c45f66672 lib/App/Munchies/Schema/Catalog.pm
+SHA1 7515885fc2da948737a292705506a626787688de lib/App/Munchies/Schema/Catalog/Result/Links.pm
+SHA1 8fc4e602738959cc75f5e060f98d695fe26eebde lib/App/Munchies/Schema/Catalog/Result/Names.pm
+SHA1 2440f1efdb49dbeb9d89dee5f1459edf1a28b406 lib/App/Munchies/Schema/Catalog/Result/Nodes.pm
+SHA1 e6738afe307da596a2805d272bc360f669e06c34 lib/App/Munchies/Schema/Catalog/ResultSet/Links.pm
+SHA1 6cf19634c1544f09cadf84d2f141e3bf0bd53ae9 lib/App/Munchies/Schema/Catalog/ResultSet/Nodes.pm
 SHA1 6f1b8523673782247724d454d1aa1d3e9f9038bf lib/App/Munchies/app_munchies.xml
 SHA1 cc3537bb0697a4cadf1d2bf134700e7a0fab74ee t/02pod.t
 SHA1 1031a3cc4cc2f6879aa501f8134b3405b1fe421e t/03podcoverage.t
@@ -138,7 +138,7 @@ SHA1 7dcda49765a74210d806191820b33d5780da4648 var/root/skins/default/green.css
 SHA1 17e7dd5bdee6e87cb0fcc1db99e52ee61381d189 var/root/skins/default/grippy.gif
 SHA1 dcf8a83a6c05d029f1e1327056497dfe0839925e var/root/skins/default/header.png
 SHA1 3f909f68294c670e387f7dc8f32023dc3b49b3bd var/root/skins/default/help.gif
-SHA1 f3488f76cc005c9732d8b1df91454bfb1e7c1790 var/root/skins/default/layout.tt
+SHA1 e0f08194000e9a85ace38a16fc595101039eb7f4 var/root/skins/default/layout.tt
 SHA1 08730ecc72523cac96c4cf8e91f5138751a233ef var/root/skins/default/leftPoint.gif
 SHA1 ec0955991b72bde265d639fb6b925ea6c6bf3ba1 var/root/skins/default/lock.png
 SHA1 c9de1ab0a39ebc1fe5ca2c1dee55af89c3b389dc var/root/skins/default/logo.png
@@ -247,7 +247,7 @@ SHA1 e39d93ba6d786cd898720ef4134f88ee25b5be11 var/root/static/jscript/20mootools
 SHA1 a69143cc3b99cea093f73d216b889c97870b9f83 var/root/static/jscript/30ourtools.js
 SHA1 3c83f9c20a5edc78a38e1ee10b3e61470ea185a3 var/root/static/jscript/40calendar.js
 SHA1 f837f2087116e94536e7c248d33c1869428c483f var/root/static/jscript/50calendar-setup.js
-SHA1 5022852ba6446fa69f8e19b281eb926dd58d0039 var/root/static/jscript/60tree.js
+SHA1 afcbe1c36fd053463036b76a261de04d6a6df451 var/root/static/jscript/60tree.js
 SHA1 de85977bb656ff5313b44994627b95fd5fa3c4d5 var/root/static/jscript/lang/calendar-de.js
 SHA1 76250042c24ef04826eb632546dd6627448cd0da var/root/static/jscript/lang/calendar-en.js
 SHA1 d53134b7f86d825ed986dbfc2a51c55fa9a415ef var/root/static/jscript/lang/calendar-es.js
@@ -263,9 +263,9 @@ SHA1 c59827ae0ed0c9f3df75f03fb532d0478a3770ea var/secure/support.sub
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1.4.6 (GNU/Linux)
 
-iQCVAwUBSdHu4s4+W2711T3pAQJ0KwQApk4z2UDG4a60hb50oQNyTqzGTBTjSNN5
-RfgPMwDd63+fWtN5FEdZjeBn0Ha3ySvQCMbLLwK1bH6mVm1MaYASZHKwhC1hyI7+
-bHO2MyRKqINMrI8ZfCLgQC+H6O4HcyO5BgPeKthg7VzPbPYsbL11ZDYQQ5l3SQuR
-kpwXK1rQYPs=
-=1cjO
+iQCVAwUBSdOOws4+W2711T3pAQIF7wP/WP+hBzUjGPVOEWlk9JM2089qKH8l13li
+MpvTAddshhHbW0CEVsGyeh1C9C4koi+3zuRbuJqSoGdNHPSyZaPi9rdwdsWCQ4au
+T0dpBLgsxE6NB303rwRxo6ir1iaDMlFOrm4KmzcNLTPYqfD93zq4QfWnVodTpHh1
+xPA65DtJkGY=
+=AdKD
 -----END PGP SIGNATURE-----

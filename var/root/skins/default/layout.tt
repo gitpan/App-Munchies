@@ -1,4 +1,4 @@
-[%# @(#)$Id: layout.tt 612 2009-03-23 22:45:16Z pjf $ %]
+[%# @(#)$Id: layout.tt 632 2009-03-31 12:09:42Z pjf $ %]
 
 [% MACRO Menu(name, data, selecting, sep) IF data %]
    <ul id="[% name %]">
@@ -263,17 +263,18 @@
    [% ELSE %]
    <meta name="robots" content="noindex, nofollow"[% EOT %]
    [% END %]
-   <meta name="revision" content="$Id: layout.tt 612 2009-03-23 22:45:16Z pjf $"[% EOT %]
+   <meta name="revision" content="$Id: layout.tt 632 2009-03-31 12:09:42Z pjf $"[% EOT %]
    [% IF dhtml %]
    <script type="text/javascript">//<![CDATA[
       var behaviour = {};
-      behaviour.target        = '[% target %]';
-      behaviour.isPopup       =  [% is_popup %];
-      behaviour.formName      = '[% form.name %]';
-      behaviour.sessionPath   = '[% sess_path %]';
-      behaviour.sessionDomain = '[% domain %]';
-      behaviour.sessionPrefix = '[% cookiep %]';
       behaviour.assetsPath    = '[% assets %]';
+      behaviour.baseURL       = '[% c.req.base %]';
+      behaviour.formName      = '[% form.name %]';
+      behaviour.isPopup       =  [% is_popup %];
+      behaviour.sessionDomain = '[% domain %]';
+      behaviour.sessionPath   = '[% sess_path %]';
+      behaviour.sessionPrefix = '[% cookiep %]';
+      behaviour.target        = '[% target %]';
       behaviour.url           = '[% url %]';
    //]]></script>
       [% FOREACH item = scripts %]

@@ -1,12 +1,12 @@
 package App::Munchies::Schema::Base;
 
-# @(#)$Id: Base.pm 515 2008-10-04 14:20:40Z pjf $
+# @(#)$Id: Base.pm 636 2009-04-01 11:51:05Z pjf $
 
 use strict;
 use warnings;
 use base qw(DBIx::Class);
 
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 515 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 636 $ =~ /\d+/gmx );
 
 __PACKAGE__->load_components( qw(PK::Auto Core) );
 
@@ -18,11 +18,11 @@ __END__
 
 =head1 Name
 
-<Module::Name> - <One-line description of module's purpose>
+App::Munchies::Schema::Base - Component base class
 
 =head1 Version
 
-0.1.$Revision: 515 $
+0.1.$Revision: 636 $
 
 =head1 Synopsis
 

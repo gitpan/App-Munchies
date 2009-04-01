@@ -1,13 +1,13 @@
 package App::Munchies::Schema::Catalog::Result::Names;
 
 # Created by DBIx::Class::Schema::Loader v0.03009 @ 2007-03-04 02:50:46
-# @(#)$Id: Names.pm 541 2008-11-11 21:48:51Z pjf $
+# @(#)$Id: Names.pm 636 2009-04-01 11:51:05Z pjf $
 
 use strict;
 use warnings;
 use base qw(App::Munchies::Schema::Base);
 
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 541 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 636 $ =~ /\d+/gmx );
 
 __PACKAGE__->table('names');
 __PACKAGE__->add_columns( 'id',   { data_type         => 'MEDIUMINT',
@@ -31,11 +31,11 @@ __END__
 
 =head1 Name
 
-<Module::Name> - <One-line description of module's purpose>
+App::Munchies::Schema::Catalog::Result::Names - Class definition for the names table
 
 =head1 Version
 
-0.1.$Revision: 541 $
+0.1.$Revision: 636 $
 
 =head1 Synopsis
 

@@ -1,13 +1,14 @@
 package App::Munchies::Model::MealMaster::KinoSearch;
 
-# @(#)$Id: KinoSearch.pm 517 2008-10-04 16:00:25Z pjf $
+# @(#)$Id: KinoSearch.pm 637 2009-04-01 15:55:04Z pjf $
 
 use strict;
 use warnings;
 
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 517 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 637 $ =~ /\d+/gmx );
 
-package MealMaster::KinoSearch::Schema::NoAnalNoVector;
+package # Hide from indexer
+   MealMaster::KinoSearch::Schema::NoAnalNoVector;
 
 use base qw(KinoSearch::Schema::FieldSpec);
 
@@ -15,7 +16,8 @@ sub analyzed   { return 0 }
 
 sub vectorized { return 0 }
 
-package MealMaster::KinoSearch::Schema::NoAnalNoIndexNoVector;
+package # Hide from indexer
+   MealMaster::KinoSearch::Schema::NoAnalNoIndexNoVector;
 
 use base qw(KinoSearch::Schema::FieldSpec);
 
@@ -25,7 +27,8 @@ sub indexed    { return 0 }
 
 sub vectorized { return 0 }
 
-package MealMaster::KinoSearch::Schema;
+package # Hide from indexer
+   MealMaster::KinoSearch::Schema;
 
 use base qw(KinoSearch::Schema);
 use KinoSearch::Analysis::PolyAnalyzer;
@@ -42,7 +45,8 @@ sub analyzer {
    return KinoSearch::Analysis::PolyAnalyzer->new( language => q(en) );
 }
 
-package App::Munchies::Model::MealMaster::KinoSearch;
+package # Hide from indexer
+   App::Munchies::Model::MealMaster::KinoSearch;
 
 use KinoSearch::Highlight::Highlighter;
 use KinoSearch::InvIndexer;
@@ -89,7 +93,7 @@ App::Munchies::Model::MealMaster::KinoSearch - Text search model for food recipe
 
 =head1 Version
 
-0.1.$Revision: 517 $
+0.1.$Revision: 637 $
 
 =head1 Synopsis
 
