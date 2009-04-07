@@ -10,7 +10,7 @@
 <!ELEMENT rooms       (ARRAY)*>
 <!ELEMENT vals        (ARRAY)*>
 <config>
-  <_cvs_level>@(#)$Id: library.xml 621 2009-03-30 22:45:41Z pjf $</_cvs_level>
+  <_cvs_level>@(#)$Id: library.xml 639 2009-04-05 17:47:16Z pjf $</_cvs_level>
   <credentials>
     <name>library</name>
     <driver>mysql</driver>
@@ -26,19 +26,19 @@
     <type>popupMenu</type>
   </fields>
   <fields>
-    <name>catalog.catalogType</name>
+    <name>catalog.catalog_type</name>
     <onchange>submit()</onchange>
     <pwidth>8em</pwidth>
     <type>popupMenu</type>
   </fields>
   <fields>
-    <name>catalog.colourType</name>
+    <name>catalog.colour_type</name>
     <onchange>submit()</onchange>
     <pwidth>8em</pwidth>
     <type>popupMenu</type>
   </fields>
   <fields>
-    <name>catalog.minCount</name>
+    <name>catalog.min_count</name>
     <onchange>submit()</onchange>
     <pwidth>7em</pwidth>
     <type>popupMenu</type>
@@ -261,19 +261,19 @@
     <name>catalog</name>
     <vals>
       <name>catalog</name>
-      <key>4</key>
+      <key>5</key>
     </vals>
     <vals>
-      <name>catalogType</name>
-      <key>normal</key>
+      <name>catalog_type</name>
+      <key>cloud</key>
     </vals>
     <vals>
-      <name>colourType</name>
+      <name>colour_type</name>
       <key>pallet</key>
     </vals>
     <vals>
-      <name>minCount</name>
-      <key>[% minCount %]</key>
+      <name>min_count</name>
+      <key>32</key>
     </vals>
     <vals>
       <name>sort_field</name>
@@ -357,6 +357,7 @@
   <rooms>
     <name>catalog</name>
     <acl>any</acl>
+    <quick_link>1</quick_link>
     <state>0</state>
   </rooms>
   <rooms>

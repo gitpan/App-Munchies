@@ -10,7 +10,7 @@
 <!ELEMENT rooms       (ARRAY)*>
 <!ELEMENT vals        (ARRAY)*>
 <config>
-  <_cvs_level>@(#)$Id: entrance.xml 617 2009-03-30 01:53:38Z pjf $</_cvs_level>
+  <_cvs_level>@(#)$Id: entrance.xml 641 2009-04-06 20:04:44Z pjf $</_cvs_level>
   <fields>
     <name>authentication.login_text</name>
     <class>centre</class>
@@ -159,7 +159,7 @@
   </pages>
   <pages>
     <name>tutorial</name>
-    <class>narrow</class>
+    <class>narrow centre</class>
     <columns>2</columns>
   </pages>
   <rooms>
@@ -170,7 +170,7 @@
   <rooms>
     <name>authentication</name>
     <acl>any</acl>
-    <quick_link>2</quick_link>
+    <quick_link>3</quick_link>
     <state>0</state>
   </rooms>
   <rooms>
@@ -191,7 +191,7 @@
   <rooms>
     <name>documentation</name>
     <acl>any</acl>
-    <quick_link>3</quick_link>
+    <quick_link>4</quick_link>
     <state>0</state>
   </rooms>
   <rooms>
@@ -221,7 +221,7 @@
   <rooms>
     <name>sitemap</name>
     <acl>any</acl>
-    <quick_link>1</quick_link>
+    <quick_link>2</quick_link>
     <state>0</state>
   </rooms>
   <rooms>

@@ -1,13 +1,13 @@
 package App::Munchies::Controller::Entrance;
 
-# @(#)$Id: Entrance.pm 612 2009-03-23 22:45:16Z pjf $
+# @(#)$Id: Entrance.pm 639 2009-04-05 17:47:16Z pjf $
 
 use strict;
 use warnings;
 use base qw(CatalystX::Usul::Controller::Entrance);
 use Class::C3;
 
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 612 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 639 $ =~ /\d+/gmx );
 
 sub clock : Chained(common) Args(0) Public {
    my ($self, $c) = @_;
@@ -95,7 +95,7 @@ App::Munchies::Controller::Entrance - Welcome to this application framework
 
 =head1 Version
 
-$Revision: 612 $
+$Revision: 639 $
 
 =head1 Synopsis
 
@@ -223,7 +223,7 @@ Peter Flanigan, C<< <Support at RoxSoft.co.uk> >>
 
 =head1 License and Copyright
 
-Copyright (c) 2008 RoxSoft Limited. All rights reserved
+Copyright (c) 2009 Peter Flanigan. All rights reserved
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself. See L<perlartistic>

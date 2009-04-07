@@ -1,6 +1,6 @@
 ---
 name: App-Munchies
-version: 0.1.637
+version: 0.1.646
 author:
   - 'Peter Flanigan, C<< <Support at RoxSoft.co.uk> >>'
 abstract: Catalyst example application using food recipes as a data set
@@ -33,51 +33,52 @@ build_requires:
   Test::Harness: 2.64
   Test::More: 0.74
   Test::Pod: 1.14
+  Test::Pod::Coverage: 1.08
 recommends:
   Authen::Simple::PAM: 0.2
 provides:
   App::Munchies:
     file: lib/App/Munchies.pm
-    version: 0.1.637
+    version: 0.1.646
   App::Munchies::Controller::Admin:
     file: lib/App/Munchies/Controller/Admin.pm
-    version: 0.1.481
+    version: 0.1.639
   App::Munchies::Controller::Entrance:
     file: lib/App/Munchies/Controller/Entrance.pm
-    version: 0.1.612
+    version: 0.1.639
   App::Munchies::Controller::Library:
     file: lib/App/Munchies/Controller/Library.pm
-    version: 0.1.592
+    version: 0.1.639
   App::Munchies::Controller::Library::Admin:
     file: lib/App/Munchies/Controller/Library/Admin.pm
     version: 0.1.622
   App::Munchies::Controller::Library::Catalog:
     file: lib/App/Munchies/Controller/Library/Catalog.pm
-    version: 0.1.614
+    version: 0.1.639
   App::Munchies::Controller::Library::Recipes:
     file: lib/App/Munchies/Controller/Library/Recipes.pm
     version: 0.1.613
+  App::Munchies::MealMaster::KinoSearch:
+    file: lib/App/Munchies/MealMaster/KinoSearch.pm
+    version: 0.1.643
   App::Munchies::Model::Authentication:
     file: lib/App/Munchies/Model/Authentication.pm
     version: 0.1.563
   App::Munchies::Model::Catalog:
     file: lib/App/Munchies/Model/Catalog.pm
-    version: 0.1.622
+    version: 0.1.639
   App::Munchies::Model::DemoText:
     file: lib/App/Munchies/Model/DemoText.pm
     version: 0.1.611
   App::Munchies::Model::MealMaster:
     file: lib/App/Munchies/Model/MealMaster.pm
-    version: 0.1.624
-  App::Munchies::Model::MealMaster::KinoSearch:
-    file: lib/App/Munchies/Model/MealMaster/KinoSearch.pm
-    version: 0.1.637
+    version: 0.1.643
   App::Munchies::Programs::Misc:
     file: lib/App/Munchies/Programs/Misc.pm
     version: 0.1.636
   App::Munchies::Programs::Suid:
     file: lib/App/Munchies/Programs/Suid.pm
-    version: 0.1.51
+    version: 0.1.639
   App::Munchies::Schema:
     file: lib/App/Munchies/Schema.pm
     version: 0.1.629

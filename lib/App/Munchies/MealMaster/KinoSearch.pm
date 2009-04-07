@@ -1,11 +1,11 @@
-package App::Munchies::Model::MealMaster::KinoSearch;
+package App::Munchies::MealMaster::KinoSearch;
 
-# @(#)$Id: KinoSearch.pm 637 2009-04-01 15:55:04Z pjf $
+# @(#)$Id: KinoSearch.pm 643 2009-04-06 23:07:37Z pjf $
 
 use strict;
 use warnings;
 
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 637 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 643 $ =~ /\d+/gmx );
 
 package # Hide from indexer
    MealMaster::KinoSearch::Schema::NoAnalNoVector;
@@ -46,7 +46,7 @@ sub analyzer {
 }
 
 package # Hide from indexer
-   App::Munchies::Model::MealMaster::KinoSearch;
+   App::Munchies::MealMaster::KinoSearch;
 
 use KinoSearch::Highlight::Highlighter;
 use KinoSearch::InvIndexer;
@@ -89,11 +89,11 @@ __END__
 
 =head1 Name
 
-App::Munchies::Model::MealMaster::KinoSearch - Text search model for food recipes in MMF format
+App::Munchies::MealMaster::KinoSearch - Text search model for food recipes in MMF format
 
 =head1 Version
 
-0.1.$Revision: 637 $
+0.1.$Revision: 643 $
 
 =head1 Synopsis
 

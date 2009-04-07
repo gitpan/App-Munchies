@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-# @(#)$Id: Build.PL 616 2009-03-28 04:09:19Z pjf $
+# @(#)$Id: Build.PL 639 2009-04-05 17:47:16Z pjf $
 
 use strict;
 use warnings;
@@ -10,7 +10,7 @@ use File::Spec::Functions;
 use FindBin  qw( $Bin );
 use lib (catdir( $Bin, q(lib) ));
 
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 616 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 639 $ =~ /\d+/gmx );
 
 my $DBNAME  = 'library';
 my $PREFIX  = '/opt';
@@ -137,12 +137,13 @@ my $build = $class->new
    ( add_to_cleanup     => [ 'Debian_CPANTS.txt',
                              'App-Munchies-*',
                              map { ( '*/' x $_ ) . '*~' } 0..5 ],
-     build_requires     => { 'Test::Harness'   => q(2.64),
-                             'Test::More'      => q(0.74),
-                             'Test::Pod'       => q(1.14) },
-     configure_requires => { 'CatalystX::Usul' => q(0.1.121),
-                             'Class::C3'       => q(0.19),
-                             'version'         => q(0.74) },
+     build_requires     => { 'Test::Harness'       => q(2.64),
+                             'Test::More'          => q(0.74),
+                             'Test::Pod'           => q(1.14),
+                             'Test::Pod::Coverage' => q(1.08) },
+     configure_requires => { 'CatalystX::Usul'     => q(0.1.121),
+                             'Class::C3'           => q(0.19),
+                             'version'             => q(0.74) },
      create_readme      => 1,
      create_packlist    => 0,
      dist_version_from  => catfile( q(lib), split m{ :: }mx, $APPNAME.q(.pm) ),

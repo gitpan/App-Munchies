@@ -1,6 +1,6 @@
 package App::Munchies::Model::MealMaster;
 
-# @(#)$Id: MealMaster.pm 624 2009-03-31 00:15:12Z pjf $
+# @(#)$Id: MealMaster.pm 643 2009-04-06 23:07:37Z pjf $
 
 use strict;
 use warnings;
@@ -11,9 +11,9 @@ use MealMaster;
 use Template::Stash;
 
 use App::Munchies::Model::Catalog;
-use App::Munchies::Model::MealMaster::KinoSearch;
+use App::Munchies::MealMaster::KinoSearch;
 
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 624 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 643 $ =~ /\d+/gmx );
 
 __PACKAGE__->config
    ( alpha_cat_offset   => 7,
@@ -30,7 +30,7 @@ __PACKAGE__->config
      INTERPOLATE        => 0,
      invindex           => q(index),
      readTT             => q(recipe.tt),
-     search_model       => q(App::Munchies::Model::MealMaster::KinoSearch),
+     search_model       => q(App::Munchies::MealMaster::KinoSearch),
      writeTT            => q(mealMaster.tt) );
 
 __PACKAGE__->mk_accessors( qw(alpha_cat_offset app binsdir
@@ -631,7 +631,7 @@ App::Munchies::Model::MealMaster - Manipulate food recipes stored in MMF format
 
 =head1 Version
 
-0.1.$Revision: 624 $
+0.1.$Revision: 643 $
 
 =head1 Synopsis
 

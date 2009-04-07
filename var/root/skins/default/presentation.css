@@ -1,4 +1,4 @@
-/* @(#)$Id: presentation.css 620 2009-03-30 19:24:24Z pjf $ */
+/* @(#)$Id: presentation.css 648 2009-04-07 21:48:46Z pjf $ */
 
 /*  Elements */
 
@@ -15,10 +15,8 @@ html {
    overflow: hidden; padding: 0px;
 }
 img { border: 0px; margin: 0px; padding: 0px; }
-legend {
-   border: 1px solid #336;
-   padding: 0.25em;
-}
+legend { border: 1px solid #336; padding: 0.25em; }
+p { margin-bottom: 1.5em; }
 pre { margin: 0px; padding: 0px; }
 textarea { margin-bottom: 0.5em; }
 
@@ -30,18 +28,27 @@ textarea { margin-bottom: 0.5em; }
 .heading { font-weight: bold; }
 .hidden { visibility: hidden; }
 .info { color: #00F; font-size: 0.75em; }
-.instructions { float: left; font-size: 0.75em; text-align: left; }
+.instructions {
+   float: left; font-size: 0.75em; text-align: left; width: auto;
+}
 .left { text-align: left; }
 .minimal { width: 1%; }
 .mono {
    font-family: "Andale Mono", monaco, "Courier New", courier, monospace;
 }
 .most { width: 98%; }
+.narrow { clear: left; margin-left: 4em; margin-right: 4em; }
 .note { font-size: 0.75em; font-weight: bold; }
 .nowrap { white-space: nowrap; }
+.paraColumn {
+	float: left;
+	/* max-width: 30em; */
+	padding-left: 1.00em; padding-right: 1.00em;
+	text-align: justify; width: auto;
+}
 .quickLinkSep { padding-left: 0.25em; }
 .rule { width: 100%; }
-.separator { float: left; }
+.separator { float: left; width: auto; }
 .small { font-size: 0.75em; }
 .smaller { font-size: 0.87em; }
 .some { width: 5%; }
@@ -76,12 +83,11 @@ a.toolWidget { height: 20px; line-height: 20px; }
 
 div.appendItem { display: inline; }
 div.appendItem label.prompt { font-weight: bold; }
-
 div.button { margin-bottom: 10px; }
 div.clearLeft { clear: left; }
-div.container { float: left; margin-bottom: 2px; position: relative; }
+div.container { float: left; margin-bottom: 2px; position: relative; width: auto; }
 div.footerItem { display: inline; font-weight: bold; }
-div.grid_container { float: left; overflow: hidden; }
+div.grid_container { float: left; overflow: hidden; width: auto; }
 div.iFrameItem input, password, select, textarea {
    border-bottom: 1px solid #336;
    border-left: 1px solid #336; border-right: 1px solid #336;
@@ -104,12 +110,7 @@ div.libraryHeader {
 div.libraryPanel {
    border: 1px solid #336; clear: left; margin-left: 6px;
 }
-div.librarySubject { float: left; }
-div.narrow { clear: left; margin-left: 4em; margin-right: 4em; }
-div.paraColumn {
-	float: left; padding-left: 1.00em;
-	padding-right: 1.00em; text-align: justify;
-}
+div.librarySubject { float: left; line-height: normal; width: auto; }
 div.sidebarContent { padding: 3px; }
 div.sidebarHeader {
    border-left: 1px solid #336; border-right: 1px solid #336;
@@ -135,15 +136,10 @@ div.slider div.knob {
 	height: 18px; margin-top: -2px; width: 18px;
 }
 div.tick {
-   border-right: 1px solid #336;
-   height: 8px;
-   position: absolute;
-   top: 12px;
-   width: 19px;
+   border-right: 1px solid #336; height: 8px;
+   position: absolute; top: 12px; width: 19px;
 }
-div.tools {
-   height: 31px; line-height: 31px;
-}
+div.tools { height: 31px; line-height: 31px; }
 div.tree {
    border: 1px solid #336; height: 12em;
    font-family: tahoma, verdana, arial, sans-serif; font-size: 0.75em;
@@ -159,9 +155,7 @@ div.treeItem a.treeFade {
    border: 1px solid transparent; margin-left: 3px;
    position: relative; text-decoration: none;
 }
-div.treeItem a.treeFade:hover {
-   border: 1px solid #336;
-}
+div.treeItem a.treeFade:hover { border: 1px solid #336; }
 div.treeItem img.treeIcon {
 	border: 0px; height: 16px; margin: 0px; padding: 0px;
    vertical-align: middle; width: 16px;
@@ -169,15 +163,9 @@ div.treeItem img.treeIcon {
 
 /* Headers */
 
-h1.split {
-   font-size: 26px; margin: 0px; padding: 0px; position: relative;
-}
-h1.split span {
-   left: -1px; position: absolute; top: -1px;
-}
-h1.split:before {
-   content: attr(title); left: 0; position: absolute; top: 0;
-}
+h1.split { font-size: 26px; margin: 0px; padding: 0px; position: relative; }
+h1.split span { left: -1px; position: absolute; top: -1px; }
+h1.split:before { content: attr(title); left: 0; position: absolute; top: 0; }
 
 /* Horizontal Rules */
 
@@ -200,18 +188,18 @@ img.tools {
 label.prompt {
    cursor: pointer; display: block; float: left;
    margin-bottom: 10px; text-align: right;
+   width: auto;
 }
 
 /* Select menus */
 
-select.group {
-   margin-top: 7px; min-width: 10em;
-}
+select.group { margin-top: 7px; min-width: 10em; }
 
 /* Spans */
 
 span.dropcap {
    float: left; font-size: 2.75em; line-height: 83%; margin-right: 3px;
+   width: auto;
 }
 span.error {
    border: 1px solid #336; clear: left; display: block;
@@ -219,7 +207,7 @@ span.error {
 }
 span.help { cursor: help; }
 span.label {
-   display: block; float: left; margin-bottom: 10px;
+   display: block; float: left; margin-bottom: 10px; width: auto;
 }
 span.lineNumber {
    display: block; float: left;
@@ -228,11 +216,9 @@ span.lineNumber {
    margin-top: 0.33em; text-align: right; width: 1.66em;
 }
 span.prompt {
-   display: block; float: left; margin-bottom: 10px;
+   display: block; float: left; margin-bottom: 10px; width: auto;
 }
-span.textarea {
-   float: right;
-}
+span.textarea { float: right; width: auto; }
 span.title {
    left: 0px; min-width: 8em; padding: 3px; position: absolute;
    right: 0px; white-space: nowrap;
@@ -240,50 +226,26 @@ span.title {
 
 /* Tables */
 
-table.form {
-	width: 400px;
-}
-table.recipe {
-   clear: left;
-}
-table.recipe td {
-   padding: 0.12em 0.5em;
-}
-table.std {
-   margin: 5px; padding: 5px; width: 100%;
-}
-td.csv {
-   white-space: nowrap;
-}
-td.first {
-   border-right: 1px solid #336; width: 1%;
-}
-td.fixed {
-   width: 20px;
-}
-td.grid_cell {
-   height: 25px; white-space: nowrap;
-}
+table.form { width: 400px; }
+table.recipe { clear: left; }
+table.recipe td { padding: 0.12em 0.5em; }
+table.std { margin: 5px; padding: 5px; width: 100%; }
+td.csv { white-space: nowrap; }
+td.first { border-right: 1px solid #336; width: 1%; }
+td.fixed { width: 20px; }
+td.grid_cell { height: 25px; white-space: nowrap; }
 td.lineNumber {
    font-family: "Andale Mono", monaco, "Courier New", courier, monospace;
    padding-right: 3px; text-align: right;
 }
-th.first {
-   text-align: center; width: 1%;
-}
+th.first { text-align: center; width: 1%; }
 th.grid_header {
    border-bottom: 1px solid #336; font-size: 0.75em; text-align: left;
 }
-th.select {
-   width: 48px;
-}
-th.table {
-   text-align: center;
-}
+th.select { width: 48px; }
+th.table { text-align: center; }
 tr.dataValue{ vertical-align: top; }
-tr.grid {
-   font-size: 0.75em;
-}
+tr.grid { font-size: 0.75em; }
 tr.logfile {
    font-family: "Andale Mono", monaco, "Courier New", courier, monospace;
    white-space: nowrap;
@@ -294,21 +256,18 @@ tr.logfile {
 #append {
    bottom: 0px; font-size: 0.85em; left: 10px; position: fixed; z-index: 4;
 }
-#bookmark {
-   display: block;
-}
+#bookmark { display: block; }
 #buttonDisp {
    bottom: 55px; padding-right: 3px; position: fixed;
    right: 0px; top: 82px; width: 35px;
 }
-#buttonList {
-   margin-top: 10px;
-}
+#buttonList { margin-top: 10px; }
 #content {
    border: 1px solid #336; bottom: 0px;
 /*   font-family: georgia, "Times New Roman", times, serif; */
    font-family: tahoma, verdana, arial, sans-serif;
-   left: 10px; margin-right: 35px; margin-bottom: 5px;
+   left: 10px; line-height: 1.5em; 
+   margin-right: 35px; margin-bottom: 5px;
    overflow: auto; padding: 10px;
    position: absolute; right: 10px; top: 82px; z-index: 3;
    -moz-border-radius: 10px;
@@ -321,24 +280,16 @@ tr.logfile {
 #footer {
    cursor: pointer; display: inline; width: 20px;
 }
-#footerLeft {
-   display: inline;
-}
-#footerLogo {
-   height: 32px; width: 259px;
-}
+#footerLeft { display: inline; }
+#footerLogo { height: 32px; width: 259px; }
 #footerMid {
    display: inline; text-align: center; vertical-align: baseline;
 }
 #footerRight {
    bottom: 5px; position: absolute; right: 10px; text-align: right;
 }
-#footerRule {
-   width: 100%;
-}
-#footerRule td {
-   vertical-align: middle;
-}
+#footerRule { width: 100%; }
+#footerRule td { vertical-align: middle; }
 #headerBottom {
    height: 31px; left: 0px; position: absolute; right: 0px; top: 46px;
 }
@@ -354,7 +305,7 @@ tr.logfile {
    padding-right: 5px; right: 100px; text-align: right;
 }
 #headerTitle {
-   float: left; padding: 0px 0px 0px 10px;
+   float: left; padding: 0px 0px 0px 10px; width:auto;
 }
 #headerTop {
    height: 46px; left: 0px; overflow: hidden; position: absolute; top: 0px;
@@ -365,9 +316,7 @@ tr.logfile {
    position: absolute; right: 0px; top: 0px; width: 100px;
    z-index: 5;
 }
-#sidebar {
-   display: block;
-}
+#sidebar { display: block; }
 #sidebarDisp {
    border: 1px solid #336; bottom: 0px; left: 0px; overflow: hidden;
    padding: 0px; position: fixed; top: 82px; width: 150px;
@@ -378,7 +327,7 @@ tr.logfile {
    -moz-border-radius: 10px;
 }
 #sidebarGrippy {
-	cursor: w-resize; margin-top: 200px; float:right;	
+	cursor: w-resize; margin-top: 200px; float:right;	width: auto;
 }
 
 /* Flyover tool tips */
@@ -417,11 +366,9 @@ td.tool-tip-bottomRight span {
    display: table-row; height: 31px; left: 32px;
 	position: absolute; right: 0px;
 }
-div.navigationMenu {
-   display: table-cell; height: 31px;
-}
+div.navigationMenu { display: table-cell; height: 31px; }
 div.navigationFiller {
-   display: table-cell; height: 31px; vertical-align: top; width: 99%;
+   display: table-cell; height: 31px; vertical-align: top; width: 95%;
 }
 div.navigationTools {
    height: 31px; position: absolute; right: 100px;

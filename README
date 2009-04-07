@@ -3,7 +3,7 @@ Name
     data set
 
 Version
-    0.1.$Revision: 637 $
+    0.1.$Revision: 646 $
 
 Synopsis
     Start the development mini server with
@@ -144,7 +144,7 @@ Author
     Peter Flanigan, "<Support at RoxSoft.co.uk>"
 
 License and Copyright
-    Copyright (c) 2008 RoxSoft Limited. All rights reserved
+    Copyright (c) 2009 Peter Flanigan. All rights reserved
 
     This program is free software; you can redistribute it and/or modify it
     under the same terms as Perl itself. See perlartistic

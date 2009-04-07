@@ -10,7 +10,7 @@
 <!ELEMENT rooms       (ARRAY)*>
 <!ELEMENT vals        (ARRAY)*>
 <config>
-  <_cvs_lang_level>@(#)$Id: library_en.xml 621 2009-03-30 22:45:41Z pjf $</_cvs_lang_level>
+  <_cvs_lang_level>@(#)$Id: library_en.xml 639 2009-04-05 17:47:16Z pjf $</_cvs_lang_level>
   <buttons>
     <name>collection_view.add</name>
     <error>Failed to add the link(s) because</error>
@@ -84,15 +84,15 @@
     <prompt>Catalog</prompt>
   </fields>
   <fields>
-    <name>catalog.catalogType</name>
+    <name>catalog.catalog_type</name>
     <prompt>Display[% nbsp %]type</prompt>
   </fields>
   <fields>
-    <name>catalog.colourType</name>
+    <name>catalog.colour_type</name>
     <prompt>Colour[% nbsp %]type</prompt>
   </fields>
   <fields>
-    <name>catalog.minCount</name>
+    <name>catalog.min_count</name>
     <prompt>Min.[% nbsp %]count</prompt>
   </fields>
   <fields>

@@ -1,12 +1,12 @@
 package App::Munchies::Controller::Admin;
 
-# @(#)$Id: Admin.pm 481 2008-09-07 15:54:14Z pjf $
+# @(#)$Id: Admin.pm 639 2009-04-05 17:47:16Z pjf $
 
 use strict;
 use warnings;
 use base qw(CatalystX::Usul::Controller::Admin);
 
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 481 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 639 $ =~ /\d+/gmx );
 
 __PACKAGE__->build_subcontrollers;
 
@@ -22,7 +22,7 @@ App::Munchies::Controller::Admin - Cross application administrative functions
 
 =head1 Version
 
-$Revision: 481 $
+$Revision: 639 $
 
 =head1 Synopsis
 
@@ -58,7 +58,7 @@ Peter Flanigan, C<< <Support at RoxSoft.co.uk> >>
 
 =head1 License and Copyright
 
-Copyright (c) 2008 RoxSoft Limited. All rights reserved
+Copyright (c) 2009 Peter Flanigan. All rights reserved
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself. See L<perlartistic>

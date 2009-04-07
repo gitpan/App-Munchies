@@ -1,6 +1,6 @@
 package App::Munchies;
 
-# @(#)$Id: Munchies.pm 637 2009-04-01 15:55:04Z pjf $
+# @(#)$Id: Munchies.pm 646 2009-04-07 21:01:08Z pjf $
 
 use 5.008;
 use strict;
@@ -13,7 +13,7 @@ use Catalyst qw(ConfigComponents InflateMore ConfigLoader
                 Session::State::Cookie Session::Store::FastMmap
                 Static::Simple);
 
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 637 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 646 $ =~ /\d+/gmx );
 
 # Work around C::Utils::home. Stop home directory from changing
 my $class = __PACKAGE__;
@@ -217,7 +217,7 @@ App::Munchies - Catalyst example application using food recipes as a data set
 
 =head1 Version
 
-0.1.$Revision: 637 $
+0.1.$Revision: 646 $
 
 =head1 Synopsis
 
@@ -261,7 +261,7 @@ distribution tarball:
    cd app_munchies-?.?.?
    ./install.sh
 
-It defaults to installing all files (including the B<var> data) under
+It defaults to installing all files (including the F<var> data) under
 F</opt/app-munchies> (which is easy to remove if this is not a
 permanent installation)
 
@@ -284,7 +284,7 @@ Once the schema has been deployed and populated the following
    bin/munchies_schema -n -c catalog_mmf -o uid=[% uid %] -o gid=[% gid %]
 
 as the I<munchies> user. They may take some time to finish. When
-complete the B<var> area of the application is about 60Mb in size
+complete the F<var> area of the application is about 60Mb in size
 
 This distribution contains a setuid root program. It is used to
 provide limited access to root only functions, e.g. authentication
@@ -378,7 +378,7 @@ Peter Flanigan, C<< <Support at RoxSoft.co.uk> >>
 
 =head1 License and Copyright
 
-Copyright (c) 2008 RoxSoft Limited. All rights reserved
+Copyright (c) 2009 Peter Flanigan. All rights reserved
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself. See L<perlartistic>
@@ -393,4 +393,3 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE
 # mode: perl
 # tab-width: 3
 # End:
-

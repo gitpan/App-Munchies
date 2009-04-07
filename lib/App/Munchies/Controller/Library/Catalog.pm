@@ -1,12 +1,12 @@
 package App::Munchies::Controller::Library::Catalog;
 
-# @(#)$Id: Catalog.pm 614 2009-03-25 03:28:23Z pjf $
+# @(#)$Id: Catalog.pm 639 2009-04-05 17:47:16Z pjf $
 
 use strict;
 use warnings;
 use base qw(CatalystX::Usul::Controller);
 
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 614 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 639 $ =~ /\d+/gmx );
 
 __PACKAGE__->config( catalog_class => q(Catalog),
                      data_class    => q(MealMaster),
@@ -46,12 +46,12 @@ sub browse : Chained(common) Args Public {
 sub catalog : Chained(common) Args HasActions Public {
    my ($self, $c) = @_;
 
-   my $args = { cat_type   => $self->get_key( $c, q(catalogType) ),
-                catalog    => $self->get_key( $c, q(catalog)     ),
-                col_type   => $self->get_key( $c, q(colourType)  ),
-                min_count  => $self->get_key( $c, q(minCount)    ),
+   my $args = { cat_type   => $self->get_key( $c, q(catalog_type) ),
+                catalog    => $self->get_key( $c, q(catalog)      ),
+                col_type   => $self->get_key( $c, q(colour_type)  ),
+                min_count  => $self->get_key( $c, q(min_count)    ),
                 nodes      => $c->model( $self->nodes_class  ),
-                sort_field => $self->get_key( $c, q(sort_field)  ) };
+                sort_field => $self->get_key( $c, q(sort_field)   ) };
 
    $c->model( $self->catalog_class )->form( $args );
    return;
@@ -144,7 +144,7 @@ App::Munchies::Controller::Library::Catalog - Server side bookmarks
 
 =head1 Version
 
-0.1.$Revision: 614 $
+0.1.$Revision: 639 $
 
 =head1 Synopsis
 

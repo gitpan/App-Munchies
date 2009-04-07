@@ -1,13 +1,13 @@
 package App::Munchies::Controller::Library;
 
-# @(#)$Id: Library.pm 592 2009-02-12 22:14:42Z pjf $
+# @(#)$Id: Library.pm 639 2009-04-05 17:47:16Z pjf $
 
 use strict;
 use warnings;
 use base qw(CatalystX::Usul::Controller);
 use Class::C3;
 
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 592 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 639 $ =~ /\d+/gmx );
 
 sub base : Chained(lang) CaptureArgs(0) {
    # PathPart set in global configuration
@@ -63,7 +63,7 @@ App::Munchies::Controller::Library - A server side bookmark manager and food rec
 
 =head1 Version
 
-$Revision: 592 $
+$Revision: 639 $
 
 =head1 Synopsis
 
@@ -121,7 +121,7 @@ Peter Flanigan, C<< <Support at RoxSoft.co.uk> >>
 
 =head1 License and Copyright
 
-Copyright (c) 2007 RoxSoft Limited. All rights reserved.
+Copyright (c) 2009 Peter Flanigan. All rights reserved.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself. See L<perlartistic>.

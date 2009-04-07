@@ -1,6 +1,6 @@
 package App::Munchies::Programs::Suid;
 
-# @(#)$Id: Suid.pm 51 2008-04-04 01:23:54Z pjf $
+# @(#)$Id: Suid.pm 639 2009-04-05 17:47:16Z pjf $
 
 use strict;
 use warnings;
@@ -9,7 +9,7 @@ use CatalystX::Usul::Model::Identity;
 use Class::C3;
 use IO::Interactive qw(is_interactive);
 
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 51 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 639 $ =~ /\d+/gmx );
 
 __PACKAGE__->mk_accessors( qw(identity parms secsdir version) );
 
@@ -227,7 +227,7 @@ App::Munchies::Programs::Suid - Methods that run as the super user
 
 =head1 Version
 
-0.1.$Revision$
+0.1.$Revision: 639 $
 
 =head1 Synopsis
 

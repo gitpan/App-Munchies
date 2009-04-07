@@ -1,6 +1,6 @@
 package App::Munchies::Model::Catalog;
 
-# @(#)$Id: Catalog.pm 622 2009-03-30 23:08:46Z pjf $
+# @(#)$Id: Catalog.pm 639 2009-04-05 17:47:16Z pjf $
 
 use strict;
 use warnings;
@@ -9,7 +9,7 @@ use Class::C3;
 use Data::CloudWeights;
 use HTML::Accessors;
 
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 622 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 639 $ =~ /\d+/gmx );
 
 __PACKAGE__->config( connect_info => [],
                      database     => q(library),
@@ -76,19 +76,14 @@ sub catalog_form {
    my ($self, $args) = @_;
    my ($catalogs, $labels, $nid, $node, $subject, $subjects);
 
-   my $c          = $self->context;
-   my $s          = $c->stash;
-   my $cat_type   = $args->{cat_type};
-   my $catalog    = $args->{catalog};
-   my $col_type   = $args->{col_type};
-   my $min_cnt    = $args->{min_count} || $s->{minCount} || 0;
-   my $nodes      = $args->{nodes};
-   my $sort_field = $args->{sort_field};
-   my $namespace  = $c->action->namespace;
-   my $form       = $s->{form}->{name};
-   my $size       = $s->{size}    || 10;
-   my $span       = $s->{columns} || 3;
-   my $width      = int (int ($s->{width} - (50 * $span)) / $span);
+   my $c         = $self->context;
+   my $s         = $c->stash;
+   my $nodes     = $args->{nodes};
+   my $namespace = $c->action->namespace;
+   my $form      = $s->{form}->{name};
+   my $size      = $s->{size}    || 10;
+   my $span      = $s->{columns} || 3;
+   my $width     = int (int ($s->{width} - (50 * $span)) / $span);
 
    $width = 100 if ($width < 100);
 
@@ -103,7 +98,7 @@ sub catalog_form {
 
    unshift @{ $catalogs }, 0; $labels->{0} = $NUL;
 
-   for $node ($nodes->search( { gid      => $catalog },
+   for $node ($nodes->search( { gid      => $args->{catalog} },
                               { join     => [ qw(names) ],
                                 order_by => q(names.text) } )) {
       if ($nid = $node->nid) {
@@ -116,20 +111,21 @@ sub catalog_form {
 
    $self->clear_form( { subHeading => { content => $text } } );
 
-   if ($cat_type eq q(cloud)) {
-      my $ref   = $col_type eq q(pallet) ? { cold_colour => $NUL } : {};
+   if ($args->{cat_type} eq q(cloud)) {
+      my $ref   = $args->{col_type} eq q(pallet)
+                ? { cold_colour => $NUL } : {};
       my $cloud = Data::CloudWeights->new( $ref );
 
-      $cloud->sort_field( $sort_field );
+      $cloud->sort_field( $args->{sort_field} );
 
-      if ($sort_field eq q(count)) {
+      if ($args->{sort_field} eq q(count)) {
          $cloud->sort_type( q(numeric) ); $cloud->sort_order( q(desc) );
       }
 
       for $subject (@{ $subjects }) {
          my $num_subjects = $nodes->count( { gid => $subject } );
 
-         next unless ($num_subjects > $min_cnt);
+         next unless ($num_subjects > $args->{min_count});
 
          $cloud->add( $labels->{ $subject },
                       $num_subjects,
@@ -161,36 +157,34 @@ sub catalog_form {
    }
 
    # Add fields to the append div
-   $self->add_append( { default => $catalog,
+   $self->add_append( { default => $args->{catalog},
                         labels  => $labels,
                         id      => $form.q(.catalog),
                         pwidth  => 6,
                         sep     => q(&nbsp;),
                         values  => $catalogs } );
-   $self->add_append( { default => $cat_type,
-                        id      => $form.q(.catalogType),
-                        labels  => { cloud  => q(Cloud),
-                                     normal => q(Normal) },
+   $self->add_append( { default => $args->{cat_type},
+                        id      => $form.q(.catalog_type),
+                        labels  => { cloud => q(Cloud), normal => q(Normal) },
                         pwidth  => 10,
                         sep     => q(&nbsp;),
                         values  => [ qw(cloud normal) ] } );
 
-   if ($cat_type eq q(cloud)) {
-      $self->add_append( { default => $sort_field,
+   if ($args->{cat_type} eq q(cloud)) {
+      $self->add_append( { default => $args->{sort_field},
                            id      => $form.q(.sort_field),
-                           labels  => { count => q(Count),
-                                        tag   => q(Subject) },
+                           labels  => { count => q(Count), tag => q(Subject) },
                            pwidth  => 8,
                            sep     => q(&nbsp;),
                            values  => [ qw(tag count) ] } );
-      $self->add_append( { default => $min_cnt,
-                           id      => $form.q(.minCount),
+      $self->add_append( { default => $args->{min_count},
+                           id      => $form.q(.min_count),
                            pwidth  => 9,
                            sep     => q(&nbsp;),
                            values  => [ qw(0 1 2 4 8 16 32 64
                                            125 250 500 1000) ] } );
-      $self->add_append( { default => $col_type,
-                           id      => $form.q(.colourType),
+      $self->add_append( { default => $args->{col_type},
+                           id      => $form.q(.colour_type),
                            labels  => { calculated => q(Calculated),
                                         pallet     => q(Pallette) },
                            pwidth  => 10,
@@ -306,7 +300,7 @@ sub grid_table {
 
    while ($rNo < $nodes->count && $rNo < $size) {
       $cells  = $hacc->td( { class => q(grid_cell first lineNumber) }, $rNo+1);
-      $cells .= $hacc->td( { class => q(grid_cell) }, q(&hellip;));
+      $cells .= $hacc->td( { class => q(grid_cell) }, q(...));
       $rows  .= $hacc->tr( { class => q(grid) }, $cells);
       $rNo++;
    }
@@ -699,7 +693,7 @@ App::Munchies::Model::Catalog - Manipulate the library catalog database
 
 =head1 Version
 
-0.1.$Revision: 622 $
+0.1.$Revision: 639 $
 
 =head1 Synopsis
 
