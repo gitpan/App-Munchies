@@ -1,6 +1,6 @@
 package App::Munchies::Model::DemoText;
 
-# @(#)$Id: DemoText.pm 611 2009-03-22 03:23:25Z pjf $
+# @(#)$Id: DemoText.pm 655 2009-04-09 20:17:54Z pjf $
 
 use strict;
 use warnings;
@@ -12,7 +12,7 @@ use Encode;
 use Text::Lorem::More;
 use WWW::Wikipedia;
 
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 611 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 655 $ =~ /\d+/gmx );
 
 __PACKAGE__->config( fortune => q(fortune), insultd => q(insultd), );
 
@@ -280,27 +280,29 @@ sub sampler {
 }
 
 sub sampler_chooser {
-   my ($self, $nav_model) = @_;
+   my $self  = shift;
+   my $field = q(textfield);
+   my $form  = $self->query_value( q(form) ) || q();
+   my $value = $self->query_value( q(value) ) || q();
 
-   my $field    = q(textfield);
-   my $form     = $self->query_value( q(form) ) || q();
-   my $value    = $self->query_value( q(value) ) || q();
-   my $jscript  = "behaviour.submit.returnValue('";
-      $jscript .= "${form}', '${field}', '${value}') ";
-   my $tip = 'Close this popup window and leave the field value unchanged';
-
-   $self->clear_controls;
-   $nav_model->add_menu_close( { onclick => $jscript, tip => $tip } );
    $self->add_chooser( { attr      => q(name),
                          button    => q(Select),
                          class     => q(chooserFade),
                          field     => $field,
                          form      => $form,
                          method    => q(sampler_search),
-                         title     => q(Select Item),
                          value     => $value,
                          where_fld => q(),
                          where_val => q() } );
+
+   my $nav_model = $self->context->model( q(Navigation) );
+   my $jscript   = "behaviour.submit.returnValue('";
+      $jscript  .= "${form}', '${field}', '${value}') ";
+   my $tip = 'Close this popup window and leave the field value unchanged';
+
+   $nav_model->clear_controls;
+   $nav_model->add_menu_close( { onclick => $jscript,
+                                 tip     => $self->loc( $tip ) } );
    return;
 }
 
@@ -372,7 +374,7 @@ App::Munchies::Model::DemoText - Demonstration model
 
 =head1 Version
 
-0.1.$Revision: 611 $
+0.1.$Revision: 655 $
 
 =head1 Synopsis
 

@@ -142,6 +142,11 @@
     <columns>1</columns>
   </pages>
   <rooms>
+    <name>feedback</name>
+    <acl>@users</acl>
+    <state>1</state>
+  </rooms>
+  <rooms>
     <name>lock_display</name>
     <acl>@support</acl>
     <state>1</state>

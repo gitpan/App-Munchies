@@ -1,61 +1,4 @@
-[%# @(#)$Id: layout.tt 632 2009-03-31 12:09:42Z pjf $ %]
-
-[% MACRO Menu(name, data, selecting, sep) IF data %]
-   <ul id="[% name %]">
-   [% FOREACH tab = data;
-         IF sep && loop.index() > 0 %]
-		<li>
-         <b class="pad">&nbsp;</b>
-         <span class="navigationFiller">[% sep %]</span></li>
-      [% END %]
-      <li>
-      [% IF selecting;
-		      lno = loop.index();
-		      IF lno == 0; selected = tab.selected; END;
-         ELSE;
-			   lno = -1;
-         END;
-         IF lno > -1 && lno == selected %]
-         <b class="top">
-            <b class="left">
-               <b class="tl1"></b><b class="tl2"></b>
-	            <b class="tl3"></b><b class="tl4"></b>
-            </b>
-	         &nbsp;
-            <b class="right">
-               <b class="tr1"></b><b class="tr2"></b>
-               <b class="tr3"></b><b class="tr4"></b>
-            </b>
-         </b>
-      [% ELSE %]
-         <b class="pad">&nbsp;</b>
-      [% END;
-         flag = 0;
-	      FOREACH item = tab.items;
-            IF flag < 1; item.content -%]
-			<dl>
-			   <dt></dt>
-            [% flag = 1;
-            ELSE -%]
-            <dd>
-            [% item.content %]
-            </dd>
-            [% flag = 2;
-            END;
-         END;
-		   IF flag > 1 %]
-            <dd><b class="bottom"><b class="b4"></b><b class="b3"></b>
-                <b class="b2"></b><b class="b1"></b></b>
-            </dd>
-      [% END %]
-         </dl>
-      </li>
-   [% END %]
-   </ul>
-[% ELSE %]
-   <b class="pad">&nbsp;</b>
-   <span class="navigationFiller">&nbsp;</span>
-[% END %]
+[%# @(#)$Id: layout.tt 655 2009-04-09 20:17:54Z pjf $ %]
 
 [% MACRO Append IF append %]
 <div class="[% class %]" id="append">
@@ -126,7 +69,7 @@
       </div>
       <div class="[% class %]" id="navigation">
          <div class="navigationMenu">
-				[% Menu('menu', menus, 1, menusSep) %]
+            [% item = menus.items.0; IF item; item.content; END %]
          </div>
          <div class="navigationFiller">
 				<b class="pad">&nbsp;</b>
@@ -134,7 +77,7 @@
          </div>
       </div>
       <div class="navigationTools">
-         [% Menu('tools', tools, 0, toolsSep) %]
+         [% item = menus.items.1; IF item; item.content; END %]
       </div>
    </div>
 </div>
@@ -263,7 +206,7 @@
    [% ELSE %]
    <meta name="robots" content="noindex, nofollow"[% EOT %]
    [% END %]
-   <meta name="revision" content="$Id: layout.tt 632 2009-03-31 12:09:42Z pjf $"[% EOT %]
+   <meta name="revision" content="$Id: layout.tt 655 2009-04-09 20:17:54Z pjf $"[% EOT %]
    [% IF dhtml %]
    <script type="text/javascript">//<![CDATA[
       var behaviour = {};

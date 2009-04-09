@@ -1,13 +1,13 @@
 package App::Munchies::Controller::Entrance;
 
-# @(#)$Id: Entrance.pm 639 2009-04-05 17:47:16Z pjf $
+# @(#)$Id: Entrance.pm 655 2009-04-09 20:17:54Z pjf $
 
 use strict;
 use warnings;
 use base qw(CatalystX::Usul::Controller::Entrance);
 use Class::C3;
 
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 639 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 655 $ =~ /\d+/gmx );
 
 sub clock : Chained(common) Args(0) Public {
    my ($self, $c) = @_;
@@ -53,9 +53,9 @@ sub sampler : Chained(reception_base) Args(0) HasActions {
 }
 
 sub sampler_chooser : Chained(reception_base) Args(0) HasActions Public {
-   my ($self, $c) = @_; my $model = $c->model( q(DemoText) ); my $e;
+   my ($self, $c) = @_; my $e;
 
-   eval { $model->sampler_chooser( $c->model( q(Navigation) ) ) };
+   eval { $c->model( q(DemoText) )->sampler_chooser };
 
    $self->error_page( $c, $e->as_string ) if ($e = $self->catch);
 
@@ -63,7 +63,7 @@ sub sampler_chooser : Chained(reception_base) Args(0) HasActions Public {
 }
 
 sub sampler_result : ActionFor(sampler.save) {
-   my ($self, $c) = @_; my $s = $c->stash;
+   my ($self, $c) = @_;
 
    my $model = $c->model( q(DemoText) );
 
@@ -95,7 +95,7 @@ App::Munchies::Controller::Entrance - Welcome to this application framework
 
 =head1 Version
 
-$Revision: 639 $
+$Revision: 655 $
 
 =head1 Synopsis
 

@@ -1,16 +1,29 @@
 #!/usr/bin/perl
 
-# @(#)$Id: Build.PL 639 2009-04-05 17:47:16Z pjf $
+# @(#)$Id: Build.PL 656 2009-04-09 21:22:45Z pjf $
+
+sub _error { my $text = shift; print {*STDOUT} $text."\n"; exit 0 }
+
+# Stop chris from smoke testing with broken CPANPLUS
+# [MSG] [Wed Apr  8 07:00:49 2009] CPANPLUS is prefering Build.PL
+# [ERROR] [Wed Apr  8 07:00:50 2009] Build.PL failed: Can't locate Class/C3.pm
+# Class::C3 is in both requires and configure_requires and META.yml
+
+BEGIN {
+   eval { require 5.008; }; _error( 'Perl minimum 5.008' ) if ($@);
+   _error( 'Bingos stopped' )   if (qx(uname -a) =~ m{ bingosnet.co.uk }mx);
+   _error( 'CPANPLUS stopped' ) if ($ENV{PERL5_CPANPLUS_IS_RUNNING});
+}
 
 use strict;
 use warnings;
-use Class::C3;
-use CatalystX::Usul::Build;
 use File::Spec::Functions;
 use FindBin  qw( $Bin );
 use lib (catdir( $Bin, q(lib) ));
+use CatalystX::Usul::Build;
+use Class::C3;
 
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 639 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 656 $ =~ /\d+/gmx );
 
 my $DBNAME  = 'library';
 my $PREFIX  = '/opt';
@@ -110,13 +123,12 @@ EOB
 # End of Bob
 
 # Main
-
 my $requires = {
    'perl'                                                 => q(5.008),
    'version'                                              => q(0.74),
    'Authen::Simple'                                       => q(0.4),
    'Catalyst::Authentication::Credential::Authen::Simple' => q(0.02),
-   'CatalystX::Usul'                                      => q(0.1.3),
+   'CatalystX::Usul'                                      => q(0.1.437),
    'Class::C3'                                            => q(0.19),
    'Data::CloudWeights'                                   => q(0.1.3),
    'Date::Discordian'                                     => q(1.36),
@@ -141,7 +153,7 @@ my $build = $class->new
                              'Test::More'          => q(0.74),
                              'Test::Pod'           => q(1.14),
                              'Test::Pod::Coverage' => q(1.08) },
-     configure_requires => { 'CatalystX::Usul'     => q(0.1.121),
+     configure_requires => { 'CatalystX::Usul'     => q(0.1.437),
                              'Class::C3'           => q(0.19),
                              'version'             => q(0.74) },
      create_readme      => 1,

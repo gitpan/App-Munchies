@@ -1,6 +1,6 @@
 package App::Munchies::Model::Catalog;
 
-# @(#)$Id: Catalog.pm 639 2009-04-05 17:47:16Z pjf $
+# @(#)$Id: Catalog.pm 655 2009-04-09 20:17:54Z pjf $
 
 use strict;
 use warnings;
@@ -9,7 +9,7 @@ use Class::C3;
 use Data::CloudWeights;
 use HTML::Accessors;
 
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 639 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 655 $ =~ /\d+/gmx );
 
 __PACKAGE__->config( connect_info => [],
                      database     => q(library),
@@ -53,20 +53,14 @@ sub add_links_to_subject {
 }
 
 sub browse {
-   my ($self, $id, $url) = @_; my $s = $self->context->stash;
+   my ($self, $id, $url) = @_; my $c = $self->context; my $s = $c->stash;
 
-   $self->clear_form; $s->{menus}->[0]->{selected} = 1;
+   $self->clear_form;
 
-   # TODO: Move this to Navigation plugin
-   # Create a menu item for ourselves on the fly
-   unshift @{ $s->{menus}->[1]->{items} }, {
-      content => { class     => q(menuSelectedFade),
-                   container => 0,
-                   href      => $s->{form}->{action}.$SEP.$id,
-                   text      => 'Browse',
-                   tip       => $url,
-                   type      => q(anchor),
-                   widget    => 1 } };
+   $c->model( q(Navigation) )->select_this( 0, 1, {
+      href => $s->{form}->{action}.$SEP.$id,
+      text => $self->loc( 'Browse' ),
+      tip  => $url } );
 
    $self->add_field( { path => $url, subtype => q(html), type => q(file) } );
    return;
@@ -693,7 +687,7 @@ App::Munchies::Model::Catalog - Manipulate the library catalog database
 
 =head1 Version
 
-0.1.$Revision: 639 $
+0.1.$Revision: 655 $
 
 =head1 Synopsis
 

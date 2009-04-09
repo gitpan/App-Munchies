@@ -1,6 +1,9 @@
 Revision history for App::Munchies
 
-0.1.464  07/04/2008
+0.1.657  09/04/2009
+         - Dropped the Menu macro from layout.tt
+
+0.1.646  07/04/2009
          - Renamed KinoSearch class since it doesn't need to be a
            model
 

@@ -1,6 +1,6 @@
 package App::Munchies::Model::MealMaster;
 
-# @(#)$Id: MealMaster.pm 643 2009-04-06 23:07:37Z pjf $
+# @(#)$Id: MealMaster.pm 655 2009-04-09 20:17:54Z pjf $
 
 use strict;
 use warnings;
@@ -13,7 +13,7 @@ use Template::Stash;
 use App::Munchies::Model::Catalog;
 use App::Munchies::MealMaster::KinoSearch;
 
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 643 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 655 $ =~ /\d+/gmx );
 
 __PACKAGE__->config
    ( alpha_cat_offset   => 7,
@@ -62,18 +62,14 @@ sub new {
 sub browse {
    my ($self, $id, $url) = @_; my ($base, $e, $file, $pos, $title);
 
-   my $s = $self->context->stash;
+   my $c = $self->context; my $s = $c->stash;
 
-   $self->clear_form; $s->{menus}->[0]->{selected} = 1;
+   $self->clear_form;
 
-   unshift @{ $s->{menus}->[1]->{items} }, {
-      content => { class     => q(menuSelectedFade),
-                   container => 0,
-                   href      => $s->{form}->{action}.$SEP.$id,
-                   text      => 'Browse',
-                   tip       => $url,
-                   type      => q(anchor),
-                   widget    => 1 } };
+   $c->model( q(Navigation) )->select_this( 0, 1, {
+      href => $s->{form}->{action}.$SEP.$id,
+      text => $self->loc( 'Browse' ),
+      tip  => $url } );
 
    ($file, $pos) = split m{ \? }mx, $url, 2;
    $file         = $self->basename( $file );
@@ -631,7 +627,7 @@ App::Munchies::Model::MealMaster - Manipulate food recipes stored in MMF format
 
 =head1 Version
 
-0.1.$Revision: 643 $
+0.1.$Revision: 655 $
 
 =head1 Synopsis
 
