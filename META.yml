@@ -1,6 +1,6 @@
 ---
 name: App-Munchies
-version: 0.1.678
+version: 0.1.679
 author:
   - 'Peter Flanigan, C<< <Support at RoxSoft.co.uk> >>'
 abstract: Catalyst example application using food recipes as a data set
@@ -35,7 +35,7 @@ recommends:
 provides:
   App::Munchies:
     file: lib/App/Munchies.pm
-    version: 0.1.678
+    version: 0.1.679
   App::Munchies::Controller::Admin:
     file: lib/App/Munchies/Controller/Admin.pm
     version: 0.1.639

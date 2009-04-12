@@ -3,7 +3,6 @@
   <apache_user>www-data</apache_user>
   <apachectl>/usr/sbin/apache2ctl</apachectl>
   <ask>no</ask>
-  <built>yes</built>
   <copy_files>
     <from>/etc/aliases</from>
     <to>var/etc/aliases</to>
@@ -16,8 +15,6 @@
   <create_dirs>var/root/reports</create_dirs>
   <create_files>var/logs/misc.log</create_files>
   <create_files>var/logs/suid.log</create_files>
-  <create_schema>no</create_schema>
-  <create_ugrps>yes</create_ugrps>
   <group>munchies</group>
   <link_files>
     <from>var/etc/munchies.conf</from>
@@ -32,7 +29,6 @@
     <to>/etc/apache2/mods-enabled/expires.load</to>
   </link_files>
   <make_default>yes</make_default>
-  <new_prefix>/opt</new_prefix>
   <owner>munchies</owner>
   <phase>2</phase>
   <prefix>munchies</prefix>
@@ -40,8 +36,5 @@
   <run_cmd>no</run_cmd>
   <run_cmds>munchies_misc -n -c pod2html -o uid=[% uid %] -o gid=[% gid %]</run_cmds>
   <run_cmds>munchies_schema -n -c catalog_mmf -o uid=[% uid %] -o gid=[% gid %]</run_cmds>
-  <set_uid_root>no</set_uid_root>
   <shell>/bin/ksh</shell>
-  <style>normal</style>
-  <ver>0.1</ver>
 </config>

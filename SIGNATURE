@@ -15,12 +15,12 @@ not run its Makefile.PL or Build.PL.
 Hash: SHA1
 
 SHA1 6fe788243b99ea141a85b15e7abd88465b5ff4be Build.PL
-SHA1 04ab646bc7976d2866621f5ac77968328bc73057 Changes
+SHA1 de6cdfc3b2b77a95c6fbd6e1694dca6d8c6990db Changes
 SHA1 0190f62d6871f7927dcc90e40797c0f20645ddea LICENSE
 SHA1 e0b255e92ec4ce5e26400b000b269459dc9f7259 MANIFEST
-SHA1 4938e601738e306d1e696019d48752ab1084fc72 META.yml
+SHA1 6938c79fc697e5043be65e53cbd33de8c1423945 META.yml
 SHA1 11eae3f6654ce5760a5bb25ef608cbc2f8116b0f Makefile.PL
-SHA1 a1103b144ba99625bcbdc90ce04aeb4a751a8b90 README
+SHA1 ced778d4e233b22f6395350897ce7392b4659c86 README
 SHA1 ebdb0a7f3891eaadf43410a54c13f1b23db37a5c bin/munchies_cgi.pl
 SHA1 dfeeeb32d6357e4a104b1e80d30530a98605aa41 bin/munchies_create.pl
 SHA1 c050160d6e9c99e1f1aff782d6aaff0581ada224 bin/munchies_fastcgi.pl
@@ -31,9 +31,9 @@ SHA1 88c7da1b002d3c40bec711080ac8011e047085b5 bin/munchies_server.pl
 SHA1 c32274c1fc770119dd6881674882527d48505d84 bin/munchies_suenv
 SHA1 0df42e60f0367601553ea00384e9a8c1533d16ee bin/munchies_suid
 SHA1 76a64b9fcacb434e583288acec03f37fa90191fa bin/munchies_test.pl
-SHA1 4a2a7ca0440bd3eaab8a4d3f159d62d3ca0c1159 build.xml
+SHA1 7cf1733ed05f93d06b49d781a5439018ff286b05 build.xml
 SHA1 c5d6f2e5e5243777d081f91e9ef06acd7bd9eb3e install.sh
-SHA1 002e63aaa77aa0b7c12a7e55e7f441dcb8164c6d lib/App/Munchies.pm
+SHA1 93bce087bc132074e654961c5f57c3db81166ebe lib/App/Munchies.pm
 SHA1 9cd356fa9df38ec636f8eb42569465008d36023d lib/App/Munchies/Controller/Admin.pm
 SHA1 cd1cd4fb15e95d5dcab86e629c14bda74f408ddf lib/App/Munchies/Controller/Entrance.pm
 SHA1 8e327f83c40687d9ae719b624431f14c970c0f79 lib/App/Munchies/Controller/Library.pm
@@ -206,9 +206,9 @@ SHA1 c59827ae0ed0c9f3df75f03fb532d0478a3770ea var/secure/support.sub
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1.4.6 (GNU/Linux)
 
-iQCVAwUBSeIq5M4+W2711T3pAQIkYgQAjtMDJCiQpAq90XIQYpARMVhpvXyc5nc7
-A73b2TkCj59kG6SVNADX7m1mpoBNXMQ/hrc5gJkcwD2LQbu1xCm69sc7F1x7Gj8r
-UCw6fSL82w5GxFhmdlCPRMTs0xgKB+pOq9gDXsCipy7rFz4rxLdQj6GJPCPfd676
-iwhWLAKhTJk=
-=Nx1L
+iQCVAwUBSeJOus4+W2711T3pAQKCJgP8C2FS10pJ4XzG4NHrgue2UsQ8LbLumKs3
+fNBCnrkTeiS/xDMDLHGxtWPP/xawIPPZenWrgXz21pl2Ad1kwOaNagWASFen5Xcc
+WlGyG2R3Sa0iogU1i2HZTjuxc2LABpYTHfvLvftxq0N9+IHs785xd1oUcB3ks58B
+q33BFX8cznI=
+=2/js
 -----END PGP SIGNATURE-----

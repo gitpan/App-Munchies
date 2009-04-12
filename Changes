@@ -1,6 +1,9 @@
 Revision history for App::Munchies
 
-0.1.677  12/04/2009
+0.1.679  12/04/2009
+         - Reverted build.xml. Fucking CPAN testing, die, die, die
+
+0.1.678  12/04/2009
          - More CPAN testing crap
          - Added a Makefile.PL to try and deal with dumbass CPANPLUS
          - Fixed JS bug in group membership
