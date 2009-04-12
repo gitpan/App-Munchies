@@ -1,4 +1,4 @@
-// @(#)$Id: 30ourtools.js 621 2009-03-30 22:45:41Z pjf $
+// @(#)$Id: 30ourtools.js 659 2009-04-10 11:39:14Z pjf $
 
 /* Property: setHTML
       Sets the innerHTML of the Element. Should work for application/xhtml+xml
@@ -445,7 +445,8 @@ var GroupMember = new Class({
                this.createHidden( form, name, 'added', val );
             }
 
-            all_elem.options[ i ] = null;
+            // This suddenly started happening, weird but works after v0.1.657
+            //            all_elem.options[ i ] = null;
          }
       }
 
@@ -495,7 +496,8 @@ var GroupMember = new Class({
                this.createHidden( form, name, 'deleted', val );
             }
 
-            cur_elem.options[ i ] = null;
+            // This suddenly started happening, weird but works after v0.1.657
+            //            cur_elem.options[ i ] = null;
          }
       }
 

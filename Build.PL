@@ -1,13 +1,12 @@
-#!/usr/bin/perl
+# @(#)$Id: Build.PL 675 2009-04-12 14:43:29Z pjf $
 
-# @(#)$Id: Build.PL 656 2009-04-09 21:22:45Z pjf $
+use strict;
+use warnings;
 
 sub _error { my $text = shift; print {*STDOUT} $text."\n"; exit 0 }
 
-# Stop chris from smoke testing with broken CPANPLUS
-# [MSG] [Wed Apr  8 07:00:49 2009] CPANPLUS is prefering Build.PL
-# [ERROR] [Wed Apr  8 07:00:50 2009] Build.PL failed: Can't locate Class/C3.pm
-# Class::C3 is in both requires and configure_requires and META.yml
+# Stop chris from smoke testing with old CPANPLUS::Dist::Build on darwin
+# Old versions of CPANPLUS::Dist::Build do not support configure_requires
 
 BEGIN {
    eval { require 5.008; }; _error( 'Perl minimum 5.008' ) if ($@);
@@ -15,15 +14,18 @@ BEGIN {
    _error( 'CPANPLUS stopped' ) if ($ENV{PERL5_CPANPLUS_IS_RUNNING});
 }
 
-use strict;
-use warnings;
 use File::Spec::Functions;
 use FindBin  qw( $Bin );
 use lib (catdir( $Bin, q(lib) ));
 use CatalystX::Usul::Build;
-use Class::C3;
 
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 656 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 675 $ =~ /\d+/gmx );
+
+# Some CPAN testers are retards
+if ($ENV{AUTOMATED_TESTING}) {
+   $ENV{PERL_TEST_CRITIC} = 0; $ENV{PERL_TEST_POD} = 0;
+   $ENV{TEST_CRITIC     } = 0; $ENV{TEST_POD     } = 0;
+}
 
 my $DBNAME  = 'library';
 my $PREFIX  = '/opt';
@@ -129,7 +131,6 @@ my $requires = {
    'Authen::Simple'                                       => q(0.4),
    'Catalyst::Authentication::Credential::Authen::Simple' => q(0.02),
    'CatalystX::Usul'                                      => q(0.1.437),
-   'Class::C3'                                            => q(0.19),
    'Data::CloudWeights'                                   => q(0.1.3),
    'Date::Discordian'                                     => q(1.36),
    'DateTime::Event::Sunrise'                             => q(0.0501),
@@ -148,16 +149,14 @@ my $recommends = {
 my $build = $class->new
    ( add_to_cleanup     => [ 'Debian_CPANTS.txt',
                              'App-Munchies-*',
+                             'Makefile',
                              map { ( '*/' x $_ ) . '*~' } 0..5 ],
-     build_requires     => { 'Test::Harness'       => q(2.64),
-                             'Test::More'          => q(0.74),
-                             'Test::Pod'           => q(1.14),
-                             'Test::Pod::Coverage' => q(1.08) },
-     configure_requires => { 'CatalystX::Usul'     => q(0.1.437),
-                             'Class::C3'           => q(0.19),
+     build_requires     => { 'Test::More'          => q(0.74) },
+     configure_requires => { 'Module::Build'       => q(0.31),
+                             'CatalystX::Usul'     => q(0.1.437),
                              'version'             => q(0.74) },
-     create_readme      => 1,
      create_packlist    => 0,
+     create_readme      => 1,
      dist_version_from  => catfile( q(lib), split m{ :: }mx, $APPNAME.q(.pm) ),
      license            => q(perl),
      module_name        => $APPNAME,

@@ -14,12 +14,13 @@ not run its Makefile.PL or Build.PL.
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA1
 
-SHA1 d34ee1d18a55bc8f910cb4c215940a34388df8e0 Build.PL
-SHA1 709d3462476f1f14ac18aafed9f6e384405df857 Changes
+SHA1 6fe788243b99ea141a85b15e7abd88465b5ff4be Build.PL
+SHA1 04ab646bc7976d2866621f5ac77968328bc73057 Changes
 SHA1 0190f62d6871f7927dcc90e40797c0f20645ddea LICENSE
-SHA1 a228a8e2d2171c96bae382eb00913565da38ca9c MANIFEST
-SHA1 d36494614eaa85fe02399c0ecd37267b1498cb37 META.yml
-SHA1 028f68d2b74345b3661d036bb846abc7573807bb README
+SHA1 e0b255e92ec4ce5e26400b000b269459dc9f7259 MANIFEST
+SHA1 4938e601738e306d1e696019d48752ab1084fc72 META.yml
+SHA1 11eae3f6654ce5760a5bb25ef608cbc2f8116b0f Makefile.PL
+SHA1 a1103b144ba99625bcbdc90ce04aeb4a751a8b90 README
 SHA1 ebdb0a7f3891eaadf43410a54c13f1b23db37a5c bin/munchies_cgi.pl
 SHA1 dfeeeb32d6357e4a104b1e80d30530a98605aa41 bin/munchies_create.pl
 SHA1 c050160d6e9c99e1f1aff782d6aaff0581ada224 bin/munchies_fastcgi.pl
@@ -30,9 +31,9 @@ SHA1 88c7da1b002d3c40bec711080ac8011e047085b5 bin/munchies_server.pl
 SHA1 c32274c1fc770119dd6881674882527d48505d84 bin/munchies_suenv
 SHA1 0df42e60f0367601553ea00384e9a8c1533d16ee bin/munchies_suid
 SHA1 76a64b9fcacb434e583288acec03f37fa90191fa bin/munchies_test.pl
-SHA1 c8ce6912f162d3a5bfd69a5fce5515432fe122b0 build.xml
+SHA1 4a2a7ca0440bd3eaab8a4d3f159d62d3ca0c1159 build.xml
 SHA1 c5d6f2e5e5243777d081f91e9ef06acd7bd9eb3e install.sh
-SHA1 9f674fc791275be56bbe7668325a1b0e23b51b17 lib/App/Munchies.pm
+SHA1 002e63aaa77aa0b7c12a7e55e7f441dcb8164c6d lib/App/Munchies.pm
 SHA1 9cd356fa9df38ec636f8eb42569465008d36023d lib/App/Munchies/Controller/Admin.pm
 SHA1 cd1cd4fb15e95d5dcab86e629c14bda74f408ddf lib/App/Munchies/Controller/Entrance.pm
 SHA1 8e327f83c40687d9ae719b624431f14c970c0f79 lib/App/Munchies/Controller/Library.pm
@@ -59,10 +60,11 @@ SHA1 2440f1efdb49dbeb9d89dee5f1459edf1a28b406 lib/App/Munchies/Schema/Catalog/Re
 SHA1 e6738afe307da596a2805d272bc360f669e06c34 lib/App/Munchies/Schema/Catalog/ResultSet/Links.pm
 SHA1 6cf19634c1544f09cadf84d2f141e3bf0bd53ae9 lib/App/Munchies/Schema/Catalog/ResultSet/Nodes.pm
 SHA1 6f1b8523673782247724d454d1aa1d3e9f9038bf lib/App/Munchies/app_munchies.xml
-SHA1 cc3537bb0697a4cadf1d2bf134700e7a0fab74ee t/02pod.t
+SHA1 78406695334af009455d50b1840110d21512f5a7 t/01always_pass.t
+SHA1 a334e374bf6c34ec2a11b67d9f19c913798aac0a t/02pod.t
 SHA1 dbf8c9ab85391adc202706500372df2991e20119 t/03podcoverage.t
 SHA1 69553b07530445b4b30b53b7fa7209cd8b208c4f t/05kwalitee.t
-SHA1 e0320e198fc857d854c128f378b6c1d1736b55f8 t/10base.t
+SHA1 839806c1cf2532d2a21790beb8005c8776d8fcbc t/10base.t
 SHA1 ffd4387b52715e27bbf501df8f6da76b9eaafe85 var/db/App-Munchies-Schema-Authentication-0.1-MySQL.sql
 SHA1 f3e9651f3f5bc27afef328fcc349ff4ea1126d6f var/db/App-Munchies-Schema-Authentication-001-Users.xml
 SHA1 63422f69491c014d526e5e71dbd0a571fd6b5330 var/db/App-Munchies-Schema-Authentication-002-Roles.xml
@@ -185,7 +187,7 @@ SHA1 15ac5bedf421e801eb1564ff73da340d5f2c9b98 var/root/static/images/sortDesc.gi
 SHA1 b6ba9d52f361e3e5352ab0b3b07816a406ba61d3 var/root/static/images/valid-xhtml11.png
 SHA1 d96bacf30f8424dbff0c911cef9fbd14e6d9eaa6 var/root/static/jscript/10htmlparser.js
 SHA1 e39d93ba6d786cd898720ef4134f88ee25b5be11 var/root/static/jscript/20mootools.js
-SHA1 a69143cc3b99cea093f73d216b889c97870b9f83 var/root/static/jscript/30ourtools.js
+SHA1 d002eccf6f4fba6e1708a28d1cb962b8aca5f700 var/root/static/jscript/30ourtools.js
 SHA1 3c83f9c20a5edc78a38e1ee10b3e61470ea185a3 var/root/static/jscript/40calendar.js
 SHA1 f837f2087116e94536e7c248d33c1869428c483f var/root/static/jscript/50calendar-setup.js
 SHA1 afcbe1c36fd053463036b76a261de04d6a6df451 var/root/static/jscript/60tree.js
@@ -204,9 +206,9 @@ SHA1 c59827ae0ed0c9f3df75f03fb532d0478a3770ea var/secure/support.sub
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1.4.6 (GNU/Linux)
 
-iQCVAwUBSd50784+W2711T3pAQKQUgP/Rei1qvXDfM9e09f5mX8iRGCt++nebG3y
-NiacBc1I/MGghuR+eLX21fhI39l5JdYNjnrqptKRLFVUCbL82x4N900HznARYrn9
-+04aHJbFzQbyt+gQzp9l/NB+kbNH6q6vWl+ilO7brDpZPn1Wrnl1o58lJSVMw4Qp
-J3UZE5FJ2lI=
-=bcwX
+iQCVAwUBSeIq5M4+W2711T3pAQIkYgQAjtMDJCiQpAq90XIQYpARMVhpvXyc5nc7
+A73b2TkCj59kG6SVNADX7m1mpoBNXMQ/hrc5gJkcwD2LQbu1xCm69sc7F1x7Gj8r
+UCw6fSL82w5GxFhmdlCPRMTs0xgKB+pOq9gDXsCipy7rFz4rxLdQj6GJPCPfd676
+iwhWLAKhTJk=
+=Nx1L
 -----END PGP SIGNATURE-----

@@ -40,9 +40,11 @@ lib/App/Munchies/Schema/Catalog/Result/Nodes.pm
 lib/App/Munchies/Schema/Catalog/ResultSet/Links.pm
 lib/App/Munchies/Schema/Catalog/ResultSet/Nodes.pm
 LICENSE
+Makefile.PL
 MANIFEST			This list of files
 META.yml
 README
+t/01always_pass.t
 t/02pod.t
 t/03podcoverage.t
 t/05kwalitee.t

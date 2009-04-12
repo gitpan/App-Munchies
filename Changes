@@ -1,5 +1,10 @@
 Revision history for App::Munchies
 
+0.1.677  12/04/2009
+         - More CPAN testing crap
+         - Added a Makefile.PL to try and deal with dumbass CPANPLUS
+         - Fixed JS bug in group membership
+
 0.1.657  09/04/2009
          - Dropped the Menu macro from layout.tt
 

@@ -1,6 +1,6 @@
 package App::Munchies;
 
-# @(#)$Id: Munchies.pm 657 2009-04-09 22:01:29Z pjf $
+# @(#)$Id: Munchies.pm 678 2009-04-12 17:53:08Z pjf $
 
 use 5.008;
 use strict;
@@ -13,7 +13,7 @@ use Catalyst qw(ConfigComponents InflateMore ConfigLoader
                 Session::State::Cookie Session::Store::FastMmap
                 Static::Simple);
 
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 657 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 678 $ =~ /\d+/gmx );
 
 # Work around C::Utils::home. Stop home directory from changing
 my $class = __PACKAGE__;
@@ -217,7 +217,7 @@ App::Munchies - Catalyst example application using food recipes as a data set
 
 =head1 Version
 
-0.1.$Revision: 657 $
+0.1.$Revision: 678 $
 
 =head1 Synopsis
 
@@ -393,3 +393,4 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE
 # mode: perl
 # tab-width: 3
 # End:
+
