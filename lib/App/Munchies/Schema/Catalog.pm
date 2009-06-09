@@ -1,24 +1,25 @@
-package App::Munchies::Schema::Catalog;
-
 # Created by DBIx::Class::Schema::Loader v0.03009 @ 2007-03-04 02:50:46
-# @(#)$Id: Catalog.pm 636 2009-04-01 11:51:05Z pjf $
+# @(#)$Id: Catalog.pm 741 2009-06-09 19:29:57Z pjf $
+
+package App::Munchies::Schema::Catalog;
 
 use strict;
 use warnings;
-use base qw(DBIx::Class::Schema);
+use version; our $VERSION = qv( sprintf '0.2.%d', q$Rev: 741 $ =~ /\d+/gmx );
+use parent qw(DBIx::Class::Schema);
 
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 636 $ =~ /\d+/gmx );
+use File::Spec;
 
 __PACKAGE__->load_namespaces;
 
-# Must send patch to mst
-
 sub ddl_filename {
-    my ($self, $type, $dir, $version) = @_;
+    my ($self, $type, $version, $dir, $preversion) = @_;
 
-    (my $filename = (ref $self || $self)) =~ s/::/-/g;
+    ($dir, $version) = ($version, $dir) if ($DBIx::Class::VERSION < 0.08100);
+
+    (my $filename = (ref $self || $self)) =~ s{ :: }{-}gmx;
     $version = join q(.), (split m{ [.] }mx, $version)[ 0, 1 ];
-    return "$dir$filename-$version-$type.sql";
+    return File::Spec->catfile( $dir, "$filename-$version-$type.sql" );
 }
 
 1;
@@ -33,7 +34,7 @@ App::Munchies::Schema::Catalog - Schema base class
 
 =head1 Version
 
-0.1.$Revision: 636 $
+0.1.$Revision: 741 $
 
 =head1 Synopsis
 

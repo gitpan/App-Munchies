@@ -10,7 +10,7 @@
 <!ELEMENT rooms       (ARRAY)*>
 <!ELEMENT vals        (ARRAY)*>
 <config>
-  <_cvs_lang_level>@(#)$Id: admin_en.xml 617 2009-03-30 01:53:38Z pjf $</_cvs_lang_level>
+  <_cvs_lang_level>@(#)$Id: admin_en.xml 728 2009-06-09 00:06:48Z pjf $</_cvs_lang_level>
   <buttons>
     <name>access_control.set</name>
     <error>Failed to set the state because</error>
@@ -272,8 +272,8 @@
   </buttons>
   <fields>
     <name>access_control.room</name>
-    <prompt>Room</prompt>
-    <tip>Select ..Level.. to change access for the entire level</tip>
+    <prompt>Select action</prompt>
+    <tip>Select ..Level.. to change access for the entire controller</tip>
   </fields>
   <fields>
     <name>access_control.state</name>
@@ -328,7 +328,7 @@
   </fields>
   <fields>
     <name>config.level</name>
-    <prompt>Select level</prompt>
+    <prompt>Select controller</prompt>
   </fields>
   <fields>
     <name>config.name</name>
@@ -441,13 +441,13 @@
   </fields>
   <fields>
     <name>room_manager.keywords</name>
-    <prompt>Enter the keywords for the room</prompt>
+    <prompt>Enter the keywords for the action</prompt>
     <tip>Used by search engines to index the page</tip>
   </fields>
   <fields>
     <name>room_manager.level</name>
-    <prompt>Level</prompt>
-    <tip>Select [% newtag %] to create a new level definition</tip>
+    <prompt>Select controller</prompt>
+    <tip>Select [% newtag %] to create a new controller definition</tip>
   </fields>
   <fields>
     <name>room_manager.name</name>
@@ -465,8 +465,8 @@
   </fields>
   <fields>
     <name>room_manager.room</name>
-    <prompt>Room</prompt>
-    <tip>Select ..Level.. to create and edit the level definitions. Select [% newtag %] fill in the form and click insert to create a room definition</tip>
+    <prompt>Select action</prompt>
+    <tip>Select ..Level.. to create and edit the controller definitions. Select [% newtag %] fill in the form and click insert to create a action definition</tip>
   </fields>
   <fields>
     <name>room_manager.text</name>
@@ -652,11 +652,12 @@
   </messages>
   <messages>
     <name>access_control.select</name>
-    <text>Control access to levels and rooms on a per user/group basis</text>
+    <text>Control access to controllers and actions on a per user/group basis</text>
   </messages>
   <messages>
     <name>access_control.state</name>
-    <text>Open/close the selected [% noun %]</text>
+    <markdown></markdown>
+    <text>Set the state for the selected [% noun %]</text>
   </messages>
   <messages>
     <name>accountUpdated</name>
@@ -751,38 +752,6 @@
     <text>User [_1] deleted</text>
   </messages>
   <messages>
-    <name>eBadCredName</name>
-    <text>credentials name [_1] invalid</text>
-  </messages>
-  <messages>
-    <name>eNoAccount</name>
-    <text>No accounts selected</text>
-  </messages>
-  <messages>
-    <name>eNoCredName</name>
-    <text>credentials name not specified</text>
-  </messages>
-  <messages>
-    <name>eNoLevelRoom</name>
-    <text>either the level or room is null</text>
-  </messages>
-  <messages>
-    <name>eNoNameAttr</name>
-    <text>no value for the name attribute was supplied</text>
-  </messages>
-  <messages>
-    <name>eNoUGroup</name>
-    <text>no user/group selected</text>
-  </messages>
-  <messages>
-    <name>eNoUser</name>
-    <text>no user name supplied</text>
-  </messages>
-  <messages>
-    <name>eRoleExists</name>
-    <text>The [_1] role already exists</text>
-  </messages>
-  <messages>
     <name>fields_view.edit</name>
     <text>Edit the fields of the selected definition</text>
   </messages>
@@ -796,7 +765,6 @@
   </messages>
   <messages>
     <name>globalsCreated</name>
-    <markdown></markdown>
     <text>Created the global attribute [_2] in [_1]</text>
   </messages>
   <messages>
@@ -925,7 +893,7 @@
   </messages>
   <messages>
     <name>room_manager.select</name>
-    <text>Create/edit the level and room definitions used by the navigation bar</text>
+    <text>Create/edit the controller and action definitions used by the navigation menu</text>
   </messages>
   <messages>
     <name>setLevelState</name>
@@ -1042,7 +1010,7 @@
   <rooms>
     <name>access_control</name>
     <text>Access Control</text>
-    <tip>Control access to rooms on a per user/group basis</tip>
+    <tip>Control access to actions on a per user/group basis</tip>
   </rooms>
   <rooms>
     <name>backup</name>
@@ -1060,6 +1028,11 @@
     <tip>Edit application button texts</tip>
   </rooms>
   <rooms>
+    <name>configuration</name>
+    <text>Configuration</text>
+    <tip>Edit the application configuration data</tip>
+  </rooms>
+  <rooms>
     <name>credentials</name>
     <text>Credentials</text>
     <tip>Maintain database and remote connection information</tip>
@@ -1071,7 +1044,7 @@
   </rooms>
   <rooms>
     <name>globals</name>
-    <text>Configuration</text>
+    <text>Globals</text>
     <tip>Change the global configuration settings for this installation</tip>
   </rooms>
   <rooms>
@@ -1095,11 +1068,6 @@
     <tip>Edit application message texts</tip>
   </rooms>
   <rooms>
-    <name>navigation_manager</name>
-    <text>Navigation</text>
-    <tip>Maintain the navigation data and access</tip>
-  </rooms>
-  <rooms>
     <name>pages_view</name>
     <text>Pages</text>
     <tip>Edit the definitions for simple pages</tip>
@@ -1116,17 +1084,17 @@
   </rooms>
   <rooms>
     <name>role_manager</name>
-    <text>Role Manager</text>
+    <text>Roles</text>
     <tip>Maintain role membership</tip>
   </rooms>
   <rooms>
     <name>room_manager</name>
-    <text>Room Manager</text>
-    <tip>Create and edit room definitions</tip>
+    <text>Navigation</text>
+    <tip>Create and edit navigation menu links</tip>
   </rooms>
   <rooms>
     <name>user_manager</name>
-    <text>Manager</text>
+    <text>Users</text>
     <tip>Create and edit user accounts</tip>
   </rooms>
   <rooms>
@@ -1136,7 +1104,7 @@
   </rooms>
   <rooms>
     <name>user_report</name>
-    <text>Report</text>
+    <text>Reports</text>
     <tip>View and generate reports on the user base</tip>
   </rooms>
   <rooms>

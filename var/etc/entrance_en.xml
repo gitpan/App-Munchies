@@ -10,7 +10,7 @@
 <!ELEMENT rooms       (ARRAY)*>
 <!ELEMENT vals        (ARRAY)*>
 <config>
-  <_cvs_lang_level>@(#)$Id: entrance_en.xml 625 2009-03-31 00:35:40Z pjf $</_cvs_lang_level>
+  <_cvs_lang_level>@(#)$Id: entrance_en.xml 736 2009-06-09 15:53:07Z pjf $</_cvs_lang_level>
   <buttons>
     <name>authentication.login</name>
     <error>Failed to authenticate with the system because</error>
@@ -96,8 +96,8 @@
     <prompt>Enter your work telephone number</prompt>
   </fields>
   <messages>
-    <name>accountActivated</name>
-    <text>Account activated for [_1]. Click on the Login link to authenticate</text>
+    <name>Account [_1] activated</name>
+    <text>Account for user [_1] activated. Click on the Login link to authenticate</text>
   </messages>
   <messages>
     <name>authentication.header</name>
@@ -114,10 +114,6 @@
   <messages>
     <name>change_password.selectUnknown</name>
     <text>Change your password on this server</text>
-  </messages>
-  <messages>
-    <name>eLoginParameters</name>
-    <text>You did not enter both login id and password</text>
   </messages>
   <messages>
     <name>login_now_text</name>
@@ -145,12 +141,20 @@ If you are not an authorised user, disconnect immediately.
     </text>
   </messages>
   <messages>
+    <name>module_list.select</name>
+    <text>Modules loaded by the [% application %] application</text>
+  </messages>
+  <messages>
     <name>passwordChanged</name>
     <text>Password for [% user %] changed</text>
   </messages>
   <messages>
     <name>register.legend</name>
     <text>Create an account on this site</text>
+  </messages>
+  <messages>
+    <name>Security code [_1] incorrect</name>
+    <text>The entered security code [_1] was not the same a the one that was displayed</text>
   </messages>
   <messages>
     <name>sitemapHeading</name>
@@ -236,6 +240,8 @@ straightforward
   <pages>
     <name>tutorial</name>
     <heading>Introductory Tutorial for [% application %]</heading>
+    <subHeading></subHeading>
+    <title></title>
     <vals>
       <name>para0</name>
       <dropcap>1</dropcap>

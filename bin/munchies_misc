@@ -1,16 +1,15 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 
-# @(#)$Id: munchies_misc 636 2009-04-01 11:51:05Z pjf $
+# @(#)$Id: munchies_misc 738 2009-06-09 16:42:23Z pjf $
 
 use strict;
 use warnings;
+use version; our $VERSION = qv( sprintf '0.2.%d', q$Rev: 738 $ =~ /\d+/gmx );
 use File::Spec::Functions;
 use FindBin  qw( $Bin );
 use lib catfile( $Bin, updir, q(lib) );
 
 use App::Munchies::Programs::Misc;
-
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 636 $ =~ /\d+/gmx );
 
 my $prog = App::Munchies::Programs::Misc->new( appclass => q(App::Munchies) );
 
@@ -40,7 +39,7 @@ Display man page/usage string
 
 =head1 VERSION
 
-$Revision: 636 $
+$Revision: 738 $
 
 =head1 DESCRIPTION
 
@@ -83,7 +82,7 @@ Returns zero on success, non zero on failure
 
 =head1 CONFIGURATION
 
-Uses the constructor's I<appl> attribute to locate a configuration file
+Uses the constructor's I<appclass> attribute to locate a configuration file
 
 =head1 DEPENDENCIES
 
@@ -95,7 +94,7 @@ Uses the constructor's I<appl> attribute to locate a configuration file
 
 =head1 INCOMPATIBILITIES
 
-Perl::Critic is not compatible with Pod::Usage
+None
 
 =head1 BUGS AND LIMITATIONS
 
@@ -107,7 +106,7 @@ Peter Flanigan, C<< <Support at RoxSoft.co.uk> >>
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright (c) 2008 RoxSoft Limited.
+Copyright (c) 2009 Peter Flanigan
 
 This is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.

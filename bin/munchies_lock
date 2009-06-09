@@ -1,44 +1,22 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 
-# @(#)$Id: munchies_lock 636 2009-04-01 11:51:05Z pjf $
+# @(#)$Id: munchies_lock 738 2009-06-09 16:42:23Z pjf $
 
 use strict;
 use warnings;
+use version; our $VERSION = qv( sprintf '0.2.%d', q$Rev: 738 $ =~ /\d+/gmx );
 use File::Spec::Functions;
 use FindBin  qw( $Bin );
 use lib catfile( $Bin, updir, q(lib) );
 
-use CatalystX::Usul::Programs;
+use App::Munchies::Programs::Lock;
 
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 636 $ =~ /\d+/gmx );
+my $prog = App::Munchies::Programs::Lock->new( appclass => q(App::Munchies),
+                                               arglist  => q(k=s p=s t=s) );
 
-my ($line, $locks, $prog, $rc, $ref);
+$prog->silent( 1 );
 
-$prog = CatalystX::Usul::Programs->new( appclass => q(App::Munchies),
-                                        arglist  => q(k=s p=s t=s) );
-
-$prog->usage(1) if     (exists $prog->args->{h});
-$prog->usage(2) if     (exists $prog->args->{H});
-$prog->usage(0) unless ($prog->method);
-
-if ($prog->method eq q(list)) {
-   if ($locks = $prog->lock->list) {
-      for $ref (@{ $locks }) {
-         $line  = $ref->{key}.q(,).$ref->{pid}.q(,);
-         $line .= $prog->time2str('%Y-%m-%d %H:%M:%S', $ref->{stime}).q(,);
-         $line .= $ref->{timeout};
-         $prog->output( $line, { no_lead => 1 } );
-      }
-   }
-
-   exit 0;
-}
-elsif ($prog->method eq q(reset)) { $prog->lock->reset($prog->args) && exit 0 }
-elsif ($prog->method eq q(set))   { $prog->lock->set($prog->args)   && exit 0 }
-
-$prog->error( 'Subroutine '.$prog->method.' unknown' );
-
-exit 1;
+exit $prog->dispatch;
 
 __END__
 
@@ -73,7 +51,7 @@ Display man page/usage string
 
 =head1 VERSION
 
-$Revision: 636 $
+$Revision: 738 $
 
 =head1 DESCRIPTION
 
@@ -126,7 +104,7 @@ Returns zero on success, non zero on failure
 
 =head1 CONFIGURATION
 
-Uses the constructor's I<appl> attribute to locate a configuration file
+Uses the constructor's I<appclass> attribute to locate a configuration file
 
 Locking mechanisms are selected in the OS dependant configuration
 file. Setting lock_type in the global config to ipc selects the SysV
@@ -146,7 +124,7 @@ The lock table
 
 =head1 INCOMPATIBILITIES
 
-Perl::Critic is not compatible with Pod::Usage
+None
 
 =head1 DEPENDENCIES
 
@@ -166,7 +144,7 @@ Peter Flanigan
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright (c) 2008 RoxSoft Limited.
+Copyright (c) 2009 Peter Flanigan
 
 This is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.

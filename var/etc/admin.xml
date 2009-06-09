@@ -10,7 +10,7 @@
 <!ELEMENT rooms       (ARRAY)*>
 <!ELEMENT vals        (ARRAY)*>
 <config>
-  <_cvs_level>@(#)$Id: admin.xml 631 2009-03-31 09:52:27Z pjf $</_cvs_level>
+  <_cvs_level>@(#)$Id: admin.xml 728 2009-06-09 00:06:48Z pjf $</_cvs_level>
   <fields>
     <name>access_control.room</name>
     <clear>left</clear>
@@ -282,7 +282,6 @@
   <fields>
     <name>room_manager.tip</name>
     <clear>left</clear>
-    <validate>isSimpleText</validate>
     <width>40</width>
   </fields>
   <fields>
@@ -740,9 +739,12 @@
       <key>0</key>
     </vals>
   </keys>
+  <messages>
+    <name>room_manager.select</name>
+  </messages>
   <pages>
     <name>reception</name>
-    <class>centre narrow</class>
+    <class>centre</class>
     <columns>1</columns>
   </pages>
   <rooms>
@@ -763,6 +765,11 @@
   <rooms>
     <name>buttons_view</name>
     <acl>@support</acl>
+    <state>0</state>
+  </rooms>
+  <rooms>
+    <name>configuration</name>
+    <acl>any</acl>
     <state>0</state>
   </rooms>
   <rooms>
@@ -797,11 +804,6 @@
   </rooms>
   <rooms>
     <name>messages_view</name>
-    <acl>@support</acl>
-    <state>0</state>
-  </rooms>
-  <rooms>
-    <name>navigation_manager</name>
     <acl>@support</acl>
     <state>0</state>
   </rooms>

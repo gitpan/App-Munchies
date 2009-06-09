@@ -10,17 +10,15 @@
 <!ELEMENT rooms       (ARRAY)*>
 <!ELEMENT vals        (ARRAY)*>
 <config>
-  <_cvs_level>@(#)$Id: entrance.xml 641 2009-04-06 20:04:44Z pjf $</_cvs_level>
+  <_cvs_level>@(#)$Id: entrance.xml 725 2009-06-08 00:49:08Z pjf $</_cvs_level>
   <fields>
     <name>authentication.login_text</name>
-    <class>centre</class>
-    <clear>left</clear>
+    <class>centre clearLeft fullWidth</class>
     <type>label</type>
   </fields>
   <fields>
     <name>authentication.passwd</name>
     <class>centre</class>
-    <clear>left</clear>
     <max_length>10</max_length>
     <onkeypress>behaviour.submit.submitOnReturn(event, 'Login')</onkeypress>
     <type>password</type>
@@ -71,8 +69,8 @@
   </fields>
   <fields>
     <name>information.data</name>
-    <class>info</class>
-    <container>0</container>
+    <column_class>info</column_class>
+    <columns>1</columns>
     <type>paragraphs</type>
   </fields>
   <fields>
@@ -154,12 +152,12 @@
   </keys>
   <pages>
     <name>reception</name>
-    <class>narrow</class>
+    <class>left</class>
     <columns>1</columns>
   </pages>
   <pages>
     <name>tutorial</name>
-    <class>narrow centre</class>
+    <class>centre</class>
     <columns>2</columns>
   </pages>
   <rooms>
@@ -227,7 +225,7 @@
   <rooms>
     <name>test_card</name>
     <acl>any</acl>
-    <state>1</state>
+    <state>2</state>
   </rooms>
   <rooms>
     <name>tutorial</name>

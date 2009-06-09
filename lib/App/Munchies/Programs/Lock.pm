@@ -1,27 +1,31 @@
-# @(#)$Id: Authentication.pm 738 2009-06-09 16:42:23Z pjf $
+# @(#)$Id: Lock.pm 738 2009-06-09 16:42:23Z pjf $
 
-package App::Munchies::Model::Authentication;
+package App::Munchies::Programs::Lock;
 
 use strict;
 use warnings;
 use version; our $VERSION = qv( sprintf '0.2.%d', q$Rev: 738 $ =~ /\d+/gmx );
-use parent qw(CatalystX::Usul::Model::Schema);
+use parent qw(CatalystX::Usul::Programs);
 
-use Class::C3;
+sub list {
+   my $self = shift; my $line;
 
-__PACKAGE__->config
-   ( connect_info => [],
-     database     => q(library),
-     schema_class => q(App::Munchies::Schema::Authentication) );
+   for my $ref (@{ $self->lock->list || [] }) {
+      $line  = $ref->{key}.q(,).$ref->{pid}.q(,);
+      $line .= $self->time2str( '%Y-%m-%d %H:%M:%S', $ref->{stime} ).q(,);
+      $line .= $ref->{timeout};
+      $self->say( $line );
+   }
 
-sub new {
-   my ($class, $app, @rest) = @_;
+   return 0;
+}
 
-   my $database = $rest[0]->{database} || $class->config->{database};
+sub reset {
+   my $self = shift; $self->lock->reset( %{ $self->args } ); return 0;
+}
 
-   $class->config( connect_info => $class->connect_info( $app, $database ) );
-
-   return $class->next::method( $app, @rest );
+sub set {
+   my $self = shift; $self->lock->set( %{ $self->args } ); return 0;
 }
 
 1;
@@ -32,7 +36,7 @@ __END__
 
 =head1 Name
 
-App::Munchies::Model::Authentication - Database authentication class
+App::Munchies::Programs::Lock - CLI to the IPC::SRLock module
 
 =head1 Version
 
@@ -40,14 +44,23 @@ App::Munchies::Model::Authentication - Database authentication class
 
 =head1 Synopsis
 
-   use <Module::Name>;
-   # Brief but working code examples
+   #!/usr/bin/perl
+
+   use App::Munchies::Programs::Lock;
+
+   my $prog = App::Munchies::Programs::Lock->new( appclass => q(App::Munchies) );
+
+   exit $prog->dispatch;
 
 =head1 Description
 
 =head1 Subroutines/Methods
 
-=head2 new
+=head2 list
+
+=head2 reset
+
+=head2 set
 
 =head1 Diagnostics
 
@@ -57,7 +70,7 @@ App::Munchies::Model::Authentication - Database authentication class
 
 =over 3
 
-=item L<Class::Accessor::Fast>
+=item L<CatalystX::Usul::Programs>
 
 =back
 
@@ -77,7 +90,7 @@ Peter Flanigan, C<< <Support at RoxSoft.co.uk> >>
 
 =head1 License and Copyright
 
-Copyright (c) 2008 Peter Flanigan. All rights reserved
+Copyright (c) 2009 Peter Flanigan. All rights reserved
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself. See L<perlartistic>

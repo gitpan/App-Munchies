@@ -1,24 +1,25 @@
 package App::Munchies::Model::Catalog;
 
-# @(#)$Id: Catalog.pm 655 2009-04-09 20:17:54Z pjf $
+# @(#)$Id: Catalog.pm 738 2009-06-09 16:42:23Z pjf $
 
 use strict;
 use warnings;
-use base qw(CatalystX::Usul::Model::Schema);
+use version; our $VERSION = qv( sprintf '0.2.%d', q$Rev: 738 $ =~ /\d+/gmx );
+use parent qw(CatalystX::Usul::Model::Schema);
+
 use Class::C3;
 use Data::CloudWeights;
 use HTML::Accessors;
 
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 655 $ =~ /\d+/gmx );
+my $DOTS = chr 8230;
+my $NUL  = q();
+my $SEP  = q(/);
 
 __PACKAGE__->config( connect_info => [],
                      database     => q(library),
                      schema_class => q(App::Munchies::Schema::Catalog) );
 
 __PACKAGE__->mk_accessors( qw(binsdir) );
-
-my $NUL = q();
-my $SEP = q(/);
 
 sub new {
    my ($class, $app, @rest) = @_;
@@ -29,7 +30,7 @@ sub new {
 
    my $self = $class->next::method( $app, @rest );
 
-   $self->binsdir(  $app->config->{binsdir} );
+   $self->binsdir ( $app->config->{binsdir } );
    $self->encoding( $app->config->{encoding} );
    return $self;
 }
@@ -37,7 +38,7 @@ sub new {
 sub add_links_to_subject {
    my ($self, $args) = @_; my $s = $self->context->stash; my ($msg, $subject);
 
-   $self->throw( q(eNoSubject) ) unless ($subject = $args->{subject});
+   $self->throw( 'No subject specified' ) unless ($subject = $args->{subject});
 
    for my $lid (@{ $self->query_array( $args->{field} ) }) {
       my $ref  = { gid => $subject, nid => 1, lid => $lid };
@@ -313,7 +314,7 @@ sub grid_table {
                             id          => $r.$gid.q(_grid_header) },
                           $hacc->tr( $cells ))."\n".$tabs;
    $divs   = $hacc->a({ class => $l.q(SubHeader),
-                        id    => $r.$gid.q(_header) }, 'Loading&hellip;')."\n";
+                        id    => $r.$gid.q(_header) }, "Loading${DOTS}")."\n";
    $self->stash_form( $divs.$tabs );
    $self->stash_meta( { totalcount => $nodes->count } );
    delete $s->{token};
@@ -323,11 +324,10 @@ sub grid_table {
 sub links_delete {
    my ($self, $link) = @_; my $s = $self->context->stash; my $res;
 
-   $self->throw( q(eNoLink) ) unless ($link);
+   $self->throw( 'No link specified' ) unless ($link);
 
    unless ($res = $s->{model}->{links}->find( $link ) ) {
-      $self->throw( error => q(eUnknownLink),
-                    arg1  => $self->query_value( q(name) ) );
+      $self->throw( error => 'Link [_1] unknown', args => [ $link ] );
    }
 
    $res->delete; $self->add_result_msg( q(linkDeleted), $res->name );
@@ -345,7 +345,7 @@ sub links_insert {
    $res   = $model->search( text => $text );
 
    if ($link = $res->next) {
-      $self->throw( error => q(eLinkAlreadyExists), arg1 => $name );
+      $self->throw( error => 'Link [_1] already exists', args => [ $name ] );
    }
 
    $res = $model->create( { nid  => $self->query_value( q(nid) ),
@@ -360,13 +360,13 @@ sub links_insert {
 sub links_save {
    my ($self, $link) = @_; my $s = $self->context->stash; my $res;
 
-   $self->throw( q(eNoLink) ) unless ($link);
+   $self->throw( 'No link specified' ) unless ($link);
 
    my $text = $self->query_value( q(title) );
    my $name = $self->query_value( q(name) ) || $text; $name =~ s{ \s }{_}gmx;
 
    unless ($res = $s->{model}->{links}->find( $link )) {
-      $self->throw( error => q(eUnknownLink), arg1 => $name );
+      $self->throw( error => 'Link [_1] unknown', args => [ $name ] );
    }
 
    $res->name( $name );
@@ -465,8 +465,8 @@ sub nodes_delete {
 
    my $s = $self->context->stash; my $names_model = $args->{names};
 
-   $self->throw( q(eNoCatalog) ) unless ($cat = $args->{catalog});
-   $self->throw( q(eNoSubject) ) unless ($subject = $args->{subject});
+   $self->throw( 'No catalog specified' ) unless ($cat = $args->{catalog});
+   $self->throw( 'No subject specified' ) unless ($subject = $args->{subject});
 
    $self->add_result( $names_model->cascade_delete( $subject )->out );
 
@@ -490,7 +490,9 @@ sub nodes_insert {
    my $desc        = $self->query_value( q(desc) );
    my $res         = $names_model->search( { text => $desc } );
 
-   $self->throw( error => q(eNodeExists), arg1 => $desc ) if ($res->next);
+   if ($res->next) {
+      $self->throw( error => 'Node [_1] already exists', args => [ $desc ] );
+   }
 
    $names_model->create( { text => $desc } );
    $gid = $subject != -1 ? 1 : $cat;
@@ -507,21 +509,21 @@ sub nodes_save {
    my $subject = $self->query_value( q(subject) );
 
    unless ($res = $names_model->find( $cat )) {
-      $self->add_result( 'Catalog '.$desc.' does not exist' );
+      $self->add_result( "Catalog $desc does not exist" );
       return 0;
    }
 
    $res->text( $desc ); $res->update;
-   $self->add_result( 'Catalog '.$desc.' updated' );
+   $self->add_result( "Catalog $desc updated" );
    $desc = $self->query_value( q(subjectDesc) );
 
    unless ($res = $names_model->find( $subject )) {
-      $self->add_result( 'Subject '.$desc.' does not exist' );
+      $self->add_result( "Subject $desc does not exist" );
       return 0;
    }
 
    $res->text( $desc ); $res->update;
-   $self->add_result( 'Subject '.$desc.' updated' );
+   $self->add_result( "Subject $desc updated" );
    return 1;
 }
 
@@ -647,7 +649,7 @@ sub recatalog_form {
 sub remove_links_from_subject {
    my ($self, $args) = @_; my $s = $self->context->stash; my ($msg, $subject);
 
-   $self->throw( q(eNoSubject) ) unless ($subject = $args->{subject});
+   $self->throw( 'No subject specified' ) unless ($subject = $args->{subject});
 
    for my $lid (@{ $self->query_array( $args->{field} ) }) {
       my $res = $s->{model}->{nodes}->search( gid => $subject, lid => $lid );
@@ -687,7 +689,7 @@ App::Munchies::Model::Catalog - Manipulate the library catalog database
 
 =head1 Version
 
-0.1.$Revision: 655 $
+0.1.$Revision: 738 $
 
 =head1 Synopsis
 

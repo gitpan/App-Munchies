@@ -1,10 +1,12 @@
-package App::Munchies::Model::DemoText;
+# @(#)$Id: DemoText.pm 738 2009-06-09 16:42:23Z pjf $
 
-# @(#)$Id: DemoText.pm 655 2009-04-09 20:17:54Z pjf $
+package App::Munchies::Model::DemoText;
 
 use strict;
 use warnings;
-use base qw(CatalystX::Usul::Model);
+use version; our $VERSION = qv( sprintf '0.2.%d', q$Rev: 738 $ =~ /\d+/gmx );
+use parent qw(CatalystX::Usul::Model);
+
 use Date::Discordian;
 use DateTime::Event::Sunrise;
 use DateTime::Fiction::JRRTolkien::Shire;
@@ -12,17 +14,28 @@ use Encode;
 use Text::Lorem::More;
 use WWW::Wikipedia;
 
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 655 $ =~ /\d+/gmx );
-
 __PACKAGE__->config( fortune => q(fortune), insultd => q(insultd), );
 
 __PACKAGE__->mk_accessors( qw(fortune insultd name) );
 
-sub deskclock {
-   my ($self, $static) = @_;
+sub build_per_context_instance {
+   my ($self, $c, @rest) = @_; my $s = $c->stash;
 
-   $self->add_field( { class   => q(centre),
-                       path    => $static.'/svg/SiemensClock.svg',
+   my $new = $self->next::method( $c, @rest );
+
+   $new->fortune( $s->{os}->{fortune}->{value} || $new->fortune );
+   $new->insultd( $s->{os}->{insultd}->{value} || $new->insultd );
+
+   return $new;
+}
+
+sub deskclock {
+   my $self = shift;
+   my $c    = $self->context;
+   my $path = $c->uri_for( q(/static/svg/SiemensClock.svg) );
+
+   $self->add_field( { class   => q(centre fullWidth),
+                       path    => $path,
                        style   => q(margin-left: -256px;),
                        subtype => q(html),
                        type    => q(file) } );
@@ -39,7 +52,7 @@ sub information {
    my $dtes   = DateTime::Event::Sunrise->new( altitude  => '-0.833',
                                                iteration => '1',
                                                longitude => '0',
-                                               latitude  => '51.52');
+                                               latitude  => '51.52' );
    $sun_riset = $dtes->sunrise_sunset_span( $dt );
    $text      = 'Sunrise '.$sun_riset->start->datetime.q(.);
    $text      =~ s{ T }{ }mx;
@@ -55,13 +68,13 @@ sub information {
    $fdate     = DateTime::Fiction::JRRTolkien::Shire->today();
    $fdate     = $fdate->on_date(); chomp $fdate;
    $fdate     =~ s{ [\n] }{.}gmx; $fdate =~ s{ \.\. }{. }gmx;
-   $text      = 'And in the Shire its '.$fdate;
+   $text      = "And in the Shire its $fdate";
 
    push @{ $data->{values} }, { text => $text };
 
    $fdate     = Date::Discordian->new( epoch => time );
    $fdate     = $fdate->discordian(); chomp $fdate;
-   $text      = 'According to the Discordians its '.$fdate.q(.);
+   $text      = "According to the Discordians its ${fdate}.";
 
    push @{ $data->{values} }, { text => $text };
 
@@ -351,14 +364,19 @@ sub wikipedia {
 
    push @{ $data->{values} }, { text => $para } if ($para);
 
-   $self->clear_form( { heading      => q(Wiki entry for ).(ucfirst $term) } );
-   $self->add_field(  { class        => q(narrow),
-                        column_class => q(paraColumn),
-                        columns      => 2,
-                        container    => 0,
-                        data         => $data,
-                        name         => q(wiki),
-                        type         => q(paragraphs) } );
+   my $columns   = 2;
+   my $col_class = ($columns > 1 ? q(multi) : q(one)).q(Column);
+   my $heading   = 'Wiki entry for '.(ucfirst $term);
+
+   $self->clear_form( { heading         => $heading } );
+   $self->add_field ( { class           => q(fullWidth),
+                        column_class    => $col_class,
+                        columns         => $columns,
+                        container       => 1,
+                        container_class => q(paragraphs centre),
+                        data            => $data,
+                        name            => q(wiki),
+                        type            => q(paragraphs) } );
    return;
 }
 
@@ -374,7 +392,7 @@ App::Munchies::Model::DemoText - Demonstration model
 
 =head1 Version
 
-0.1.$Revision: 655 $
+0.1.$Revision: 738 $
 
 =head1 Synopsis
 
@@ -384,6 +402,8 @@ App::Munchies::Model::DemoText - Demonstration model
 =head1 Description
 
 =head1 Subroutines/Methods
+
+=head2 build_per_context_instance
 
 =head2 deskclock
 

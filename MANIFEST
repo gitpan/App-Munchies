@@ -25,6 +25,7 @@ lib/App/Munchies/Model/Authentication.pm
 lib/App/Munchies/Model/Catalog.pm
 lib/App/Munchies/Model/DemoText.pm
 lib/App/Munchies/Model/MealMaster.pm
+lib/App/Munchies/Programs/Lock.pm
 lib/App/Munchies/Programs/Misc.pm
 lib/App/Munchies/Programs/Suid.pm
 lib/App/Munchies/Schema.pm
@@ -49,11 +50,11 @@ t/02pod.t
 t/03podcoverage.t
 t/05kwalitee.t
 t/10base.t
-var/db/App-Munchies-Schema-Authentication-0.1-MySQL.sql
+var/db/App-Munchies-Schema-Authentication-0.2-MySQL.sql
 var/db/App-Munchies-Schema-Authentication-001-Users.xml
 var/db/App-Munchies-Schema-Authentication-002-Roles.xml
 var/db/App-Munchies-Schema-Authentication-003-UserRoles.xml
-var/db/App-Munchies-Schema-Catalog-0.1-MySQL.sql
+var/db/App-Munchies-Schema-Catalog-0.2-MySQL.sql
 var/db/App-Munchies-Schema-Catalog-001-Links.xml
 var/db/App-Munchies-Schema-Catalog-002-Names.xml
 var/db/App-Munchies-Schema-Catalog-003-Nodes.xml

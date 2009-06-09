@@ -1,5 +1,11 @@
 Revision history for App::Munchies
 
+0.2.750  09/06/2009
+         - Worked around bug in DBIx::Class::Schema::deploy
+         - Improved testing idioms
+         - Now sets resources attribute in META.yml
+         - Paragraph columns now have a max width
+
 0.1.679  12/04/2009
          - Reverted build.xml. Fucking CPAN testing, die, die, die
 

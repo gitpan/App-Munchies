@@ -10,7 +10,7 @@
 <!ELEMENT rooms       (ARRAY)*>
 <!ELEMENT vals        (ARRAY)*>
 <config>
-  <_cvs_lang_default>@(#)$Id: default_en.xml 619 2009-03-30 14:47:27Z pjf $</_cvs_lang_default>
+  <_cvs_lang_default>@(#)$Id: default_en.xml 717 2009-06-06 15:34:15Z pjf $</_cvs_lang_default>
   <buttons>
     <name>app_closed.login</name>
     <error>Failed to login to the application because</error>
@@ -129,123 +129,6 @@
     <text>Display options</text>
   </messages>
   <messages>
-    <name>eAlreadyExists</name>
-    <text>The key [_2] already exists in [_1]</text>
-  </messages>
-  <messages>
-    <name>eAttrExists</name>
-    <text>The attribute [_1] already exists</text>
-  </messages>
-  <messages>
-    <name>eBadSecurityCode</name>
-    <text>The security code did not match the one displayed on the form</text>
-  </messages>
-  <messages>
-    <name>eBadToken</name>
-    <text>The CSRF form token does not match the one that was expected</text>
-  </messages>
-  <messages>
-    <name>eCannotRead</name>
-    <text>Cannot read [_1]</text>
-  </messages>
-  <messages>
-    <name>eCannotWrite</name>
-    <text>Cannot write [_1]</text>
-  </messages>
-  <messages>
-    <name>eContentNotFound</name>
-    <text>Cannot find a Content-Type supported by your client</text>
-  </messages>
-  <messages>
-    <name>eLoginFailure</name>
-    <text>The login id ([_1]) and password were not recognised</text>
-  </messages>
-  <messages>
-    <name>eMandatory</name>
-    <text>The [_1] field must have a value</text>
-  </messages>
-  <messages>
-    <name>eNameToShort</name>
-    <text>Failed to generate a new user id. The user name [_1] is too short. Minimum [_2] characters</text>
-  </messages>
-  <messages>
-    <name>eNoACL</name>
-    <text>No list of allowed users/groups for [_1]</text>
-  </messages>
-  <messages>
-    <name>eNoActions</name>
-    <text>No actions have been associated with the [_1] button</text>
-  </messages>
-  <messages>
-    <name>eNoCheckfield</name>
-    <text>The field [_1] does not define a validation subroutine</text>
-  </messages>
-  <messages>
-    <name>eNoFile</name>
-    <text>No file name was provided</text>
-  </messages>
-  <messages>
-    <name>eNoFileSelected</name>
-    <text>No file was selected</text>
-  </messages>
-  <messages>
-    <name>eNoHelpPage</name>
-    <text>No help page selected</text>
-  </messages>
-  <messages>
-    <name>eNoPage</name>
-    <text>There is no [_1] page definition</text>
-  </messages>
-  <messages>
-    <name>eNoPath</name>
-    <text>Path not specified</text>
-  </messages>
-  <messages>
-    <name>eNoSourcePage</name>
-    <text>No source page selected</text>
-  </messages>
-  <messages>
-    <name>eNotFound</name>
-    <text>Not found [_1]</text>
-  </messages>
-  <messages>
-    <name>eNotImplemented</name>
-    <text>Method [_2] not implemented by [_1]</text>
-  </messages>
-  <messages>
-    <name>eNotSupported</name>
-    <text>Content-Type [_1] is not supported</text>
-  </messages>
-  <messages>
-    <name>eNothingUpdated</name>
-    <text>No fields on this form changed</text>
-  </messages>
-  <messages>
-    <name>ePasswordUsedBefore</name>
-    <markdown></markdown>
-    <text>This password has been used before</text>
-  </messages>
-  <messages>
-    <name>eSerializeFailed</name>
-    <text>Content-Type [_1] had a problem with your request</text>
-  </messages>
-  <messages>
-    <name>eUnknownForward</name>
-    <text>An unknown error occured whilst forwarding to [_1]</text>
-  </messages>
-  <messages>
-    <name>eValidIdentifier</name>
-    <text>Field [_1] value [_2] is not a vaild identifier</text>
-  </messages>
-  <messages>
-    <name>eValidInteger</name>
-    <text>Field [_1] value [_2] is not a vaild integer</text>
-  </messages>
-  <messages>
-    <name>eValidPassword</name>
-    <text>Field [_1] value [_2] is not a valid password</text>
-  </messages>
-  <messages>
     <name>elapsedTime</name>
     <text>Elapsed time since previous update</text>
   </messages>
@@ -304,6 +187,10 @@
   <messages>
     <name>helpTitle</name>
     <text>Help for [_1]</text>
+  </messages>
+  <messages>
+    <name>Invalid token</name>
+    <text>The CSRF form token does not match the one that was expected</text>
   </messages>
   <messages>
     <name>isMandatory</name>
@@ -449,10 +336,6 @@ Authored the these modules</text>
     <vals>
       <name>para1</name>
       <text>Authenticate as an administration user to reopen the application</text>
-    </vals>
-    <vals>
-      <name>para2</name>
-      <text>&amp;nbsp;</text>
     </vals>
     <vals>
       <name>subHeading0</name>

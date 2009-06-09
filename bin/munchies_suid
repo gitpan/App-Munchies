@@ -1,19 +1,17 @@
 #!/usr/bin/perl
 
-# @(#)$Id: munchies_suid 635 2009-04-01 11:19:06Z pjf $
+# @(#)$Id: munchies_suid 738 2009-06-09 16:42:23Z pjf $
 
 use strict;
 use warnings;
-use Carp;
-use English qw(-no_match_vars);
-
+use version; our $VERSION = qv( sprintf '0.2.%d', q$Rev: 738 $ =~ /\d+/gmx );
 # Using FindBin is incompatible with taint mode and suid programs
 # This path is edited by Bob the Module::Builder on installation
 use lib q(/opt/app-munchies/default/lib);
 
+use Carp;
+use English qw(-no_match_vars);
 use App::Munchies::Programs::Suid;
-
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 635 $ =~ /\d+/gmx );
 
 my ($cmd, $prog, $ref, $text);
 
@@ -34,7 +32,6 @@ $EFFECTIVE_USER_ID  = 0; $REAL_USER_ID  = 0;
 $EFFECTIVE_GROUP_ID = 0; $REAL_GROUP_ID = 0;
 
 # Taint mode workaround
-
 unless (exists $prog->args->{e}) {
    $cmd   = $prog->pathname.($prog->debug ? ' -D' : ' -n');
    $cmd  .= ' -e -c "'.$prog->method.'"';
@@ -48,12 +45,11 @@ unless (exists $prog->args->{e}) {
 
    $prog->log_debug( $cmd ) if ($prog->debug);
 
-   exec $cmd or croak "Exec failed: $cmd\n";
+   exec $cmd or croak "Exec failed $cmd\n";
 }
-
 # End of workaround
-# Running as root not suid root during install
 
+# Running as root not suid root during install
 if ((stat $prog->pathname)[2] & oct q(04000)) {
    $ref = { method => $prog->method, user => $ENV{USER} };
 
@@ -92,7 +88,7 @@ Display man page/usage string
 
 =head1 VERSION
 
-$Revision: 635 $
+$Revision: 738 $
 
 =head1 DESCRIPTION
 
@@ -137,7 +133,7 @@ Returns zero on success, non zero on failure
 
 =head1 CONFIGURATION
 
-Uses the constructor's I<appl> attribute to locate a configuration file
+Uses the constructor's I<appclass> attribute to locate a configuration file
 
 =head1 DEPENDENCIES
 
@@ -149,7 +145,7 @@ Uses the constructor's I<appl> attribute to locate a configuration file
 
 =head1 INCOMPATIBILITIES
 
-Perl::Critic is not compatible with Pod::Usage
+None
 
 =head1 BUGS AND LIMITATIONS
 
@@ -161,7 +157,7 @@ Peter Flanigan
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright (c) 2001-2006 RoxSoft Limited
+Copyright (c) 2009 Peter Flanigan
 
 This is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself
@@ -172,4 +168,3 @@ it under the same terms as Perl itself
 # mode: perl
 # tab-width: 3
 # End:
-

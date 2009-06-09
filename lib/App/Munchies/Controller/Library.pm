@@ -1,13 +1,11 @@
-package App::Munchies::Controller::Library;
+# @(#)$Id: Library.pm 738 2009-06-09 16:42:23Z pjf $
 
-# @(#)$Id: Library.pm 639 2009-04-05 17:47:16Z pjf $
+package App::Munchies::Controller::Library;
 
 use strict;
 use warnings;
-use base qw(CatalystX::Usul::Controller);
-use Class::C3;
-
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 639 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.2.%d', q$Rev: 738 $ =~ /\d+/gmx );
+use parent qw(CatalystX::Usul::Controller);
 
 sub base : Chained(lang) CaptureArgs(0) {
    # PathPart set in global configuration
@@ -63,7 +61,7 @@ App::Munchies::Controller::Library - A server side bookmark manager and food rec
 
 =head1 Version
 
-$Revision: 639 $
+$Revision: 738 $
 
 =head1 Synopsis
 

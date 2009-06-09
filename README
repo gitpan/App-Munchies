@@ -3,7 +3,7 @@ Name
     data set
 
 Version
-    0.1.$Revision: 679 $
+    0.1.$Revision: 750 $
 
 Synopsis
     Start the development mini server with
@@ -39,8 +39,8 @@ Installation
     Run these commands as root to install this application from a
     distribution tarball:
 
-       tar -xvzf app_munchies-?.?.?.tar.gz
-       cd app_munchies-?.?.?
+       tar -xvzf App-Munchies-?.?.?.tar.gz
+       cd App-Munchies-?.?.?
        ./install.sh
 
     It defaults to installing all files (including the var data) under
@@ -54,7 +54,7 @@ Installation
        ./Build --ask
        ./Build distclean
        cd ..
-       tar -czf app_munchies-local.tar.gz app_munchies-?.?.?
+       tar -czf App-Munchies-local.tar.gz App-Munchies-?.?.?
 
     which will create a local tarball. Install from this and you will not be
     prompted to answer any more questions
@@ -70,9 +70,12 @@ Installation
 
     This distribution contains a setuid root program. It is used to provide
     limited access to root only functions, e.g. authentication against
-    /etc/shadow. The build process asks if this should be enabled
+    /etc/shadow. The build process asks if this should be enabled. It is not
+    enabled by default
 
     N.B. Remove *user_root* from var/secure/support.sub if it exists
+
+    N.B. Change the password for the admin account in the R02-Database realm
 
 Subroutines/Methods
   list_sessions
@@ -83,8 +86,8 @@ Subroutines/Methods
     backends
 
 Diagnostics
-    Append "-d" to "bin/munchies_server.pl" to start the mini server in
-    debug mode
+    Append "-d" to bin/munchies_server.pl to start the mini server in debug
+    mode
 
     Replace the prepare body method in *Catalyst.pm* with this one
 
@@ -136,12 +139,11 @@ Bugs and Limitations
     There are no known bugs in this module. Please report problems to the
     address below. Patches are welcome
 
-    Remember to patch "M::B::PodParser::textblock". Change tests to case
-    insensitive pattern matches. Delete requirement for authors to have @s
-    Otherwise "Build dist" will fail to create META.yml
-
 Author
     Peter Flanigan, "<Support at RoxSoft.co.uk>"
+
+Acknowledgements
+    Larry Wall - For the Perl programming language
 
 License and Copyright
     Copyright (c) 2009 Peter Flanigan. All rights reserved

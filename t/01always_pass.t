@@ -1,6 +1,4 @@
-# @(#)$Id: 01always_pass.t 677 2009-04-12 17:07:07Z pjf $
-
-# Even CPAN testers can't fuck this up
+# @(#)$Id: 01always_pass.t 683 2009-04-16 16:34:50Z pjf $
 
 use strict;
 use warnings;

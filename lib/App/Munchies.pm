@@ -1,19 +1,18 @@
-package App::Munchies;
+# @(#)$Id: Munchies.pm 750 2009-06-09 20:09:03Z pjf $
 
-# @(#)$Id: Munchies.pm 679 2009-04-12 20:27:06Z pjf $
+package App::Munchies;
 
 use 5.008;
 use strict;
 use warnings;
+use version; our $VERSION = qv( sprintf '0.2.%d', q$Rev: 750 $ =~ /\d+/gmx );
+
 use File::Spec;
 use Catalyst::Runtime q(5.70);
-
 use Catalyst qw(ConfigComponents InflateMore ConfigLoader
                 Log::Handler Authentication Captcha FillInForm Session
                 Session::State::Cookie Session::Store::FastMmap
                 Static::Simple);
-
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 679 $ =~ /\d+/gmx );
 
 # Work around C::Utils::home. Stop home directory from changing
 my $class = __PACKAGE__;
@@ -78,7 +77,7 @@ $class->config
         namespace               => q() },
      'Debug'                    => {
         skip_dump_parameters    =>
-           q(p_word[12] | password | passwd | newPass[12]) },
+           q(p_word[12] | password | passwd | newPass[12] | oldPass) },
      'Log::Handler'             => {
         filename                => q(__appldir(var/logs/server.log)__),
         fileopen                => 1,
@@ -116,26 +115,20 @@ $class->config
      'Model::Help'              => {
         base_class              => q(CatalystX::Usul::Model::Help) },
      'Model::IdentityDBIC'      => {
-        COMPILE_DIR             => q(__appldir(var/tmp)__),
-        INCLUDE_PATH            => q(__appldir(var/root/static/templates)__),
         base_class              => q(CatalystX::Usul::Model::Identity),
         auth_comp               => q(Plugin::Authentication),
-        dbic_role_class         => q(Authentication::Roles),
-        dbic_user_class         => q(Authentication::Users),
-        dbic_user_roles_class   => q(Authentication::UserRoles),
-        role_class              => q(Roles::DBIC),
-        user_class              => q(Users::DBIC), },
+        role_class              => q(RolesDBIC),
+        user_class              => q(UsersDBIC), },
      'Model::IdentityUnix'      => {
-        COMPILE_DIR             => q(__appldir(var/tmp)__),
-        INCLUDE_PATH            => q(__appldir(var/root/static/templates)__),
         base_class              => q(CatalystX::Usul::Model::Identity),
         auth_comp               => q(Plugin::Authentication),
-        common_home             => q(/home/common),
-        role_class              => q(Roles::Unix),
-        user_class              => q(Users::Unix), },
+        role_class              => q(RolesUnix),
+        user_class              => q(UsersUnix), },
      'Model::Imager'            => {
         base_class              => q(CatalystX::Usul::Model::Imager),
         scale                   => { scalefactor => 0.5 } },
+     'Model::MailAliases'       => {
+        base_class              => q(CatalystX::Usul::Model::MailAliases) },
      'Model::MealMaster'        => {
         COMPILE_DIR             => q(__appldir(var/tmp)__),
         INCLUDE_PATH            => q(__appldir(var/root/static/templates)__) },
@@ -143,10 +136,35 @@ $class->config
         base_class              => q(CatalystX::Usul::Model::Navigation) },
      'Model::Process'           => {
         base_class              => q(CatalystX::Usul::Model::Process) },
+     'Model::RolesDBIC'         => {
+        base_class              => q(CatalystX::Usul::Model::Roles),
+        domain_attributes       => {
+           dbic_role_class      => q(Authentication::Roles),
+           dbic_user_roles_class => q(Authentication::UserRoles), },
+        domain_class            => q(CatalystX::Usul::Roles::DBIC) },
+     'Model::RolesUnix'         => {
+        base_class              => q(CatalystX::Usul::Model::Roles),
+        domain_class            => q(CatalystX::Usul::Roles::Unix) },
      'Model::Session'           => {
         base_class              => q(CatalystX::Usul::Model::Session) },
      'Model::Tapes'             => {
         base_class              => q(CatalystX::Usul::Model::Tapes) },
+     'Model::UserProfiles'      => {
+        base_class              => q(CatalystX::Usul::Model::UserProfiles) },
+     'Model::UsersDBIC'         => {
+        base_class              => q(CatalystX::Usul::Model::Users),
+        COMPILE_DIR             => q(__appldir(var/tmp)__),
+        INCLUDE_PATH            => q(__appldir(var/root/static/templates)__),
+        domain_attributes       => {
+           dbic_user_class      => q(Authentication::Users), },
+        domain_class            => q(CatalystX::Usul::Users::DBIC) },
+     'Model::UsersUnix'         => {
+        base_class              => q(CatalystX::Usul::Model::Users),
+        COMPILE_DIR             => q(__appldir(var/tmp)__),
+        INCLUDE_PATH            => q(__appldir(var/root/static/templates)__),
+        domain_attributes       => {
+           common_home          => q(/home/common), },
+        domain_class            => q(CatalystX::Usul::Users::Unix) },
      'Plugin::Authentication'   => {
         default_realm           => q(R01-Localhost),
         realms                  => {
@@ -217,7 +235,7 @@ App::Munchies - Catalyst example application using food recipes as a data set
 
 =head1 Version
 
-0.1.$Revision: 679 $
+0.1.$Revision: 750 $
 
 =head1 Synopsis
 
@@ -257,8 +275,8 @@ Firefox to display these pages
 Run these commands as root to install this application from a
 distribution tarball:
 
-   tar -xvzf app_munchies-?.?.?.tar.gz
-   cd app_munchies-?.?.?
+   tar -xvzf App-Munchies-?.?.?.tar.gz
+   cd App-Munchies-?.?.?
    ./install.sh
 
 It defaults to installing all files (including the F<var> data) under
@@ -272,7 +290,7 @@ C<install.sh> run
    ./Build --ask
    ./Build distclean
    cd ..
-   tar -czf app_munchies-local.tar.gz app_munchies-?.?.?
+   tar -czf App-Munchies-local.tar.gz App-Munchies-?.?.?
 
 which will create a local tarball. Install from this and you will not
 be prompted to answer any more questions
@@ -288,9 +306,12 @@ complete the F<var> area of the application is about 60Mb in size
 
 This distribution contains a setuid root program. It is used to
 provide limited access to root only functions, e.g. authentication
-against F</etc/shadow>. The build process asks if this should be enabled
+against F</etc/shadow>. The build process asks if this should be
+enabled.  It is not enabled by default
 
 B<N.B.> Remove I<user_root> from F<var/secure/support.sub> if it exists
+
+B<N.B.> Change the password for the admin account in the R02-Database realm
 
 =head1 Subroutines/Methods
 
@@ -303,7 +324,7 @@ This method should be implemented on each of the C::P::S::Store::* backends
 
 =head1 Diagnostics
 
-Append C<-d> to C<bin/munchies_server.pl> to start the mini server in
+Append C<-d> to F<bin/munchies_server.pl> to start the mini server in
 debug mode
 
 Replace the prepare body method in I<Catalyst.pm> with this one
@@ -368,13 +389,13 @@ There are no known bugs in this module.
 Please report problems to the address below.
 Patches are welcome
 
-Remember to patch C<M::B::PodParser::textblock>. Change tests to case
-insensitive pattern matches. Delete requirement for authors to have @s
-Otherwise C<Build dist> will fail to create F<META.yml>
-
 =head1 Author
 
 Peter Flanigan, C<< <Support at RoxSoft.co.uk> >>
+
+=head1 Acknowledgements
+
+Larry Wall - For the Perl programming language
 
 =head1 License and Copyright
 

@@ -1,12 +1,11 @@
-package App::Munchies::Controller::Library::Admin;
+# @(#)$Id: Admin.pm 738 2009-06-09 16:42:23Z pjf $
 
-# @(#)$Id: Admin.pm 622 2009-03-30 23:08:46Z pjf $
+package App::Munchies::Controller::Library::Admin;
 
 use strict;
 use warnings;
-use base qw(CatalystX::Usul::Controller);
-
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 622 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.2.%d', q$Rev: 738 $ =~ /\d+/gmx );
+use parent qw(CatalystX::Usul::Controller);
 
 __PACKAGE__->config( catalog_class => q(Catalog),
                      links_class   => q(Catalog::Links),
@@ -157,7 +156,7 @@ App::Munchies::Controller::Library::Admin - Manage server side bookmarks databas
 
 =head1 Version
 
-0.1.$Revision: 622 $
+0.1.$Revision: 738 $
 
 =head1 Synopsis
 

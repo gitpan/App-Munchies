@@ -1,4 +1,4 @@
-/* @(#)$Id: presentation.css 648 2009-04-07 21:48:46Z pjf $ */
+/* @(#)$Id: presentation.css 725 2009-06-08 00:49:08Z pjf $ */
 
 /*  Elements */
 
@@ -24,9 +24,15 @@ textarea { margin-bottom: 0.5em; }
 
 .bigger { font-size: 1.33em; }
 .centre { text-align: center; }
+.clearLeft { clear: left; }
+.container {
+   float: left; margin-bottom: 2px; position: relative; width: auto;
+}
 .error { background-color: #FCC; color: black; }
+.fullWidth { width: 100%; }
 .heading { font-weight: bold; }
 .hidden { visibility: hidden; }
+.iFrameItem { float: left; overflow: hidden; }
 .info { color: #00F; font-size: 0.75em; }
 .instructions {
    float: left; font-size: 0.75em; text-align: left; width: auto;
@@ -37,14 +43,23 @@ textarea { margin-bottom: 0.5em; }
    font-family: "Andale Mono", monaco, "Courier New", courier, monospace;
 }
 .most { width: 98%; }
+.multiColumn {
+   float: left; max-width: 30em; margin: 0px;
+   padding-left: 1.00em; padding-right: 1.00em;
+   position: relative; text-align: justify; right: 50%;
+   width: auto;
+}
 .narrow { clear: left; margin-left: 4em; margin-right: 4em; }
 .note { font-size: 0.75em; font-weight: bold; }
 .nowrap { white-space: nowrap; }
-.paraColumn {
-	float: left;
-	/* max-width: 30em; */
-	padding-left: 1.00em; padding-right: 1.00em;
-	text-align: justify; width: auto;
+.oneColumn {
+   float: left; margin: 0px;
+   padding-left: 5.00em; padding-right: 5.00em;
+   position: relative; right: 50%; width: auto;
+}
+.paragraphs {
+   clear: left; float: left; margin: 0; padding: 0;
+   position: relative; left: 50%;
 }
 .quickLinkSep { padding-left: 0.25em; }
 .rule { width: 100%; }
@@ -84,8 +99,6 @@ a.toolWidget { height: 20px; line-height: 20px; }
 div.appendItem { display: inline; }
 div.appendItem label.prompt { font-weight: bold; }
 div.button { margin-bottom: 10px; }
-div.clearLeft { clear: left; }
-div.container { float: left; margin-bottom: 2px; position: relative; width: auto; }
 div.footerItem { display: inline; font-weight: bold; }
 div.grid_container { float: left; overflow: hidden; width: auto; }
 div.iFrameItem input, password, select, textarea {
@@ -262,10 +275,14 @@ tr.logfile {
    right: 0px; top: 82px; width: 35px;
 }
 #buttonList { margin-top: 10px; }
+#companyLogo {
+   border-bottom: 1px solid #336; height: 71px;
+   position: absolute; right: 0px; top: 0px; width: 100px;
+   z-index: 5;
+}
 #content {
    border: 1px solid #336; bottom: 0px;
 /*   font-family: georgia, "Times New Roman", times, serif; */
-   font-family: tahoma, verdana, arial, sans-serif;
    left: 10px; line-height: 1.5em; 
    margin-right: 35px; margin-bottom: 5px;
    overflow: auto; padding: 10px;
@@ -310,11 +327,6 @@ tr.logfile {
 #headerTop {
    height: 46px; left: 0px; overflow: hidden; position: absolute; top: 0px;
    right: 0px; white-space: nowrap;
-}
-#companyLogo {
-   border-bottom: 1px solid #336; height: 71px;
-   position: absolute; right: 0px; top: 0px; width: 100px;
-   z-index: 5;
 }
 #sidebar { display: block; }
 #sidebarDisp {
@@ -528,7 +540,6 @@ b.tr4 {
 div.calendar {
 	margin-left: -16px; position: relative; z-index: 50;
 }
-
 .calendar, .calendar table {
   border: 1px solid #336;
   font-size: 11px;
@@ -543,27 +554,22 @@ div.calendar {
   padding: 2px;          /* Make the buttons seem like they're pressing */
   font-size: 90%;
 }
-
 .calendar thead .title { /* This holds the current "month, year" */
   font-weight: bold;      /* Pressing it will take you to the current date */
   text-align: center;
   padding: 2px;
 }
-
 .calendar thead .headrow { /* Row <TR> containing navigation buttons */
 }
-
 .calendar thead .name { /* Cells <TD> containing the day names */
   border-bottom: 1px solid #336;
   padding: 2px;
   text-align: center;
 }
-
 .calendar thead .hilite { /* How do the buttons in header appear when hover */
   border: 1px solid #336;
   padding: 1px;
 }
-
 .calendar thead .active { /* Active (pressed) buttons in header */
   padding: 2px 0px 0px 2px;
 }
@@ -578,35 +584,28 @@ div.calendar {
 .calendar tbody .day.othermonth {
   font-size: 80%;
 }
-
 .calendar table .wn {
   padding: 2px 3px 2px 2px;
   border-right: 1px solid #336;
 }
-
 .calendar tbody td.hilite { /* Hovered cells <TD> */
   padding: 1px 3px 1px 1px;
   border: 1px solid #bbb;
 }
-
 .calendar tbody td.active { /* Active (pressed) cells <TD> */
   padding: 2px 2px 0px 2px;
 }
-
 .calendar tbody td.selected { /* Cell showing today date */
   font-weight: bold;
   border: 1px solid #000;
   padding: 1px 3px 1px 1px;
 }
-
 .calendar tbody td.today {
 	font-weight: bold;
 }
-
 .calendar tbody .emptycell { /* Empty cells (the best is to hide them) */
   visibility: hidden;
 }
-
 .calendar tbody .emptyrow { /* Empty row (some months need less than 6 rows) */
   display: none;
 }
@@ -616,16 +615,13 @@ div.calendar {
 .calendar tfoot .footrow { /* The <TR> in footer (only one right now) */
   text-align: center;
 }
-
 .calendar tfoot .ttip { /* Tooltip (status bar) cell <TD> */
   padding: 2px;
 }
-
 .calendar tfoot .hilite { /* Hover style for buttons in footer */
   border: 1px solid #084;
   padding: 1px;
 }
-
 .calendar tfoot .active { /* Active (pressed) style for buttons in footer */
   padding: 2px 0px 0px 2px;
 }
@@ -643,29 +639,24 @@ div.calendar {
   font-size: 90%;
   z-index: 100;
 }
-
 .calendar .combo .label,
 .calendar .combo .label-IEfix {
   text-align: center;
   padding: 1px;
 }
-
 .calendar .combo .label-IEfix {
   width: 4em;
 }
-
 .calendar .combo .active {
   border-top: 1px solid #6a4;
   border-bottom: 1px solid #6a4;
   font-weight: bold;
 }
-
 .calendar td.time {
   border-top: 1px solid #336;
   padding: 1px 0px;
   text-align: center;
 }
-
 .calendar td.time .hour,
 .calendar td.time .minute,
 .calendar td.time .ampm {
@@ -673,20 +664,16 @@ div.calendar {
   border: 1px solid #336;
   font-weight: bold;
 }
-
 .calendar td.time .ampm {
   text-align: center;
 }
-
 .calendar td.time .colon {
   padding: 0px 2px 0px 3px;
   font-weight: bold;
 }
-
 .calendar td.time span.hilite {
   border-color: #000;
 }
-
 .calendar td.time span.active {
   border-color: #f00;
 }

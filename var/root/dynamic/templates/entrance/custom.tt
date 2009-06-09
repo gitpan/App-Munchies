@@ -1,5 +1,5 @@
 <!--
-@(#)$Id: custom.tt 593 2009-02-15 17:45:12Z pjf $
+@(#)$Id: custom.tt 720 2009-06-06 17:21:46Z pjf $
 -->
 <div class="narrow">
    <h3>Custom Template Demonstration</h3>
@@ -10,6 +10,6 @@
    </span>
    [% self = '' %]
    <span class="comment">
-      Localisation test [% self.loc( 'eNotFound', 'dummy' ) %]
+      Localisation test [% self.loc( 'File [_1] not found', 'dummy' ) %]
    </span>
 </div>

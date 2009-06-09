@@ -1,19 +1,14 @@
-package App::Munchies::Controller::Entrance;
+# @(#)$Id: Entrance.pm 738 2009-06-09 16:42:23Z pjf $
 
-# @(#)$Id: Entrance.pm 655 2009-04-09 20:17:54Z pjf $
+package App::Munchies::Controller::Entrance;
 
 use strict;
 use warnings;
-use base qw(CatalystX::Usul::Controller::Entrance);
-use Class::C3;
-
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 655 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.2.%d', q$Rev: 738 $ =~ /\d+/gmx );
+use parent qw(CatalystX::Usul::Controller::Entrance);
 
 sub clock : Chained(common) Args(0) Public {
-   my ($self, $c) = @_;
-
-   $c->model( q(DemoText) )->deskclock( $c->uri_for( q(/static) ) );
-   return;
+   my ($self, $c) = @_; $c->model( q(DemoText) )->deskclock; return;
 }
 
 sub common : Chained(base) PathPart('') CaptureArgs(0) {
@@ -33,19 +28,12 @@ sub custom : Chained(reception_base) Args {
 sub empty : Chained(common) Args(0) Public {
 }
 
-sub information : Chained(base) Args(0) Public HasActions {
-   my ($self, $c) = @_; my $s = $c->stash;
-
-   my $model = $c->model( q(DemoText) );
-
-   $model->fortune( $s->{os}->{fortune}->{value} || $model->fortune );
-   $model->insultd( $s->{os}->{insultd}->{value} || $model->insultd );
-   $model->information;
-   return;
+sub information : Chained(base) Args(0) Public {
+   my ($self, $c) = @_; $c->model( q(DemoText) )->information; return;
 }
 
-sub overview : Chained(base) Args(0) Public HasActions {
-    return shift->next::method( @_ );
+sub overview : Chained(base) Args(0) Public {
+   my ($self, $c) = @_; $self->next::method( $c ); return;
 }
 
 sub sampler : Chained(reception_base) Args(0) HasActions {
@@ -95,7 +83,7 @@ App::Munchies::Controller::Entrance - Welcome to this application framework
 
 =head1 Version
 
-$Revision: 655 $
+$Revision: 738 $
 
 =head1 Synopsis
 

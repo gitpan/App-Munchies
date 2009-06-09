@@ -10,7 +10,7 @@
 <!ELEMENT rooms       (ARRAY)*>
 <!ELEMENT vals        (ARRAY)*>
 <config>
-  <_cvs_lang_level>@(#)$Id: library_en.xml 639 2009-04-05 17:47:16Z pjf $</_cvs_lang_level>
+  <_cvs_lang_level>@(#)$Id: library_en.xml 717 2009-06-06 15:34:15Z pjf $</_cvs_lang_level>
   <buttons>
     <name>collection_view.add</name>
     <error>Failed to add the link(s) because</error>
@@ -261,14 +261,6 @@ Follow the links to access the different pages within the subject
          1/2 cup = 120ml = 4oz = 112 grams&lt;br&gt;
          1   cup = 240ml = 8oz = 224 grams&lt;/div&gt;
      </text>
-  </messages>
-  <messages>
-    <name>eBadLink</name>
-    <text>Link [_1] does not have a URL defined</text>
-  </messages>
-  <messages>
-    <name>eNoLink</name>
-    <text>Link [_1] does not exist</text>
   </messages>
   <messages>
     <name>linkUpdated</name>

@@ -1,19 +1,21 @@
-package App::Munchies::Model::MealMaster;
+# @(#)$Id: MealMaster.pm 738 2009-06-09 16:42:23Z pjf $
 
-# @(#)$Id: MealMaster.pm 655 2009-04-09 20:17:54Z pjf $
+package App::Munchies::Model::MealMaster;
 
 use strict;
 use warnings;
+use version; our $VERSION = qv( sprintf '0.2.%d', q$Rev: 738 $ =~ /\d+/gmx );
 use parent qw(CatalystX::Usul::Model);
+
+use App::Munchies::Model::Catalog;
+use App::Munchies::MealMaster::KinoSearch;
 use Class::C3;
 use English qw(-no_match_vars);
 use MealMaster;
 use Template::Stash;
 
-use App::Munchies::Model::Catalog;
-use App::Munchies::MealMaster::KinoSearch;
-
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 655 $ =~ /\d+/gmx );
+my $NUL = q();
+my $SEP = q(/);
 
 __PACKAGE__->config
    ( alpha_cat_offset   => 7,
@@ -39,18 +41,16 @@ __PACKAGE__->mk_accessors( qw(alpha_cat_offset app binsdir
                               ingredients_fields invindex labels
                               readTT recipes search_model writeTT) );
 
-my $SEP = q(/);
-
 sub new {
    my ($self, $app, @rest) = @_;
 
-   my $new    = $self->next::method( $app, @rest );
-   my $config = $app->config || {};
+   my $new      = $self->next::method( $app, @rest );
+   my $app_conf = $app->config || {};
 
-   $new->app(      $app );
-   $new->binsdir(  $config->{binsdir} );
-   $new->dir(      $new->catdir( $config->{root}, $new->dir ) );
-   $new->invindex( $new->catfile( $new->dir, $new->invindex ) );
+   $new->app     ( $app                                          );
+   $new->binsdir ( $app_conf->{binsdir}                          );
+   $new->dir     ( $new->catdir ( $app_conf->{root}, $new->dir ) );
+   $new->invindex( $new->catfile( $new->dir, $new->invindex    ) );
 
    $Template::Stash::SCALAR_OPS->{sprintf} = sub {
       my ($val, $format) = @_; return sprintf $format, $val;
@@ -99,7 +99,8 @@ sub catalog_mmf {
    %cats = (); $cid = 5; @paths = (); $replace = {}; $suppress = {};
 
    unless (-d $self->dir) {
-      $self->throw( error => q(eNoRecipeDir), arg1 => $self->dir );
+      $self->throw( error => 'Directory [_1] not found',
+                    args  => [ $self->dir ] );
    }
 
    if ($args[0]) { push @paths, @args }
@@ -161,7 +162,7 @@ sub catalog_mmf {
          $ingredients
                  = join q( ), map { $_->product } @{ $recipe->ingredients };
          $ref    = { nid => $cid, name => $digest, text => $title,
-                     url => $url, info => q() };
+                     url => $url, info => $NUL };
 
          unless (($res = eval { $links->create($ref) }) && ($lid = $res->id)) {
             $dup++; next;
@@ -179,7 +180,7 @@ sub catalog_mmf {
          $ref   = { gid => $gid, nid => 1, lid => $lid };
 
          unless ($nodes->create( $ref )){
-            $self->throw( 'Failed to create node' );
+            $self->throw( 'Failed to create node object' );
          }
 
          for $cat (@{ $recipe->categories }) {
@@ -190,7 +191,7 @@ sub catalog_mmf {
             $cat =~ s{ \s+ \z }{}msx;
             $cat = join q( ), map { ucfirst $_ } split q( ), lc $cat;
             $cat = $replace->{ $cat } if (exists $replace->{ $cat });
-            $cat = q()                if (exists $suppress->{ $cat });
+            $cat = $NUL               if (exists $suppress->{ $cat });
 
             next unless ($cat);
 
@@ -198,33 +199,33 @@ sub catalog_mmf {
                $ref = { text => $cat };
 
                unless (($res = $names->create( $ref )) && ($gid = $res->id)) {
-                  $self->throw( 'Failed to create name' );
+                  $self->throw( 'Failed to create name object' );
                }
 
                $cats{ $cat } = $gid;
                $ref = { gid => $cid, nid => $gid, lid => 1 };
 
                unless ($nodes->create( $ref )) {
-                  $self->throw( 'Failed to create node' );
+                  $self->throw( 'Failed to create node object' );
                }
             }
 
             $ref = { gid => $gid, nid => 1, lid => $lid };
 
             unless ($nodes->create( $ref )) {
-               $self->throw( 'Failed to create node' );
+               $self->throw( 'Failed to create node object' );
             }
          }
 
          $cnt++;
       }
 
-      $out   .= 'Cataloged '.$cnt.' duplicates '.$dup.' from ';
+      $out   .= "Cataloged $cnt duplicates $dup from ";
       $out   .= $self->basename( $path )."\n";
       $total += $cnt;
    }
 
-   $out .= 'Total '.$total.' cataloged';
+   $out .= "Total $total cataloged";
    $indexer->finish( optimize => 1 );
    return $out;
 }
@@ -239,11 +240,11 @@ sub conversion {
 }
 
 sub create {
-   my ($self, $file, $attrs) = @_; my ($cmd, $e, $mode, $path, $text, $tmplt);
+   my ($self, $file, $attrs) = @_; my ($e, $text, $tmplt);
 
-   $self->throw( q(eNoRecipeFile) ) unless ($file);
+   $self->throw( 'No file path specified' ) unless ($file);
 
-   $path = $self->catfile( $self->dir, $file.'.mmf' );
+   my $path = $self->_get_recipe_path( $file );
 
    $self->throw( $Template::ERROR ) unless ($tmplt = Template->new( $self ));
 
@@ -252,7 +253,8 @@ sub create {
    }
 
    $self->lock->set( k => $path );
-   $mode = -f $path ? q(a) : q(w);
+
+   my $mode = -f $path ? q(a) : q(w);
 
    eval { $self->io( $path, $mode )->print( $text ) };
 
@@ -265,32 +267,34 @@ sub create {
 }
 
 sub create_or_update {
-   my $self = shift;
-   my ($attrs, $categories, $file, @flds, $i, $name, $nrows, $res, $title);
+   my $self = shift; my ($file, $name, $nrows, $res, $title);
 
    unless ($name = $self->query_value( q(recipe) )) {
-      $self->throw( q(eNoRecipeName) );
+      $self->throw( 'No recipe name specified' );
    }
 
    unless ($file = $self->query_value( q(file) )) {
-      $self->throw( q(eNoRecipeFile) );
+      $self->throw( 'No file path specified' );
    }
 
    unless ($title = $self->query_value( q(title) )) {
-      $self->throw( q(eNoRecipeTitle) );
+      $self->throw( 'No recipe title specified' );
    }
 
-   @flds  = qw(title yield directions);
-   $attrs = { categories => [], ingredients => [] };
+   my @flds  = qw(title yield directions);
+   my $attrs = { categories => [], ingredients => [] };
 
    for (@flds) { $attrs->{ $_ } = $self->query_value( $_ ) }
 
    $attrs->{categories} = $self->query_array( q(categories) );
 
-   $self->throw( q(eNoCategories) ) unless ($attrs->{categories}->[0]);
+   unless ($attrs->{categories}->[0]) {
+      $self->throw( error => 'Recipe [_1] has no categories',
+                    args  => [ $name ] );
+   }
 
    if ($nrows = $self->query_value( q(ingredients_nrows) )) {
-      for $i (0 .. $nrows - 1) {
+      for my $i (0 .. $nrows - 1) {
          push @{ $attrs->{ingredients} },
            { measure  => $self->query_value( q(ingredients_measure).$i ),
              product  => $self->query_value( q(ingredients_product).$i ),
@@ -302,48 +306,44 @@ sub create_or_update {
    $attrs = $self->check_form( $attrs );
    $res   = $self->retrieve(   $file, $self->make_key( $title ) );
 
-   if (!$res->found) {
-      $self->add_result( $self->create( $file, $attrs ) );
-   }
+   unless ($res->found) { $self->add_result( $self->create( $file, $attrs ) ) }
    else { $self->add_result( $self->update( $file, $attrs ) ) }
 
    return $name;
 }
 
 sub delete {
-   my $self = shift;
-   my ($e, $file, $found, $key, $mm, $path, $recipe, @recipes);
-   my ($ref, $text, $tmplt, $wtr);
+   my $self = shift; my ($e, $file, $found, $unwanted, $tmplt);
 
    unless ($file = $self->query_value( q(file) )) {
-      $self->throw( q(eNoRecipeFile) );
+      $self->throw( 'No file path specified' );
    }
 
-   unless ($recipe = $self->query_value( q(recipe) )) {
-      $self->throw( q(eNoRecipeName) );
+   unless ($unwanted = $self->query_value( q(recipe) )) {
+      $self->throw( 'No recipe name specified' );
    }
 
-   $path = $self->catfile( $self->dir, $file.'.mmf' );
+   my $path = $self->_get_recipe_path( $file );
+
    $self->lock->set( k => $path );
 
    unless (-f $path) {
       $self->lock->reset( k => $path );
-      $self->throw( error => q(eNotFound), arg1 => $path );
+      $self->throw( error => 'File [_1] not found', args => [ $path ] );
    }
 
-   $mm      = MealMaster->new();
-   @recipes = $mm->parse( $path );
-   $wtr     = $self->io( $path )->atomic;
+   my $mm  = MealMaster->new(); my @recipes = $mm->parse( $path );
+
+   my $wtr = $self->io( $path )->atomic;
 
    eval {
-      for $ref (@recipes) {
-         $key  = $self->make_key( $ref->{title} );
-         $text = q();
+      for my $recipe (@recipes) {
+         my $key = $self->make_key( $recipe->{title} ); my $text = $NUL;
 
-         if ($key eq $recipe && !$found) { $found = 1 }
+         if (not $found and $key eq $unwanted) { $found = 1 }
          else {
             if ($tmplt = Template->new( $self )) {
-               if ($tmplt->process( $self->writeTT, $ref, \$text )) {
+               if ($tmplt->process( $self->writeTT, $recipe, \$text )) {
                   $wtr->print( $text );
                }
                else { $self->throw( $tmplt->error() ) }
@@ -360,11 +360,11 @@ sub delete {
    $wtr->close(); $self->lock->reset( k => $path );
 
    unless ($found) {
-      $self->throw( error => q(eNoRecipeFound),
-                    arg1  => $recipe, arg2 => $path );
+      $self->throw( error => 'File [_1] recipe [_2] unknown',
+                    args  => [ $path, $unwanted ] );
    }
 
-   $self->add_result_msg( q(recipeDeleted), $recipe, $path );
+   $self->add_result_msg( q(recipeDeleted), $unwanted, $path );
    return;
 }
 
@@ -372,11 +372,11 @@ sub index {
    my $self = shift; my ($args, $cmd, $file);
 
    unless ($file = $self->query_value( q(file) )) {
-      $self->throw( q(eNoRecipeFile) );
+      $self->throw( 'No file path specified' );
    }
 
    $cmd  = $self->catfile( $self->binsdir, $self->prefix.q(_schema) );
-   $cmd .= ' -n -c catalog_mmf -- '.$self->catfile( $self->dir, $file.'.mmf' );
+   $cmd .= ' -n -c catalog_mmf -- '.$self->_get_recipe_path( $file );
    $args = { debug => $self->debug, err => q(out) };
    $self->add_result( $self->run_cmd( $cmd, $args )->out );
    return;
@@ -402,8 +402,8 @@ sub recipes_view_form {
    return $self->add_error( $e ) if ($e = $self->catch);
 
    my $s       = $self->context->stash;
-   my $files   = $data->files;   unshift @{ $files   }, q(), $s->{newtag};
-   my $recipes = $data->recipes; unshift @{ $recipes }, q(), $s->{newtag};
+   my $files   = $data->files;   unshift @{ $files   }, $NUL, $s->{newtag};
+   my $recipes = $data->recipes; unshift @{ $recipes }, $NUL, $s->{newtag};
    my $fields  = $data->flds;
    my $form    = $s->{form}->{name};
    my $id      = $form.q(.file);
@@ -418,7 +418,7 @@ sub recipes_view_form {
 
    if ($file) {
       if ($file eq $s->{newtag}) {
-         my $name = $self->query_value( q(name) ) || q();
+         my $name = $self->query_value( q(name) ) || $NUL;
 
          $self->add_field( { default => $name, id => $form.q(.name) } );
          $nitems++;
@@ -452,104 +452,102 @@ sub recipes_view_form {
                           stepno  => $step++ } );
    $self->group_fields( { id      => $form.q(.edit), nitems => 5 } );
 
-   if ($recipe eq $s->{newtag}) {
-      $self->add_buttons( qw(Insert Index) );
-   }
+   if ($recipe eq $s->{newtag}) { $self->add_buttons( qw(Insert Index) ) }
    else { $self->add_buttons( qw(Save Delete Index) ) }
 
    return;
 }
 
 sub render {
-   my ($self, $items, $file, $recipe) = @_;
-   my ($key, $mm, $path, @recipes, $ref, $text, $tmplt);
+   my ($self, $items, $file, $wanted) = @_; my $tmplt;
 
-   $recipe
-      = $recipe =~ m{ \A recipe= }msx ? (split m{ = }msx, $recipe)[1] : q();
-   $path = $self->catfile( $self->dir, $file );
+   my $path = $self->catfile( $self->dir, $file );
+
    $self->lock->set( k => $path );
 
    unless (-f $path) {
       $self->lock->reset( k => $path );
-      $self->throw( error => q(eNotFound), arg1 => $path );
+      $self->throw( error => 'File [_1] not found', args => [ $path ] );
    }
 
-   $mm = MealMaster->new();
-   @recipes = $mm->parse( $path );
+   my $mm = MealMaster->new(); my @recipes = $mm->parse( $path );
+
    $self->lock->reset( k => $path );
 
-   for $ref (@recipes) {
-      $key  = $self->make_key( $ref->{title} );
-      $text = q();
+   $wanted = $wanted =~ m{ \A recipe= }msx
+           ? (split m{ = }msx, $wanted)[1] : $NUL;
 
-      if (!$recipe || $recipe eq $key) {
+   for my $recipe (@recipes) {
+      my $key = $self->make_key( $recipe->{title} ); my $text = $NUL;
+
+      if (not $wanted or $key eq $wanted) {
          if ($tmplt = Template->new( $self )) {
-            unless ($tmplt->process( $self->readTT, $ref, \$text )) {
+            unless ($tmplt->process( $self->readTT, $recipe, \$text )) {
                $text = $tmplt->error();
             }
          }
          else { $text = $Template::ERROR }
 
-         push @{ $items }, { content => $text };
+         push @{ $items }, { class => q(clearLeft), content => $text };
 
-         return if ($recipe);
+         return if ($wanted);
       }
    }
 
-   if ($recipe) {
-      $self->throw( error => q(eNoRecipeFound),
-                    arg1  => $recipe, arg2 => $file );
+   if ($wanted) {
+      $self->throw( error => 'File [_1] recipe [_2] unknown',
+                    args  => [ $file, $wanted ] );
    }
 
    return;
 }
 
 sub retrieve {
-   my ($self, $file, $recipe) = @_;
-   my ($data, $key, $mm, $new, $path, @recipes, $ref, $s);
+   my ($self, $file, $wanted) = @_;
 
-   $s   = $self->context->stash;
-   $new = bless { files       => [],
-                  flds        => {},
-                  found       => 0,
-                  ingredients => { %{ $self->config->{ingredients_fields} } },
-                  labels      => {},
-                  recipes     => [] }, ref $self;
-
-   $self->throw( q(eNoDirectory) ) unless ($self->dir);
+   my $s      = $self->context->stash;
+   my $path   = $self->_get_recipe_path( $file );
+   my %fields = %{ $self->config->{ingredients_fields} };
+   my $new    = bless { files       => [],
+                        flds        => {},
+                        found       => 0,
+                        ingredients => { %fields },
+                        labels      => {},
+                        recipes     => [] }, ref $self;
 
    @{ $new->files } = sort { lc $a cmp lc $b        }
                       map  { s{ \.mmf \z }{}msx; $_ }
                       grep { m{ \.mmf \z }msx       }
                       $self->io( $self->dir )->read_dir;
 
-   return $new if (!$file || $file eq $s->{newtag});
+   return $new if (not $file or $file eq $s->{newtag});
 
-   $path = $self->catfile( $self->dir, $file.'.mmf' );
    $self->lock->set( k => $path );
 
    unless (-f $path) {
       $self->lock->reset( k => $path );
-      $self->throw( error => q(eNotFound), arg1 => $path );
+      $self->throw( error => 'File [_1] not found', args => [ $path ] );
    }
 
-   $mm      = MealMaster->new();
-   @recipes = $mm->parse( $path );
+   my $mm = MealMaster->new(); my @recipes = $mm->parse( $path );
+
    $self->lock->reset( k => $path );
 
-   for $ref (@recipes) {
-      $key = $self->make_key( $ref->{title} );
+   for my $recipe (@recipes) {
+      my $key = $self->make_key( $recipe->{title} );
+
       push @{ $new->recipes }, $key;
       ($new->labels->{ $key } = substr $key, 0, 40) =~ s{_}{ }gmsx;
 
-      if ($recipe && $recipe eq $key) {
-         push @{ $new->ingredients->{values} }, @{ $ref->{ingredients} };
+      if ($wanted and $key eq $wanted) {
+         push @{ $new->ingredients->{values} }, @{ $recipe->{ingredients} };
 
-         $new->flds( $ref ); $new->found( 1 );
+         $new->flds( $recipe ); $new->found( 1 );
       }
    }
 
    @{ $new->recipes } = sort { lc $a cmp lc $b } @{ $new->recipes };
+
    return $new;
 }
 
@@ -564,45 +562,45 @@ sub search_for {
 }
 
 sub update {
-   my ($self, $file, $attrs) = @_;
-   my ($e, $key, $mm, $path, $recipe, @recipes, $ref, $text, $tmplt, $wtr);
+   my ($self, $file, $attrs) = @_; my ($e, $tmplt);
 
-   $self->throw( q(eNoRecipeFile) ) unless ($file);
-   $self->throw( q(eNoRecipeName) ) unless ($attrs->{title});
+   $self->throw( 'No file path specified'    ) unless ($file);
+   $self->throw( 'No recipe title specified' ) unless ($attrs->{title});
 
-   $path   = $self->catfile( $self->dir, $file.'.mmf' );
-   $recipe = $self->make_key ( $attrs->{title} );
+   my $path = $self->catfile( $self->dir, $file.q(.mmf) );
+
    $self->lock->set( k => $path );
 
    unless (-f $path) {
       $self->lock->reset( k => $path );
-      $self->throw( error => q(eNotFound), arg1 => $path );
+      $self->throw( error => 'File [_1] not found', args => [ $path ] );
    }
 
-   $mm      = MealMaster->new();
-   @recipes = $mm->parse( $path );
-   $wtr     = $self->io( $path );
+   my $mm      = MealMaster->new();
+   my @recipes = $mm->parse( $path );
+   my $wtr     = $self->io( $path )->atomic;
+   my $wanted  = $self->make_key( $attrs->{title} );
 
    eval {
-      for $ref (@recipes) {
-         $key  = $self->make_key( $ref->{title} );
-         $text = q();
+      for my $recipe (@recipes) {
+         my $key = $self->make_key( $recipe->{title} ); my $text = $NUL;
 
-         if ($tmplt = Template->new( $self )) {
-            if ($key eq $recipe) {
-               unless ($tmplt->process( $self->writeTT, $attrs, \$text )) {
-                  $self->throw( $tmplt->error() );
-               }
-            }
-            else {
-               unless ($tmplt->process( $self->writeTT, $ref, \$text )) {
-                  $self->throw( $tmplt->error() );
-               }
-            }
-
-            $wtr->print( $text );
+         unless ($tmplt = Template->new( $self )) {
+            $self->throw( $Template::ERROR );
          }
-         else { $self->throw( $Template::ERROR ) }
+
+         if ($key eq $wanted) {
+            unless ($tmplt->process( $self->writeTT, $attrs, \$text )) {
+               $self->throw( $tmplt->error() );
+            }
+         }
+         else {
+            unless ($tmplt->process( $self->writeTT, $recipe, \$text )) {
+               $self->throw( $tmplt->error() );
+            }
+         }
+
+         $wtr->print( $text );
       }
    };
 
@@ -613,6 +611,18 @@ sub update {
    $wtr->close;
    $self->lock->reset( k => $path );
    return $self->loc( 'Updated [_1] in [_2]', $attrs->{title}, $path );
+}
+
+# Private methods
+
+sub _get_recipe_path {
+   my ($self, $file) = @_; my $dir = $self->dir; $file ||= q(default);
+
+   unless ($dir and -d $dir) {
+      $self->throw( error => 'Directory [_1] not found', args => [ $dir ] );
+   }
+
+   return $self->catfile( $dir, $file.q(.mmf) );
 }
 
 1;
@@ -627,7 +637,7 @@ App::Munchies::Model::MealMaster - Manipulate food recipes stored in MMF format
 
 =head1 Version
 
-0.1.$Revision: 655 $
+0.1.$Revision: 738 $
 
 =head1 Synopsis
 

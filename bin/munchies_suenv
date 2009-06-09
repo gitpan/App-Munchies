@@ -1,6 +1,6 @@
-#!/bin/ksh
+#!/usr/bin/env ksh
 
-# @(#)$Id: munchies_suenv 589 2009-01-21 16:00:16Z pjf $
+# @(#)$Id: munchies_suenv 721 2009-06-06 17:23:13Z pjf $
 
 if [ ! "${DT}" ]
 then

@@ -1,12 +1,11 @@
-package App::Munchies::Controller::Library::Catalog;
+# @(#)$Id: Catalog.pm 738 2009-06-09 16:42:23Z pjf $
 
-# @(#)$Id: Catalog.pm 639 2009-04-05 17:47:16Z pjf $
+package App::Munchies::Controller::Library::Catalog;
 
 use strict;
 use warnings;
-use base qw(CatalystX::Usul::Controller);
-
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 639 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.2.%d', q$Rev: 738 $ =~ /\d+/gmx );
+use parent qw(CatalystX::Usul::Controller);
 
 __PACKAGE__->config( catalog_class => q(Catalog),
                      data_class    => q(MealMaster),
@@ -27,12 +26,12 @@ sub browse : Chained(common) Args Public {
    $self->redirect_to_path( $c, $SEP.q(catalog) ) unless ($id);
 
    unless ($res = $c->model( $self->links_class )->find( $id )) {
-      $self->log_error( $self->loc( q(eNoLink), $id ) );
+      $self->log_error( $self->loc( $c, 'Link [_1] unknown', $id ) );
       return;
    }
 
    unless ($res->url) {
-      $self->log_error( $self->loc( q(eBadLink), $id ) );
+      $self->log_error( $self->loc( $c, 'Link [_1] no URL', $id ) );
       return;
    }
 
@@ -144,7 +143,7 @@ App::Munchies::Controller::Library::Catalog - Server side bookmarks
 
 =head1 Version
 
-0.1.$Revision: 639 $
+0.1.$Revision: 738 $
 
 =head1 Synopsis
 

@@ -1,18 +1,22 @@
-# @(#)$Id: 05kwalitee.t 546 2008-11-22 22:23:20Z pjf $
+# @(#)$Id: 05kwalitee.t 685 2009-04-23 00:25:10Z pjf $
 
 use strict;
 use warnings;
 use File::Spec::Functions;
-use FindBin ();
+use English  qw( -no_match_vars );
+use FindBin  qw( $Bin );
+use lib (catdir( $Bin, updir, q(lib) ));
 use Test::More;
 
-if (!-e catfile( $FindBin::Bin, updir, q(MANIFEST.SKIP) )) {
+use version; our $VERSION = qv( sprintf '0.2.%d', q$Rev: 685 $ =~ /\d+/gmx );
+
+if (!-e catfile( $Bin, updir, q(MANIFEST.SKIP) )) {
    plan skip_all => 'Kwalitee test only for developers';
 }
 
 eval { require Test::Kwalitee; };
 
-plan skip_all => 'Test::Kwalitee not installed' if ($@);
+plan skip_all => 'Test::Kwalitee not installed' if ($EVAL_ERROR);
 
 Test::Kwalitee->import();
 

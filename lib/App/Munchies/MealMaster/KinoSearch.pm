@@ -1,16 +1,15 @@
-package App::Munchies::MealMaster::KinoSearch;
+# @(#)$Id: KinoSearch.pm 738 2009-06-09 16:42:23Z pjf $
 
-# @(#)$Id: KinoSearch.pm 643 2009-04-06 23:07:37Z pjf $
+package App::Munchies::MealMaster::KinoSearch;
 
 use strict;
 use warnings;
-
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 643 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.2.%d', q$Rev: 738 $ =~ /\d+/gmx );
 
 package # Hide from indexer
    MealMaster::KinoSearch::Schema::NoAnalNoVector;
 
-use base qw(KinoSearch::Schema::FieldSpec);
+use parent qw(KinoSearch::Schema::FieldSpec);
 
 sub analyzed   { return 0 }
 
@@ -19,7 +18,7 @@ sub vectorized { return 0 }
 package # Hide from indexer
    MealMaster::KinoSearch::Schema::NoAnalNoIndexNoVector;
 
-use base qw(KinoSearch::Schema::FieldSpec);
+use parent qw(KinoSearch::Schema::FieldSpec);
 
 sub analyzed   { return 0 }
 
@@ -30,7 +29,8 @@ sub vectorized { return 0 }
 package # Hide from indexer
    MealMaster::KinoSearch::Schema;
 
-use base qw(KinoSearch::Schema);
+use parent qw(KinoSearch::Schema);
+
 use KinoSearch::Analysis::PolyAnalyzer;
 
 our %fields = (
@@ -93,7 +93,7 @@ App::Munchies::MealMaster::KinoSearch - Text search model for food recipes in MM
 
 =head1 Version
 
-0.1.$Revision: 643 $
+0.1.$Revision: 738 $
 
 =head1 Synopsis
 

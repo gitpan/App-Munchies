@@ -1,10 +1,12 @@
-package App::Munchies::Programs::Misc;
+# @(#)$Id: Misc.pm 738 2009-06-09 16:42:23Z pjf $
 
-# @(#)$Id: Misc.pm 636 2009-04-01 11:51:05Z pjf $
+package App::Munchies::Programs::Misc;
 
 use strict;
 use warnings;
-use base qw(CatalystX::Usul::Programs);
+use version; our $VERSION = qv( sprintf '0.2.%d', q$Rev: 738 $ =~ /\d+/gmx );
+use parent qw(CatalystX::Usul::Programs);
+
 use CatalystX::Usul::FileSystem;
 use CatalystX::Usul::ProjectDocs;
 use CatalystX::Usul::TapeDevice;
@@ -15,22 +17,23 @@ use File::Path;
 use File::Spec;
 use XML::Simple;
 
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 636 $ =~ /\d+/gmx );
-
 my $NUL = q();
 
 __PACKAGE__->mk_accessors( qw(delete_after file_class intfdir
                               rel_class rprtdir tape_class version) );
 
 sub new {
-   my ($class, @rest) = @_; my $self = $class->next::method( @rest );
+   my ($class, @rest) = @_;
+
+   my $self = $class->next::method( @rest );
 
    $self->delete_after( $self->delete_after || 35 );
-   $self->file_class(   q(CatalystX::Usul::FileSystem) );
-   $self->intfdir(      $self->catfile( $self->vardir, q(transfer) ) );
-   $self->rprtdir(      $self->catfile( $self->vardir, q(root), q(reports) ) );
-   $self->tape_class(   q(CatalystX::Usul::TapeDevice) );
-   $self->version(      $VERSION );
+   $self->file_class  ( q(CatalystX::Usul::FileSystem) );
+   $self->intfdir     ( $self->catfile( $self->vardir, q(transfer) ) );
+   $self->rprtdir     ( $self->catfile( $self->vardir, q(root), q(reports) ) );
+   $self->tape_class  ( q(CatalystX::Usul::TapeDevice) );
+   $self->version     ( $VERSION );
+
    return $self;
 }
 
@@ -88,7 +91,7 @@ sub house_keeping {
             }
          }
 
-         $self->info( 'Transport '.$entry.' mod time '.$delete_after );
+         $self->info( "Transport $entry mod time $delete_after" );
          $self->purge_tree( $entry->name, 0, $delete_after );
       }
 
@@ -101,7 +104,7 @@ sub house_keeping {
 
 sub pod2html {
    my $self     = shift;
-   my $libroot  = $ARGV[0] || $self->catdir( $self->appldir, 'lib'  );
+   my $libroot  = $ARGV[0] || $self->catdir( $self->appldir, q(lib) );
    my $rootdir  = $ARGV[1] || $self->root;
    my $metafile = $self->catfile( $self->ctrldir, q(META.yml) );
    my $meta     = $self->get_meta( $metafile );
@@ -203,7 +206,7 @@ App::Munchies::Programs::Misc - A collection of miscellaneous subroutines
 
 =head1 Version
 
-0.1.$Revision: 636 $
+0.1.$Revision: 738 $
 
 =head1 Synopsis
 

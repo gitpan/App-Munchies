@@ -1,17 +1,16 @@
-package App::Munchies::Schema;
+# @(#)$Id: Schema.pm 738 2009-06-09 16:42:23Z pjf $
 
-# @(#)$Id: Schema.pm 629 2009-03-31 08:37:27Z pjf $
+package App::Munchies::Schema;
 
 use strict;
 use warnings;
-use base qw(CatalystX::Usul::Programs CatalystX::Usul::Schema);
-use DBI;
+use version; our $VERSION = qv( sprintf '0.2.%d', q$Rev: 738 $ =~ /\d+/gmx );
+use parent qw(CatalystX::Usul::Programs CatalystX::Usul::Schema);
 
 use App::Munchies::Model::MealMaster;
 use App::Munchies::Schema::Authentication;
 use App::Munchies::Schema::Catalog;
-
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 629 $ =~ /\d+/gmx );
+use DBI;
 
 __PACKAGE__->mk_accessors( qw(auth_schema catalog_schema ctlfile
                               database driver dsn host password
@@ -134,7 +133,7 @@ App::Munchies::Schema - Command line database utility methods
 
 =head1 Version
 
-0.1.$Revision: 629 $
+0.1.$Revision: 738 $
 
 =head1 Synopsis
 

@@ -13,7 +13,6 @@
   <_cvs_default>@(#)$Id: default.xml 474 2008-09-01 22:48:04Z pjf$</_cvs_default>
   <fields>
     <name>app_closed.passwd</name>
-    <clear>left</clear>
     <type>password</type>
   </fields>
   <fields>
@@ -77,10 +76,6 @@
     <value>40</value>
   </globals>
   <globals>
-    <name>remote_id</name>
-    <value>pjf</value>
-  </globals>
-  <globals>
     <name>ssh_id</name>
     <value>/opt/app-munchies/.ssh/id_rsa</value>
   </globals>
@@ -108,37 +103,37 @@
   </messages>
   <pages>
     <name>about</name>
-    <class>centre narrow</class>
+    <class>centre</class>
     <columns>1</columns>
   </pages>
   <pages>
     <name>app_closed</name>
-    <class>centre narrow</class>
+    <class>centre</class>
     <columns>1</columns>
   </pages>
   <pages>
     <name>closed</name>
-    <class>centre narrow</class>
+    <class>centre</class>
     <columns>1</columns>
   </pages>
   <pages>
     <name>company</name>
-    <class>centre narrow</class>
+    <class>centre</class>
     <columns>1</columns>
   </pages>
   <pages>
     <name>cracker</name>
-    <class>centre narrow</class>
+    <class>centre</class>
     <columns>1</columns>
   </pages>
   <pages>
     <name>default</name>
-    <class>centre narrow</class>
+    <class>centre</class>
     <columns>1</columns>
   </pages>
   <pages>
     <name>error</name>
-    <class>centre narrow</class>
+    <class>centre</class>
     <columns>1</columns>
   </pages>
   <rooms>

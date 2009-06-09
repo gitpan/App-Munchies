@@ -1,29 +1,32 @@
-package App::Munchies::Programs::Suid;
+# @(#)$Id: Suid.pm 738 2009-06-09 16:42:23Z pjf $
 
-# @(#)$Id: Suid.pm 639 2009-04-05 17:47:16Z pjf $
+package App::Munchies::Programs::Suid;
 
 use strict;
 use warnings;
-use base qw(CatalystX::Usul::Programs);
-use CatalystX::Usul::Model::Identity;
+use version; our $VERSION = qv( sprintf '0.2.%d', q$Rev: 738 $ =~ /\d+/gmx );
+use parent qw(CatalystX::Usul::Programs);
+
+use CatalystX::Usul::Roles::Unix;
+use CatalystX::Usul::Users::Suid;
 use Class::C3;
+use English         qw(-no_match_vars);
 use IO::Interactive qw(is_interactive);
 
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 639 $ =~ /\d+/gmx );
-
-__PACKAGE__->mk_accessors( qw(identity parms secsdir version) );
+__PACKAGE__->mk_accessors( qw(parms roles secsdir users version) );
 
 sub new {
-   my ($class, @rest) = @_;
-   my $self     = $class->next::method( $class->arg_list( @rest ) );
-   my $config   = { role_class => q(Roles::Unix), user_class => q(Suid) };
-   my $id_class = q(CatalystX::Usul::Model::Identity);
+   my ($self, @rest) = @_;
 
-   $self->{identity} = $id_class->new( $self, $config );
-   $self->{parms   } = { update_password => [ 0 ] };
-   $self->{secsdir } = $self->catdir( $self->vardir, 'secure' );
-   $self->{version } = $VERSION;
-   return $self;
+   my $new = $self->next::method( $self->arg_list( @rest ) );
+
+   $new->parms  ( { update_password => [ 0 ] }                  );
+   $new->roles  ( CatalystX::Usul::Roles::Unix->new( $new, {} ) );
+   $new->secsdir( $new->catdir( $new->vardir, 'secure' )        );
+   $new->users  ( CatalystX::Usul::Users::Suid->new( $new, {} ) );
+   $new->version( $VERSION                                      );
+
+   return $new;
 }
 
 sub account_report {
@@ -49,7 +52,7 @@ sub authenticate {
 
    if ($e = $self->catch) {
       $self->error( $e->as_string( ($self->debug ? 2 : 1), 2 ),
-                    { arg1 => $e->arg1, arg2 => $e->arg2 } );
+                    { args => $e->args } );
       return 1;
    }
 
@@ -57,9 +60,9 @@ sub authenticate {
 }
 
 sub authorise {
-   my ($self, $ref) = @_; my ($method, $path, $role, $roles, $user);
+   my ($self, $args) = @_; my ($method, $path, $role, $roles, $user);
 
-   $method = $ref->{method}; $user = $ref->{user};
+   $method = $args->{method}; $user = $args->{user};
 
    return 1 if ($method eq q(authenticate) || $method eq q(change_password));
 
@@ -104,10 +107,6 @@ sub populate_account {
    return 0;
 }
 
-sub roles {
-   my $self = shift; return $self->identity->roles;
-}
-
 sub roles_update {
    my $self = shift;
 
@@ -120,26 +119,28 @@ sub set_password {
 }
 
 sub set_user {
-   my ($self, $user) = @_; my ($cmd, @lines, $logger, $logname, $path, $res);
+   my ($self, $user) = @_; my $logger;
 
-   $self->throw( q(eNotInteractive) ) unless (is_interactive());
+   $self->throw( 'Not interactive' ) unless (is_interactive());
 
    unless ($logger = $self->os->{logger}->{value}) {
-      $self->throw( q(eNoLogger) );
+      $self->throw( 'No logger specified' );
    }
 
    unless (-x $logger) {
-      $self->throw( error => q(eCannotExecute), arg1 => $logger );
+      $self->throw( error => 'Cannot execute [_1]', args => [ $logger ] );
    }
 
-   $logname = $self->logname;
+   my $logname = $self->logname;
 
    if ($logname =~ m{ \A ([\w.]+) \z }msx) { $logname = $1 }
 
-   $cmd  = $logger.' -t suid -p auth.info -i "su ';
-   $cmd .= $logname.q(-).$user.'" ';
+   my $msg = "suid from $logname to $user";
+   my $cmd = $logger.' -t suid -p auth.info -i "'.$msg.'" ';
+
    $self->run_cmd( $cmd );
-   $path = $self->catfile( $self->binsdir, $self->prefix.'_suenv' );
+
+   my $path = $self->catfile( $self->binsdir, $self->prefix.'_suenv' );
 
    if ($ARGV[0] && $ARGV[0] eq q(-)) {
       # Old style full login, ENV unset, HOME set for new user
@@ -154,8 +155,9 @@ sub set_user {
       $cmd = 'su '.$user.' -c "HOME='.$ENV{HOME}.' . '.$path.' '.$user.'" ';
    }
 
-   exec $cmd or _croak();
-   return;
+   exec $cmd
+      or $self->throw( error => 'Exec failed [_1]', args => [ $ERRNO ] );
+   return; # Never reached
 }
 
 sub signal_process {
@@ -205,16 +207,6 @@ sub update_progs {
    return 0;
 }
 
-sub users {
-   my $self = shift; return $self->identity->users;
-}
-
-# Private methods
-
-sub _croak {
-   require Carp; goto &Carp::croak;
-}
-
 1;
 
 __END__
@@ -227,7 +219,7 @@ App::Munchies::Programs::Suid - Methods that run as the super user
 
 =head1 Version
 
-0.1.$Revision: 639 $
+0.1.$Revision: 738 $
 
 =head1 Synopsis
 
