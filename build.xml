@@ -13,8 +13,8 @@
   <create_dirs>var/tmp</create_dirs>
   <create_dirs>var/root/recipes</create_dirs>
   <create_dirs>var/root/reports</create_dirs>
-  <create_files>var/logs/misc.log</create_files>
-  <create_files>var/logs/suid.log</create_files>
+  <create_files>var/logs/cli.log</create_files>
+  <create_files>var/logs/admin.log</create_files>
   <create_ugrps>1</create_ugrps>
   <group>munchies</group>
   <link_files>
@@ -36,7 +36,7 @@
   <pwidth>50</pwidth>
   <restart_apache>1</restart_apache>
   <run_cmd>0</run_cmd>
-  <run_cmds>munchies_misc -n -c pod2html -o uid=[% uid %] -o gid=[% gid %]</run_cmds>
+  <run_cmds>munchies_cli -n -c pod2html -o uid=[% uid %] -o gid=[% gid %]</run_cmds>
   <run_cmds>munchies_schema -n -c catalog_mmf -o uid=[% uid %] -o gid=[% gid %]</run_cmds>
   <set_owner>1</set_owner>
   <set_permissions>1</set_permissions>

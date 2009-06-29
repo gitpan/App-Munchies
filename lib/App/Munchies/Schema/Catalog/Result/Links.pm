@@ -1,11 +1,11 @@
 # Created by DBIx::Class::Schema::Loader v0.03009 @ 2007-03-04 02:50:46
-# @(#)$Id: Links.pm 741 2009-06-09 19:29:57Z pjf $
+# @(#)$Id: Links.pm 754 2009-06-09 23:50:51Z pjf $
 
 package App::Munchies::Schema::Catalog::Result::Links;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.2.%d', q$Rev: 741 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.3.%d', q$Rev: 754 $ =~ /\d+/gmx );
 use parent qw(App::Munchies::Schema::Base);
 
 __PACKAGE__->table('links');
@@ -51,7 +51,7 @@ App::Munchies::Schema::Catalog::Result::Links - Class definition for the links t
 
 =head1 Version
 
-0.1.$Revision: 741 $
+0.3.$Revision: 754 $
 
 =head1 Synopsis
 

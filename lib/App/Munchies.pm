@@ -1,11 +1,11 @@
-# @(#)$Id: Munchies.pm 750 2009-06-09 20:09:03Z pjf $
+# @(#)$Id: Munchies.pm 786 2009-06-29 17:28:03Z pjf $
 
 package App::Munchies;
 
 use 5.008;
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.2.%d', q$Rev: 750 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.3.%d', q$Rev: 786 $ =~ /\d+/gmx );
 
 use File::Spec;
 use Catalyst::Runtime q(5.70);
@@ -57,6 +57,7 @@ $class->config
         expires                 => 7776000,
         storage                 => q(__appldir(var/tmp/session_data)__),
         verify_address          => 1, },
+     setup_components           => { except => qr(:: \. \#)mx },
      static                     => {
         dirs                    =>
            [ q(static), qr/^(css|html|images|jscript|reports|skins|svg)/ ],
@@ -64,16 +65,16 @@ $class->config
         include_path            => [ q(__appldir(var/root)__), q(.) ],
         mime_types              => { svg => q(image/svg+xml) }, },
      'Controller::Admin'        => {
-        action                  => { base => { PathPart => q(admin) } },
+        actions                 => { base => { PathPart => q(admin) } },
         namespace               => q(admin), },
      'Controller::Entrance'     => {
-        action                  => { base => { PathPart => q(entrance) } },
+        actions                 => { base => { PathPart => q(entrance) } },
         namespace               => q(entrance), },
      'Controller::Library'      => {
-        action                  => { base => { PathPart => q(library) } },
+        actions                 => { base => { PathPart => q(library) } },
         namespace               => q(library), },
      'Controller::Root'         => {
-        base_class              => q(CatalystX::Usul::Controller::Root),
+        parent_classes          => q(CatalystX::Usul::Controller::Root),
         namespace               => q() },
      'Debug'                    => {
         skip_dump_parameters    =>
@@ -85,81 +86,81 @@ $class->config
         newline                 => 1,
         permissions             => q(0660), },
      'Model::Base'              => {
-        base_class              => q(CatalystX::Usul::Model) },
+        parent_classes          => q(CatalystX::Usul::Model) },
      'Model::Config'            => {
-        base_class              => q(CatalystX::Usul::Model::Config) },
+        parent_classes          => q(CatalystX::Usul::Model::Config) },
      'Model::Config::Buttons'   => {
-        base_class              =>
+        parent_classes          =>
            q(CatalystX::Usul::Model::Config::Buttons) },
      'Model::Config::Credentials' => {
-        base_class              =>
+        parent_classes          =>
            q(CatalystX::Usul::Model::Config::Credentials) },
      'Model::Config::Fields'    => {
-        base_class              => q(CatalystX::Usul::Model::Config::Fields) },
+        parent_classes          => q(CatalystX::Usul::Model::Config::Fields) },
      'Model::Config::Globals'   => {
-        base_class              =>
+        parent_classes          =>
            q(CatalystX::Usul::Model::Config::Globals) },
      'Model::Config::Keys'      => {
-        base_class              => q(CatalystX::Usul::Model::Config::Keys) },
+        parent_classes          => q(CatalystX::Usul::Model::Config::Keys) },
      'Model::Config::Levels'    => {
-        base_class              => q(CatalystX::Usul::Model::Config::Levels) },
+        parent_classes          => q(CatalystX::Usul::Model::Config::Levels) },
      'Model::Config::Messages'  => {
-        base_class              =>
+        parent_classes          =>
            q(CatalystX::Usul::Model::Config::Messages) },
      'Model::Config::Pages'     => {
-        base_class              => q(CatalystX::Usul::Model::Config::Pages) },
+        parent_classes          => q(CatalystX::Usul::Model::Config::Pages) },
      'Model::Config::Rooms'     => {
-        base_class              => q(CatalystX::Usul::Model::Config::Rooms) },
+        parent_classes          => q(CatalystX::Usul::Model::Config::Rooms) },
      'Model::FileSystem'        => {
-        base_class              => q(CatalystX::Usul::Model::FileSystem) },
+        parent_classes          => q(CatalystX::Usul::Model::FileSystem) },
      'Model::Help'              => {
-        base_class              => q(CatalystX::Usul::Model::Help) },
+        parent_classes          => q(CatalystX::Usul::Model::Help) },
      'Model::IdentityDBIC'      => {
-        base_class              => q(CatalystX::Usul::Model::Identity),
+        parent_classes          => q(CatalystX::Usul::Model::Identity),
         auth_comp               => q(Plugin::Authentication),
         role_class              => q(RolesDBIC),
         user_class              => q(UsersDBIC), },
      'Model::IdentityUnix'      => {
-        base_class              => q(CatalystX::Usul::Model::Identity),
+        parent_classes          => q(CatalystX::Usul::Model::Identity),
         auth_comp               => q(Plugin::Authentication),
         role_class              => q(RolesUnix),
         user_class              => q(UsersUnix), },
      'Model::Imager'            => {
-        base_class              => q(CatalystX::Usul::Model::Imager),
+        parent_classes          => q(CatalystX::Usul::Model::Imager),
         scale                   => { scalefactor => 0.5 } },
      'Model::MailAliases'       => {
-        base_class              => q(CatalystX::Usul::Model::MailAliases) },
+        parent_classes          => q(CatalystX::Usul::Model::MailAliases) },
      'Model::MealMaster'        => {
         COMPILE_DIR             => q(__appldir(var/tmp)__),
         INCLUDE_PATH            => q(__appldir(var/root/static/templates)__) },
      'Model::Navigation'        => {
-        base_class              => q(CatalystX::Usul::Model::Navigation) },
+        parent_classes          => q(CatalystX::Usul::Model::Navigation) },
      'Model::Process'           => {
-        base_class              => q(CatalystX::Usul::Model::Process) },
+        parent_classes          => q(CatalystX::Usul::Model::Process) },
      'Model::RolesDBIC'         => {
-        base_class              => q(CatalystX::Usul::Model::Roles),
+        parent_classes          => q(CatalystX::Usul::Model::Roles),
         domain_attributes       => {
            dbic_role_class      => q(Authentication::Roles),
            dbic_user_roles_class => q(Authentication::UserRoles), },
         domain_class            => q(CatalystX::Usul::Roles::DBIC) },
      'Model::RolesUnix'         => {
-        base_class              => q(CatalystX::Usul::Model::Roles),
+        parent_classes          => q(CatalystX::Usul::Model::Roles),
         domain_class            => q(CatalystX::Usul::Roles::Unix) },
      'Model::Session'           => {
-        base_class              => q(CatalystX::Usul::Model::Session) },
+        parent_classes          => q(CatalystX::Usul::Model::Session) },
      'Model::Tapes'             => {
-        base_class              => q(CatalystX::Usul::Model::Tapes) },
+        parent_classes          => q(CatalystX::Usul::Model::Tapes) },
      'Model::UserProfiles'      => {
-        base_class              => q(CatalystX::Usul::Model::UserProfiles) },
+        parent_classes          => q(CatalystX::Usul::Model::UserProfiles) },
      'Model::UsersDBIC'         => {
-        base_class              => q(CatalystX::Usul::Model::Users),
+        parent_classes          => q(CatalystX::Usul::Model::Users),
         COMPILE_DIR             => q(__appldir(var/tmp)__),
         INCLUDE_PATH            => q(__appldir(var/root/static/templates)__),
         domain_attributes       => {
            dbic_user_class      => q(Authentication::Users), },
         domain_class            => q(CatalystX::Usul::Users::DBIC) },
      'Model::UsersUnix'         => {
-        base_class              => q(CatalystX::Usul::Model::Users),
+        parent_classes          => q(CatalystX::Usul::Model::Users),
         COMPILE_DIR             => q(__appldir(var/tmp)__),
         INCLUDE_PATH            => q(__appldir(var/root/static/templates)__),
         domain_attributes       => {
@@ -186,25 +187,24 @@ $class->config
                  class          => q(+CatalystX::Usul::Authentication),
                  model_class    => q(IdentityDBIC),
                  user_field     => q(username), }, }, }, },
-     'Plugin::ConfigComponents' => { exclude_pattern => q(:: \. \#) },
      'Plugin::ConfigLoader'     => {
         file                    => File::Spec->catfile( $home, $file ) },
      'Plugin::InflateMore'      => q(CatalystX::Usul::InflateSymbols),
      'View::HTML'               => {
-        base_class              => q(CatalystX::Usul::View::HTML),
+        parent_classes          => q(CatalystX::Usul::View::HTML),
         COMPILE_DIR             => q(__appldir(var/tmp)__),
         INCLUDE_PATH            => q(__appldir(var/root/skins)__),
         dynamic_templates       => q(__appldir(var/root/dynamic/templates)__),
         jscript_dir             => q(__appldir(var/root/static/jscript)__),
         lang_dep_jsprefixs      => [ qw(calendar) ], },
      'View::JSON'               => {
-        base_class              => q(CatalystX::Usul::View::JSON),
+        parent_classes          => q(CatalystX::Usul::View::JSON),
         dynamic_templates       =>
            q(__appldir(var/root/dynamic/templates)__), },
      'View::Serializer'         => {
-        base_class              => q(CatalystX::Usul::View::Serializer), },
+        parent_classes          => q(CatalystX::Usul::View::Serializer), },
      'View::XML'                => {
-        base_class              => q(CatalystX::Usul::View::XML),
+        parent_classes          => q(CatalystX::Usul::View::XML),
         dynamic_templates       =>
            q(__appldir(var/root/dynamic/templates)__), },
      );
@@ -235,7 +235,7 @@ App::Munchies - Catalyst example application using food recipes as a data set
 
 =head1 Version
 
-0.1.$Revision: 750 $
+0.3.$Revision: 786 $
 
 =head1 Synopsis
 
@@ -298,7 +298,7 @@ be prompted to answer any more questions
 Once the schema has been deployed and populated the following
 (optional) commands will be run:
 
-   bin/munchies_misc   -n -c pod2html    -o uid=[% uid %] -o gid=[% gid %]
+   bin/munchies_cli    -n -c pod2html    -o uid=[% uid %] -o gid=[% gid %]
    bin/munchies_schema -n -c catalog_mmf -o uid=[% uid %] -o gid=[% gid %]
 
 as the I<munchies> user. They may take some time to finish. When

@@ -10,7 +10,7 @@
 <!ELEMENT rooms       (ARRAY)*>
 <!ELEMENT vals        (ARRAY)*>
 <config>
-  <_cvs_lang_level>@(#)$Id: admin_en.xml 728 2009-06-09 00:06:48Z pjf $</_cvs_lang_level>
+  <_cvs_lang_level>@(#)$Id: admin_en.xml 771 2009-06-13 16:47:48Z pjf $</_cvs_lang_level>
   <buttons>
     <name>access_control.set</name>
     <error>Failed to set the state because</error>
@@ -894,30 +894,6 @@
   <messages>
     <name>room_manager.select</name>
     <text>Create/edit the controller and action definitions used by the navigation menu</text>
-  </messages>
-  <messages>
-    <name>setLevelState</name>
-    <text>Set the state for the [_1] level to [_2]</text>
-  </messages>
-  <messages>
-    <name>setRoomState</name>
-    <text>Set the state for the [_1] room to [_2]</text>
-  </messages>
-  <messages>
-    <name>updatedButton</name>
-    <text>Button [_1] / [_2] updated</text>
-  </messages>
-  <messages>
-    <name>updatedCredentials</name>
-    <text>Credentials [_1] / [_2] updated</text>
-  </messages>
-  <messages>
-    <name>updatedLevel</name>
-    <text>Level [_1] updated</text>
-  </messages>
-  <messages>
-    <name>updatedMessage</name>
-    <text>Message [_1] / [_2] updated</text>
   </messages>
   <messages>
     <name>updatedProfile</name>

@@ -1,10 +1,10 @@
-# @(#)$Id: Misc.pm 738 2009-06-09 16:42:23Z pjf $
+# @(#)$Id: CLI.pm 765 2009-06-12 15:51:51Z pjf $
 
-package App::Munchies::Programs::Misc;
+package App::Munchies::CLI;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.2.%d', q$Rev: 738 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.3.%d', q$Rev: 765 $ =~ /\d+/gmx );
 use parent qw(CatalystX::Usul::Programs);
 
 use CatalystX::Usul::FileSystem;
@@ -40,14 +40,10 @@ sub new {
 sub archive {
    my ($self, @rest) = @_;
 
-   @rest = @ARGV unless (defined $rest[ 0 ]);
+   @rest = @ARGV unless (defined $rest[0]);
 
-   $self->output( $self->file_ref->archive( @rest ) );
+   $self->output( $self->_fs_obj->archive( @rest ) );
    return 0;
-}
-
-sub file_ref {
-   my ($self, @rest) = @_; return $self->file_class->new( $self, @rest );
 }
 
 sub house_keeping {
@@ -102,6 +98,27 @@ sub house_keeping {
    return 0;
 }
 
+sub lock_list {
+   my $self = shift; my $line;
+
+   for my $ref (@{ $self->lock->list || [] }) {
+      $line  = $ref->{key}.q(,).$ref->{pid}.q(,);
+      $line .= $self->time2str( '%Y-%m-%d %H:%M:%S', $ref->{stime} ).q(,);
+      $line .= $ref->{timeout};
+      $self->say( $line );
+   }
+
+   return 0;
+}
+
+sub lock_reset {
+   my $self = shift; $self->lock->reset( %{ $self->args } ); return 0;
+}
+
+sub lock_set {
+   my $self = shift; $self->lock->set( %{ $self->args } ); return 0;
+}
+
 sub pod2html {
    my $self     = shift;
    my $libroot  = $ARGV[0] || $self->catdir( $self->appldir, q(lib) );
@@ -133,25 +150,25 @@ sub pod2html {
 sub purge_tree {
    my ($self, @rest) = @_;
 
-   @rest = @ARGV unless (defined $rest[ 0 ]);
+   @rest = @ARGV unless (defined $rest[0]);
 
-   $self->info( $self->file_ref->purge_tree( @rest ) );
+   $self->info( $self->_fs_obj->purge_tree( @rest ) );
    return 0;
 }
 
 sub rotate_logs {
    my ($self, @rest) = @_;
 
-   @rest = @ARGV unless (defined $rest[ 0 ]);
+   @rest = @ARGV unless (defined $rest[0]);
 
-   $self->info( $self->file_ref->rotate_logs( @rest ) );
+   $self->info( $self->_fs_obj->rotate_logs( @rest ) );
    return 0;
 }
 
 sub tape_backup {
    my ($self, @rest) = @_;
 
-   @rest = @ARGV unless (defined $rest[ 0 ]);
+   @rest = @ARGV unless (defined $rest[0]);
 
    my $tape_obj = $self->tape_class->new( $self, $self->vars );
 
@@ -162,26 +179,32 @@ sub tape_backup {
 sub unarchive {
    my ($self, @rest) = @_;
 
-   @rest = @ARGV unless (defined $rest[ 0 ]);
+   @rest = @ARGV unless (defined $rest[0]);
 
-   $self->output( $self->file_ref->unarchive( @rest ) );
+   $self->output( $self->_fs_obj->unarchive( @rest ) );
    return 0;
 }
 
 sub wait_for {
    my ($self, @rest) = @_;
 
-   @rest = @ARGV unless (defined $rest[ 0 ]);
+   @rest = @ARGV unless (defined $rest[0]);
 
    my $text     = $self->io( $self->ctlfile )->all;
       $text     = join "\n", grep { !m{ <! .+ > }mx } split  m{ \n }mx, $text;
    my $xs       = XML::Simple->new( ForceArray => [ qw(wait_for) ] );
    my $data     = $xs->xml_in( $text );
-   my $file_obj = $self->file_ref
+   my $file_obj = $self->_fs_obj
       ( { fuser => $self->os->{fuser}->{value}, ctldata => $data } );
 
    $self->info( $file_obj->wait_for( $self->vars, @rest ) );
    return 0;
+}
+
+# Private _methods
+
+sub _fs_obj {
+   my ($self, @rest) = @_; return $self->file_class->new( $self, @rest );
 }
 
 # Private subroutines
@@ -202,21 +225,19 @@ __END__
 
 =head1 Name
 
-App::Munchies::Programs::Misc - A collection of miscellaneous subroutines
+App::Munchies::CLI - Subroutines accessed from the command line
 
 =head1 Version
 
-0.1.$Revision: 738 $
+0.3.$Revision: 765 $
 
 =head1 Synopsis
 
    #!/usr/bin/perl
 
-   use App::Munchies::Programs::Misc;
+   use App::Munchies::CLI;
 
-   my $prog = App::Munchies::Programs::Misc->new( appclass => q(App::Munchies) );
-
-   exit $prog->dispatch;
+   exit App::Munchies::CLI->new( appclass => q(App::Munchies) )->dispatch;
 
 =head1 Description
 
@@ -226,9 +247,13 @@ App::Munchies::Programs::Misc - A collection of miscellaneous subroutines
 
 =head2 archive
 
-=head2 file_ref
-
 =head2 house_keeping
+
+=head2 lock_list
+
+=head2 lock_reset
+
+=head2 lock_set
 
 =head2 __match_dot_files
 
@@ -243,6 +268,8 @@ App::Munchies::Programs::Misc - A collection of miscellaneous subroutines
 =head2 unarchive
 
 =head2 wait_for
+
+=head2 _fs_obj
 
 =head1 Diagnostics
 

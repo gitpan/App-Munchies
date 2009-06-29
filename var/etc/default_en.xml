@@ -10,7 +10,7 @@
 <!ELEMENT rooms       (ARRAY)*>
 <!ELEMENT vals        (ARRAY)*>
 <config>
-  <_cvs_lang_default>@(#)$Id: default_en.xml 717 2009-06-06 15:34:15Z pjf $</_cvs_lang_default>
+  <_cvs_lang_default>@(#)$Id: default_en.xml 773 2009-06-20 23:26:56Z pjf $</_cvs_lang_default>
   <buttons>
     <name>app_closed.login</name>
     <error>Failed to login to the application because</error>
@@ -206,8 +206,7 @@
   </messages>
   <messages>
     <name>isValidInteger</name>
-    <text>Field value is not a valid integer or is not in the required
-  range</text>
+    <text>Field value is not a valid integer or is not in the required range</text>
   </messages>
   <messages>
     <name>isValidPassword</name>

@@ -10,11 +10,12 @@
 <!ELEMENT rooms       (ARRAY)*>
 <!ELEMENT vals        (ARRAY)*>
 <config>
-  <_cvs_lang_level>@(#)$Id: entrance_en.xml 736 2009-06-09 15:53:07Z pjf $</_cvs_lang_level>
+  <_cvs_lang_level>@(#)$Id: entrance_en.xml 771 2009-06-13 16:47:48Z pjf $</_cvs_lang_level>
   <buttons>
     <name>authentication.login</name>
     <error>Failed to authenticate with the system because</error>
     <help>Unauthorized access is an offence</help>
+    <prompt></prompt>
   </buttons>
   <buttons>
     <name>change_password.set</name>
@@ -100,6 +101,10 @@
     <text>Account for user [_1] activated. Click on the Login link to authenticate</text>
   </messages>
   <messages>
+    <name>Security code [_1] incorrect</name>
+    <text>The entered security code [_1] was not the same a the one that was displayed</text>
+  </messages>
+  <messages>
     <name>authentication.header</name>
     <text>Stop! You have your papers?</text>
   </messages>
@@ -151,10 +156,6 @@ If you are not an authorised user, disconnect immediately.
   <messages>
     <name>register.legend</name>
     <text>Create an account on this site</text>
-  </messages>
-  <messages>
-    <name>Security code [_1] incorrect</name>
-    <text>The entered security code [_1] was not the same a the one that was displayed</text>
   </messages>
   <messages>
     <name>sitemapHeading</name>
@@ -240,8 +241,6 @@ straightforward
   <pages>
     <name>tutorial</name>
     <heading>Introductory Tutorial for [% application %]</heading>
-    <subHeading></subHeading>
-    <title></title>
     <vals>
       <name>para0</name>
       <dropcap>1</dropcap>

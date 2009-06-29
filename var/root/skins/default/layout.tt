@@ -1,4 +1,4 @@
-[%# @(#)$Id: layout.tt 655 2009-04-09 20:17:54Z pjf $ %]
+[%# @(#)$Id: layout.tt 755 2009-06-10 00:01:56Z pjf $ %]
 
 [% MACRO Append IF append %]
 <div class="[% class %]" id="append">
@@ -98,7 +98,7 @@
 	   [% sdata.subHeading.content | eval %]
    </div>
 	[% END %]
-   <div class="iFrameList">
+   <div class="[% class %]" id="iFrameList">
 	[% FOREACH item = sdata.items %]
       <div class="iFrameItem [% item.class %]" style="[% item.style %]">
          [% item.content | eval %]
@@ -206,7 +206,7 @@
    [% ELSE %]
    <meta name="robots" content="noindex, nofollow"[% EOT %]
    [% END %]
-   <meta name="revision" content="$Id: layout.tt 655 2009-04-09 20:17:54Z pjf $"[% EOT %]
+   <meta name="revision" content="$Id: layout.tt 755 2009-06-10 00:01:56Z pjf $"[% EOT %]
    [% IF dhtml %]
    <script type="text/javascript">//<![CDATA[
       var behaviour = {};

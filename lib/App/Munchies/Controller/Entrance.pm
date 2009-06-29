@@ -1,10 +1,10 @@
-# @(#)$Id: Entrance.pm 738 2009-06-09 16:42:23Z pjf $
+# @(#)$Id: Entrance.pm 767 2009-06-12 16:08:03Z pjf $
 
 package App::Munchies::Controller::Entrance;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.2.%d', q$Rev: 738 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.3.%d', q$Rev: 767 $ =~ /\d+/gmx );
 use parent qw(CatalystX::Usul::Controller::Entrance);
 
 sub clock : Chained(common) Args(0) Public {
@@ -41,19 +41,11 @@ sub sampler : Chained(reception_base) Args(0) HasActions {
 }
 
 sub sampler_chooser : Chained(reception_base) Args(0) HasActions Public {
-   my ($self, $c) = @_; my $e;
-
-   eval { $c->model( q(DemoText) )->sampler_chooser };
-
-   $self->error_page( $c, $e->as_string ) if ($e = $self->catch);
-
-   return;
+   my ($self, $c) = @_; $c->model( q(DemoText) )->sampler_chooser; return;
 }
 
 sub sampler_result : ActionFor(sampler.save) {
-   my ($self, $c) = @_;
-
-   my $model = $c->model( q(DemoText) );
+   my ($self, $c) = @_; my $model = $c->model( q(DemoText) );
 
    $model->add_result( $model->query_value( q(textfield) ) );
    return 1;
@@ -83,7 +75,7 @@ App::Munchies::Controller::Entrance - Welcome to this application framework
 
 =head1 Version
 
-$Revision: 738 $
+$Revision: 767 $
 
 =head1 Synopsis
 

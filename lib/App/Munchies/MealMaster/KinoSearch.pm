@@ -1,10 +1,10 @@
-# @(#)$Id: KinoSearch.pm 738 2009-06-09 16:42:23Z pjf $
+# @(#)$Id: KinoSearch.pm 775 2009-06-22 01:15:40Z pjf $
 
 package App::Munchies::MealMaster::KinoSearch;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.2.%d', q$Rev: 738 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.3.%d', q$Rev: 775 $ =~ /\d+/gmx );
 
 package # Hide from indexer
    MealMaster::KinoSearch::Schema::NoAnalNoVector;
@@ -61,22 +61,23 @@ sub new {
 }
 
 sub search_for {
-   my ($self, $args, $expression, $hits_per_page, $offset) = @_;
-   my ($highlighter, $hits, $searcher, $sort_spec);
+   my ($self, $args, $query, $hits_per_page, $page) = @_;
 
-   $expression    ||= q();
-   $offset        ||= 0;
-   $hits_per_page ||= 64;
-   $searcher  = KinoSearch::Searcher->new(
-       invindex => MealMaster::KinoSearch::Schema->read( $args->{invindex} ) );
-   $sort_spec = KinoSearch::Search::SortSpec->new();
-   $sort_spec->add( field => $args->{sort_field} );
-   $hits = $searcher->search( num_wanted => $hits_per_page,
-                              offset     => $offset * $hits_per_page,
-                              query      => $expression,
-                              sort_spec  => $sort_spec  );
-   $highlighter = KinoSearch::Highlight::Highlighter->new();
+   $args ||= {}; $query ||= q(); $hits_per_page ||= 64; $page ||= 0;
+
+   my $invindex    = MealMaster::KinoSearch::Schema->read( $args->{invindex} );
+   my $searcher    = KinoSearch::Searcher->new( invindex => $invindex );
+   my $highlighter = KinoSearch::Highlight::Highlighter->new();
+   my $sort_spec   = KinoSearch::Search::SortSpec->new();
+
    $highlighter->add_spec( field => $args->{highlight_field} );
+   $sort_spec->add       ( field => $args->{sort_field     } );
+
+   my $hits = $searcher->search( num_wanted => $hits_per_page,
+                                 offset     => $hits_per_page * $page,
+                                 query      => $query,
+                                 sort_spec  => $sort_spec );
+
    $hits->create_excerpts( highlighter => $highlighter );
    return $hits;
 }
@@ -93,7 +94,7 @@ App::Munchies::MealMaster::KinoSearch - Text search model for food recipes in MM
 
 =head1 Version
 
-0.1.$Revision: 738 $
+0.3.$Revision: 775 $
 
 =head1 Synopsis
 

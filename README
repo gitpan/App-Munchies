@@ -3,7 +3,7 @@ Name
     data set
 
 Version
-    0.1.$Revision: 750 $
+    0.3.$Revision: 786 $
 
 Synopsis
     Start the development mini server with
@@ -62,7 +62,7 @@ Installation
     Once the schema has been deployed and populated the following (optional)
     commands will be run:
 
-       bin/munchies_misc   -n -c pod2html    -o uid=[% uid %] -o gid=[% gid %]
+       bin/munchies_cli    -n -c pod2html    -o uid=[% uid %] -o gid=[% gid %]
        bin/munchies_schema -n -c catalog_mmf -o uid=[% uid %] -o gid=[% gid %]
 
     as the *munchies* user. They may take some time to finish. When complete

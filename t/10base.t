@@ -2,18 +2,17 @@
 
 use strict;
 use warnings;
+use version; our $VERSION = qv( sprintf '0.3.%d', q$Rev: 108 $ =~ /\d+/gmx );
 use File::Spec::Functions;
-use English qw( -no_match_vars );
 use FindBin qw( $Bin );
 use lib catdir( $Bin, updir, q(lib) );
+
+use English qw( -no_match_vars );
 use Test::More;
 
-use version; our $VERSION = qv( sprintf '0.2.%d', q$Rev: 108 $ =~ /\d+/gmx );
-
 BEGIN {
-   if ($ENV{AUTOMATED_TESTING} || $ENV{PERL_CR_SMOKER_CURRENT}
-       || ($ENV{PERL5OPT} || q()) =~ m{ CPAN-Reporter }mx
-       || ($ENV{PERL5_CPANPLUS_IS_RUNNING} && $ENV{PERL5_CPAN_IS_RUNNING})) {
+   if ($ENV{AUTOMATED_TESTING}  || $ENV{PERL_CR_SMOKER_CURRENT} ||
+       $ENV{PERL5_MINISMOKEBOX} || $ENV{PERL5_YACSMOKE_BASE}) {
       plan skip_all => q(CPAN Testing stopped);
    }
 

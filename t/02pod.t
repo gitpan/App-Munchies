@@ -1,14 +1,14 @@
-# @(#)$Id: 02pod.t 685 2009-04-23 00:25:10Z pjf $
+# @(#)$Id: 02pod.t 754 2009-06-09 23:50:51Z pjf $
 
 use strict;
 use warnings;
+use version; our $VERSION = qv( sprintf '0.3.%d', q$Rev: 754 $ =~ /\d+/gmx );
 use File::Spec::Functions;
-use English  qw( -no_match_vars );
-use FindBin  qw( $Bin );
-use lib (catdir( $Bin, updir, q(lib) ));
-use Test::More;
+use FindBin qw( $Bin );
+use lib catdir( $Bin, updir, q(lib) );
 
-use version; our $VERSION = qv( sprintf '0.2.%d', q$Rev: 685 $ =~ /\d+/gmx );
+use English qw( -no_match_vars );
+use Test::More;
 
 BEGIN {
    if (!-e catfile( $Bin, updir, q(MANIFEST.SKIP) )) {

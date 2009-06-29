@@ -1,5 +1,10 @@
 Revision history for App::Munchies
 
+0.3.786  29/06/2009
+         - Renamed suid to admin and misc to cli
+         - Adapted to Catalyst 5.8
+         - Fixed no index directory value type in META.yaml
+
 0.2.750  09/06/2009
          - Worked around bug in DBIx::Class::Schema::deploy
          - Improved testing idioms

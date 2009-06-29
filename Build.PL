@@ -1,4 +1,4 @@
-# @(#)$Id: Build.PL 749 2009-06-09 20:08:20Z pjf $
+# @(#)$Id: Build.PL 785 2009-06-29 17:22:42Z pjf $
 
 my $PREFIX     = q(/opt);
 my $APPLREL    = q(v0.1p3);
@@ -14,8 +14,8 @@ my $REQUIRES   = {
    'version'                                              => q(0.74),
    'Authen::Simple'                                       => q(0.4),
    'Catalyst::Authentication::Credential::Authen::Simple' => q(0.02),
-   'CatalystX::Usul'                                      => q(0.2.571),
-   'Data::CloudWeights'                                   => q(0.1.3),
+   'CatalystX::Usul'                                      => q(0.3.613),
+   'Data::CloudWeights'                                   => q(0.3.103),
    'Date::Discordian'                                     => q(1.36),
    'DateTime::Event::Sunrise'                             => q(0.0501),
    'DateTime::Fiction::JRRTolkien::Shire'                 => q(0.02),
@@ -42,14 +42,13 @@ sub whimper { say @ARG; exit 0 }
 BEGIN {
    eval { require 5.008; }; $EVAL_ERROR && whimper 'Perl minimum 5.008';
    # Old versions of CPANPLUS::Dist::Build do not support configure_requires
-   $ENV{PERL5_CPANPLUS_IS_RUNNING}      && whimper 'CPANPLUS stopped';
    # Stop chris from smoke testing with old CPANPLUS::Dist::Build on darwin
-   #qx(uname -a) =~ m{ bingosnet.co.uk }mx && whimper 'Bingos stopped';
+   qx(uname -a) =~ m{ bingosnet.co.uk }mx && whimper 'Bingos stopped';
 }
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.2.%d', q$Rev: 749 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.3.%d', q$Rev: 785 $ =~ /\d+/gmx );
 use File::Spec::Functions;
 use FindBin qw( $Bin );
 use lib catdir( $Bin, q(lib) );
@@ -82,7 +81,7 @@ sub ACTION_install {
    my $pref = $self->notes      ( q(prefix) );
    my $appl = $cli->class2appdir( $self->module_name );
    my $from = $cli->catdir      ( $pref, $appl, qw(default lib) );
-   my $path = $cli->catfile     ( $bind, $name.q(_suid) );
+   my $path = $cli->catfile     ( $bind, $name.q(_admin) );
 
    $self->replace( $from, $libd, $path );
 
@@ -102,7 +101,7 @@ sub ACTION_install {
    my $etcd = $cli->catdir( $vard, q(etc) );
 
    chmod oct q(02770), $etcd;
-   chmod oct q(0660),  $cli->catfile( $vard, qw(logs misc.log) );
+   chmod oct q(0660),  $cli->catfile( $vard, qw(logs cli.log) );
    chmod oct q(0640),  $cli->catfile( $bind, $name.q(_suenv) );
 
    # Save the META.yml file so get_meta works for pod2html
@@ -152,14 +151,14 @@ my $builder = $sub_class->new
      dist_version_from  => $class_path,
      license            => q(perl),
      module_name        => $APPNAME,
-     no_index           => { directory => q(var/root) },
+     no_index           => { directory => [ qw(t var/root) ] },
      notes              => { applrel   => $APPLREL,
                              dbname    => $DBNAME,
-                             prefix    => $PREFIX },
+                             prefix    => $PREFIX, },
      recommends         => $RECOMMENDS,
      requires           => $REQUIRES,
      resources          => $resources,
-     sign               => 1 );
+     sign               => 1, );
 
 $builder->add_build_element( q(data) );
 $builder->add_build_element( q(xml)  );

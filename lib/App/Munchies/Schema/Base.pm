@@ -1,10 +1,10 @@
-# @(#)$Id: Base.pm 741 2009-06-09 19:29:57Z pjf $
+# @(#)$Id: Base.pm 754 2009-06-09 23:50:51Z pjf $
 
 package App::Munchies::Schema::Base;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.2.%d', q$Rev: 741 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.3.%d', q$Rev: 754 $ =~ /\d+/gmx );
 use parent qw(DBIx::Class);
 
 __PACKAGE__->load_components( qw(PK::Auto Core) );
@@ -21,7 +21,7 @@ App::Munchies::Schema::Base - Component base class
 
 =head1 Version
 
-0.1.$Revision: 741 $
+0.3.$Revision: 754 $
 
 =head1 Synopsis
 

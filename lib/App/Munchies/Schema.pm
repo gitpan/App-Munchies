@@ -1,10 +1,10 @@
-# @(#)$Id: Schema.pm 738 2009-06-09 16:42:23Z pjf $
+# @(#)$Id: Schema.pm 757 2009-06-11 16:42:06Z pjf $
 
 package App::Munchies::Schema;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.2.%d', q$Rev: 738 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.3.%d', q$Rev: 757 $ =~ /\d+/gmx );
 use parent qw(CatalystX::Usul::Programs CatalystX::Usul::Schema);
 
 use App::Munchies::Model::MealMaster;
@@ -103,8 +103,8 @@ sub create_ddl {
    $self->output( 'Creating DDL for '.$self->dsn );
    my $dbh = $self->catalog_schema->connect( $self->dsn, $self->user,
                                              $self->password, $self->attrs );
-   $self->next::method( $dbh, $self->dbasedir,
-                        $self->schema_version, $self->unlink );
+   $self->next::method( $dbh, $self->schema_version,
+                        $self->dbasedir, $self->unlink );
    return;
 }
 
@@ -133,7 +133,7 @@ App::Munchies::Schema - Command line database utility methods
 
 =head1 Version
 
-0.1.$Revision: 738 $
+0.3.$Revision: 757 $
 
 =head1 Synopsis
 

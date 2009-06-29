@@ -1,19 +1,20 @@
 #!/usr/bin/env perl
 
-# @(#)$Id: munchies_lock 738 2009-06-09 16:42:23Z pjf $
+# @(#)$Id: munchies_lock 781 2009-06-26 15:59:13Z pjf $
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.2.%d', q$Rev: 738 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.2.%d', q$Rev: 781 $ =~ /\d+/gmx );
 use File::Spec::Functions;
 use FindBin  qw( $Bin );
 use lib catfile( $Bin, updir, q(lib) );
 
-use App::Munchies::Programs::Lock;
+use App::Munchies::CLI;
 
-my $prog = App::Munchies::Programs::Lock->new( appclass => q(App::Munchies),
-                                               arglist  => q(k=s p=s t=s) );
+my $prog = App::Munchies::CLI->new( appclass => q(App::Munchies),
+                                    arglist  => q(k=s p=s t=s) );
 
+$prog->method( q(lock_).$prog->method );
 $prog->silent( 1 );
 
 exit $prog->dispatch;
@@ -51,7 +52,7 @@ Display man page/usage string
 
 =head1 VERSION
 
-$Revision: 738 $
+$Revision: 781 $
 
 =head1 DESCRIPTION
 
@@ -130,7 +131,7 @@ None
 
 =over 3
 
-=item L<CatalystX::Usul::Programs>
+=item L<App::Munchies::CLI>
 
 =back
 

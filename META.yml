@@ -1,6 +1,6 @@
 ---
 name: App-Munchies
-version: 0.2.750
+version: 0.3.786
 author:
   - 'Peter Flanigan, C<< <Support at RoxSoft.co.uk> >>'
 abstract: Catalyst example application using food recipes as a data set
@@ -9,7 +9,6 @@ resources:
   bugtracker: http://rt.cpan.org/NoAuth/Bugs.html?Dist=App-Munchies
   homepage: http://www.roxsoft.co.uk
   license: http://dev.perl.org/licenses/
-  repository: file:///home/opt/app-munchies/repository
 configure_requires:
   CatalystX::Usul: 0.1.437
   Module::Build: 0.31
@@ -17,9 +16,9 @@ configure_requires:
 requires:
   Authen::Simple: 0.4
   Catalyst::Authentication::Credential::Authen::Simple: 0.02
-  CatalystX::Usul: 0.2.571
+  CatalystX::Usul: 0.3.613
   DBI: 1.607
-  Data::CloudWeights: 0.1.3
+  Data::CloudWeights: 0.3.103
   Date::Discordian: 1.36
   DateTime::Event::Sunrise: 0.0501
   DateTime::Fiction::JRRTolkien::Shire: 0.02
@@ -39,87 +38,86 @@ recommends:
 provides:
   App::Munchies:
     file: lib/App/Munchies.pm
-    version: 0.2.750
+    version: 0.3.786
+  App::Munchies::Admin:
+    file: lib/App/Munchies/Admin.pm
+    version: 0.3.783
+  App::Munchies::CLI:
+    file: lib/App/Munchies/CLI.pm
+    version: 0.3.765
   App::Munchies::Controller::Admin:
     file: lib/App/Munchies/Controller/Admin.pm
-    version: 0.2.738
+    version: 0.3.754
   App::Munchies::Controller::Entrance:
     file: lib/App/Munchies/Controller/Entrance.pm
-    version: 0.2.738
+    version: 0.3.767
   App::Munchies::Controller::Library:
     file: lib/App/Munchies/Controller/Library.pm
-    version: 0.2.738
+    version: 0.3.768
   App::Munchies::Controller::Library::Admin:
     file: lib/App/Munchies/Controller/Library/Admin.pm
-    version: 0.2.738
+    version: 0.3.754
   App::Munchies::Controller::Library::Catalog:
     file: lib/App/Munchies/Controller/Library/Catalog.pm
-    version: 0.2.738
+    version: 0.3.754
   App::Munchies::Controller::Library::Recipes:
     file: lib/App/Munchies/Controller/Library/Recipes.pm
-    version: 0.2.738
+    version: 0.3.754
   App::Munchies::MealMaster::KinoSearch:
     file: lib/App/Munchies/MealMaster/KinoSearch.pm
-    version: 0.2.738
+    version: 0.3.775
   App::Munchies::Model::Authentication:
     file: lib/App/Munchies/Model/Authentication.pm
-    version: 0.2.738
+    version: 0.3.757
   App::Munchies::Model::Catalog:
     file: lib/App/Munchies/Model/Catalog.pm
-    version: 0.2.738
+    version: 0.3.757
   App::Munchies::Model::DemoText:
     file: lib/App/Munchies/Model/DemoText.pm
-    version: 0.2.738
+    version: 0.3.757
   App::Munchies::Model::MealMaster:
     file: lib/App/Munchies/Model/MealMaster.pm
-    version: 0.2.738
-  App::Munchies::Programs::Lock:
-    file: lib/App/Munchies/Programs/Lock.pm
-    version: 0.2.738
-  App::Munchies::Programs::Misc:
-    file: lib/App/Munchies/Programs/Misc.pm
-    version: 0.2.738
-  App::Munchies::Programs::Suid:
-    file: lib/App/Munchies/Programs/Suid.pm
-    version: 0.2.738
+    version: 0.3.754
   App::Munchies::Schema:
     file: lib/App/Munchies/Schema.pm
-    version: 0.2.738
+    version: 0.3.757
   App::Munchies::Schema::Authentication:
     file: lib/App/Munchies/Schema/Authentication.pm
-    version: 0.2.741
+    version: 0.3.754
   App::Munchies::Schema::Authentication::Roles:
     file: lib/App/Munchies/Schema/Authentication/Roles.pm
-    version: 0.2.741
+    version: 0.3.754
   App::Munchies::Schema::Authentication::UserRoles:
     file: lib/App/Munchies/Schema/Authentication/UserRoles.pm
-    version: 0.2.741
+    version: 0.3.754
   App::Munchies::Schema::Authentication::Users:
     file: lib/App/Munchies/Schema/Authentication/Users.pm
-    version: 0.2.741
+    version: 0.3.754
   App::Munchies::Schema::Base:
     file: lib/App/Munchies/Schema/Base.pm
-    version: 0.2.741
+    version: 0.3.754
   App::Munchies::Schema::Catalog:
     file: lib/App/Munchies/Schema/Catalog.pm
-    version: 0.2.741
+    version: 0.3.754
   App::Munchies::Schema::Catalog::Result::Links:
     file: lib/App/Munchies/Schema/Catalog/Result/Links.pm
-    version: 0.2.741
+    version: 0.3.754
   App::Munchies::Schema::Catalog::Result::Names:
     file: lib/App/Munchies/Schema/Catalog/Result/Names.pm
-    version: 0.2.741
+    version: 0.3.754
   App::Munchies::Schema::Catalog::Result::Nodes:
     file: lib/App/Munchies/Schema/Catalog/Result/Nodes.pm
-    version: 0.2.741
+    version: 0.3.754
   App::Munchies::Schema::Catalog::ResultSet::Links:
     file: lib/App/Munchies/Schema/Catalog/ResultSet/Links.pm
-    version: 0.2.738
+    version: 0.3.754
   App::Munchies::Schema::Catalog::ResultSet::Nodes:
     file: lib/App/Munchies/Schema/Catalog/ResultSet/Nodes.pm
-    version: 0.2.738
+    version: 0.3.754
 no_index:
-  directory: var/root
+  directory:
+    - t
+    - var/root
 generated_by: Module::Build version 0.31
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html

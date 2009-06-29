@@ -1,10 +1,10 @@
-# @(#)$Id: Recipes.pm 738 2009-06-09 16:42:23Z pjf $
+# @(#)$Id: Recipes.pm 754 2009-06-09 23:50:51Z pjf $
 
 package App::Munchies::Controller::Library::Recipes;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.2.%d', q$Rev: 738 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.3.%d', q$Rev: 754 $ =~ /\d+/gmx );
 use parent qw(CatalystX::Usul::Controller);
 
 __PACKAGE__->config( recipe_class => q(MealMaster),
@@ -67,7 +67,7 @@ App::Munchies::Controller::Library::Recipes - Food recipe management
 
 =head1 Version
 
-0.1.$Revision: 738 $
+0.3.$Revision: 754 $
 
 =head1 Synopsis
 

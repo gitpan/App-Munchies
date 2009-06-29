@@ -38,7 +38,7 @@
    <shell>/bin/ksh</shell>
    <skindir>__appldir(var/root/skins)__</skindir>
    <skins>skins</skins>
-   <suid>__binsdir(munchies_suid)__</suid>
+   <suid>__binsdir(munchies_admin)__</suid>
    <tempdir>__appldir(var/tmp)__</tempdir>
    <token>_token</token>
    <vardir>__appldir(var)__</vardir>

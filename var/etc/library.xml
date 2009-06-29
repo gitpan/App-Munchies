@@ -10,12 +10,12 @@
 <!ELEMENT rooms       (ARRAY)*>
 <!ELEMENT vals        (ARRAY)*>
 <config>
-  <_cvs_level>@(#)$Id: library.xml 726 2009-06-08 11:30:30Z pjf $</_cvs_level>
+  <_cvs_level>@(#)$Id: library.xml 771 2009-06-13 16:47:48Z pjf $</_cvs_level>
   <credentials>
     <name>library</name>
     <driver>mysql</driver>
     <host>localhost</host>
-    <password>encrypt=U2FsdGVkX1+k23mImADl1gCeDx6Vx03lhdGO8/ht8Ys=</password>
+    <password>encrypt=U2FsdGVkX1+KmSs8EefRdZ0i11JYKi/iyd8dOStAlZU=</password>
     <port>3306</port>
     <user>root</user>
   </credentials>
@@ -50,16 +50,16 @@
     <type>popupMenu</type>
   </fields>
   <fields>
-    <name>collection_view.links</name>
-    <clear>left</clear>
-    <sep>[% nbsp %][% nbsp %][% nbsp %]</sep>
-    <type>groupMembership</type>
-  </fields>
-  <fields>
     <name>collection_view.catalog</name>
     <onchange>submit()</onchange>
     <palign>right</palign>
     <type>popupMenu</type>
+  </fields>
+  <fields>
+    <name>collection_view.links</name>
+    <clear>left</clear>
+    <sep>[% nbsp %][% nbsp %][% nbsp %]</sep>
+    <type>groupMembership</type>
   </fields>
   <fields>
     <name>collection_view.subject</name>

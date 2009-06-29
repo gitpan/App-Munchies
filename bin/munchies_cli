@@ -1,19 +1,17 @@
 #!/usr/bin/env perl
 
-# @(#)$Id: munchies_misc 738 2009-06-09 16:42:23Z pjf $
+# @(#)$Id: munchies_cli 761 2009-06-12 15:05:20Z pjf $
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.2.%d', q$Rev: 738 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.3.%d', q$Rev: 761 $ =~ /\d+/gmx );
 use File::Spec::Functions;
 use FindBin  qw( $Bin );
 use lib catfile( $Bin, updir, q(lib) );
 
-use App::Munchies::Programs::Misc;
+use App::Munchies::CLI;
 
-my $prog = App::Munchies::Programs::Misc->new( appclass => q(App::Munchies) );
-
-exit $prog->dispatch;
+exit App::Munchies::CLI->new( appclass => q(App::Munchies) )->dispatch;
 
 __END__
 
@@ -21,17 +19,17 @@ __END__
 
 =head1 NAME
 
-munchies_misc - A collection of miscellaneous subroutines
+munchies_cli - A command line interface to application subroutines
 
 =head1 SYNOPSIS
 
 =over 3
 
-=item B<munchies_misc> B<-c> I<subroutine> [B<-o> I<var=value,...>]
+=item B<munchies_cli> B<-c> I<subroutine> [B<-o> I<var=value,...>]
 
 Execute named subroutine
 
-=item B<munchies_misc> B<-H>|B<-h>
+=item B<munchies_cli> B<-H>|B<-h>
 
 Display man page/usage string
 
@@ -39,12 +37,11 @@ Display man page/usage string
 
 =head1 VERSION
 
-$Revision: 738 $
+$Revision: 761 $
 
 =head1 DESCRIPTION
 
-This program exposes the subroutines in the
-App::Munchies::Programs::Misc module
+This program exposes the subroutines in the L<App::Munchies::CLI> module
 
 =head1 REQUIRED ARGUMENTS
 
@@ -88,7 +85,7 @@ Uses the constructor's I<appclass> attribute to locate a configuration file
 
 =over 3
 
-=item L<App::Munchies::Programs::Misc>
+=item L<App::Munchies::CLI>
 
 =back
 

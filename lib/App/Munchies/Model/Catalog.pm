@@ -1,10 +1,10 @@
-package App::Munchies::Model::Catalog;
+# @(#)$Id: Catalog.pm 757 2009-06-11 16:42:06Z pjf $
 
-# @(#)$Id: Catalog.pm 738 2009-06-09 16:42:23Z pjf $
+package App::Munchies::Model::Catalog;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.2.%d', q$Rev: 738 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.3.%d', q$Rev: 757 $ =~ /\d+/gmx );
 use parent qw(CatalystX::Usul::Model::Schema);
 
 use Class::C3;
@@ -22,17 +22,17 @@ __PACKAGE__->config( connect_info => [],
 __PACKAGE__->mk_accessors( qw(binsdir) );
 
 sub new {
-   my ($class, $app, @rest) = @_;
+   my ($self, $app, $config) = @_;
 
-   my $database = $rest[0]->{database} || $class->config->{database};
+   my $database = $config->{database} || $self->config->{database};
 
-   $class->config( connect_info => $class->connect_info( $app, $database ) );
+   $config->{connect_info} = $self->connect_info( $app, $database );
 
-   my $self = $class->next::method( $app, @rest );
+   my $new = $self->next::method( $app, $config );
 
-   $self->binsdir ( $app->config->{binsdir } );
-   $self->encoding( $app->config->{encoding} );
-   return $self;
+   $new->binsdir ( $app->config->{binsdir } );
+   $new->encoding( $app->config->{encoding} );
+   return $new;
 }
 
 sub add_links_to_subject {
@@ -689,7 +689,7 @@ App::Munchies::Model::Catalog - Manipulate the library catalog database
 
 =head1 Version
 
-0.1.$Revision: 738 $
+0.3.$Revision: 757 $
 
 =head1 Synopsis
 

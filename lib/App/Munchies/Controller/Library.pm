@@ -1,10 +1,10 @@
-# @(#)$Id: Library.pm 738 2009-06-09 16:42:23Z pjf $
+# @(#)$Id: Library.pm 768 2009-06-12 16:09:25Z pjf $
 
 package App::Munchies::Controller::Library;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.2.%d', q$Rev: 738 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.3.%d', q$Rev: 768 $ =~ /\d+/gmx );
 use parent qw(CatalystX::Usul::Controller);
 
 sub base : Chained(lang) CaptureArgs(0) {
@@ -40,9 +40,7 @@ sub reception : Chained(common) Args(0) Public {
 }
 
 sub redirect_to_default : Chained(base) PathPart('') Args {
-   my ($self, $c) = @_;
-
-   return $self->redirect_to_path( $c, q(/reception) );
+   my ($self, $c) = @_; return $self->redirect_to_path( $c, q(/reception) );
 }
 
 sub version {
@@ -61,7 +59,7 @@ App::Munchies::Controller::Library - A server side bookmark manager and food rec
 
 =head1 Version
 
-$Revision: 738 $
+$Revision: 768 $
 
 =head1 Synopsis
 

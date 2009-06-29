@@ -1,10 +1,10 @@
-# @(#)$Id: DemoText.pm 738 2009-06-09 16:42:23Z pjf $
+# @(#)$Id: DemoText.pm 757 2009-06-11 16:42:06Z pjf $
 
 package App::Munchies::Model::DemoText;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.2.%d', q$Rev: 738 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.3.%d', q$Rev: 757 $ =~ /\d+/gmx );
 use parent qw(CatalystX::Usul::Model);
 
 use Date::Discordian;
@@ -312,10 +312,16 @@ sub sampler_chooser {
    my $jscript   = "behaviour.submit.returnValue('";
       $jscript  .= "${form}', '${field}', '${value}') ";
    my $tip = 'Close this popup window and leave the field value unchanged';
+   my $e;
 
-   $nav_model->clear_controls;
-   $nav_model->add_menu_close( { onclick => $jscript,
-                                 tip     => $self->loc( $tip ) } );
+   eval {
+      $nav_model->clear_controls;
+      $nav_model->add_menu_close( { onclick => $jscript,
+                                    tip     => $self->loc( $tip ) } );
+   };
+
+   $self->add_error( $e ) if ($e = $self->catch);
+
    return;
 }
 
@@ -392,7 +398,7 @@ App::Munchies::Model::DemoText - Demonstration model
 
 =head1 Version
 
-0.1.$Revision: 738 $
+0.3.$Revision: 757 $
 
 =head1 Synopsis
 

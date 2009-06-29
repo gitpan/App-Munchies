@@ -1,10 +1,10 @@
-# @(#)$Id: Suid.pm 738 2009-06-09 16:42:23Z pjf $
+# @(#)$Id: Admin.pm 783 2009-06-27 11:20:50Z pjf $
 
-package App::Munchies::Programs::Suid;
+package App::Munchies::Admin;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.2.%d', q$Rev: 738 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.3.%d', q$Rev: 783 $ =~ /\d+/gmx );
 use parent qw(CatalystX::Usul::Programs);
 
 use CatalystX::Usul::Roles::Unix;
@@ -27,6 +27,32 @@ sub new {
    $new->version( $VERSION                                      );
 
    return $new;
+}
+
+sub is_authorised {
+   my $self = shift; my $method = $self->method; my $user = $self->logname;
+
+   return 0 unless ($method and $user);
+
+   return 1 if ($method eq q(authenticate) or $method eq q(change_password));
+
+   for my $role ($self->roles->get_roles( $user )) {
+      my $path = $self->catfile( $self->secsdir, $role.q(.sub) );
+
+      next unless (-f $path);
+
+      for my $line ($self->io( $path )->chomp->getlines) {
+         next unless ($line eq $method);
+
+         return 1 unless (q(user_) eq substr $line, 0, 5);
+
+         $self->parms->{set_user} = [ substr $line, 5 ];
+         $self->method( q(set_user) );
+         return 1;
+      }
+   }
+
+   return 0;
 }
 
 sub account_report {
@@ -54,33 +80,6 @@ sub authenticate {
       $self->error( $e->as_string( ($self->debug ? 2 : 1), 2 ),
                     { args => $e->args } );
       return 1;
-   }
-
-   return 0;
-}
-
-sub authorise {
-   my ($self, $args) = @_; my ($method, $path, $role, $roles, $user);
-
-   $method = $args->{method}; $user = $args->{user};
-
-   return 1 if ($method eq q(authenticate) || $method eq q(change_password));
-
-   for $role ($self->roles->get_roles( $user )) {
-      $path = $self->catfile( $self->secsdir, $role.q(.sub) );
-
-      next unless (-f $path);
-
-      for ($self->io( $path )->chomp->getlines) {
-         next unless ($_ eq $method);
-
-         return 1 unless (m{ \A user_ }msx);
-
-         s{ \A user_ }{}msx;
-         $self->parms->{set_user} = [ $_ ];
-         $self->method( q(set_user) );
-         return 1;
-      }
    }
 
    return 0;
@@ -135,7 +134,7 @@ sub set_user {
 
    if ($logname =~ m{ \A ([\w.]+) \z }msx) { $logname = $1 }
 
-   my $msg = "suid from $logname to $user";
+   my $msg = "Admin suid from $logname to $user";
    my $cmd = $logger.' -t suid -p auth.info -i "'.$msg.'" ';
 
    $self->run_cmd( $cmd );
@@ -172,7 +171,7 @@ sub tape_backup {
    my $self = shift; my ($cmd, $res, $text);
 
    $self->info( 'Starting tape backup on '.$self->vars->{device} );
-   $cmd  = $self->catfile( $self->binsdir, $self->prefix.'_misc' );
+   $cmd  = $self->catfile( $self->binsdir, $self->prefix.'_cli' );
    $cmd .= $self->debug ? ' -D' : ' -n';
    $cmd .= ' -c tape_backup -L '.$self->language;
 
@@ -215,16 +214,31 @@ __END__
 
 =head1 Name
 
-App::Munchies::Programs::Suid - Methods that run as the super user
+App::Munchies::Admin - Subroutines that run as the super user
 
 =head1 Version
 
-0.1.$Revision: 738 $
+0.3.$Revision: 783 $
 
 =head1 Synopsis
 
-   use <Module::Name>;
-   # Brief but working code examples
+   use App::Munchies::Admin;
+   use English qw(-no_match_vars);
+
+   my $prog = App::Munchies::Admin->new( appclass => q(App::Munchies),
+                                         arglist  => q(e) );
+
+   $EFFECTIVE_USER_ID  = 0; $REAL_USER_ID  = 0;
+   $EFFECTIVE_GROUP_ID = 0; $REAL_GROUP_ID = 0;
+
+   unless ($prog->is_authorised) {
+      my $text = 'Permission denied to '.$prog->method.' for '.$prog->logname;
+
+      $prog->error( $text );
+      exit 1;
+   }
+
+   exit $prog->dispatch;
 
 =head1 Description
 
@@ -232,13 +246,13 @@ App::Munchies::Programs::Suid - Methods that run as the super user
 
 =head2 new
 
+=head2 is_authorised
+
 =head2 account_report
 
 =head2 aliases_update
 
 =head2 authenticate
-
-=head2 authorise
 
 =head2 create_account
 
@@ -274,7 +288,7 @@ App::Munchies::Programs::Suid - Methods that run as the super user
 
 =over 3
 
-=item L<Class::Accessor::Fast>
+=item L<CatalystX::Usul::Programs>
 
 =back
 

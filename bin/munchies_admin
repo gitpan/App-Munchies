@@ -1,27 +1,25 @@
 #!/usr/bin/perl
 
-# @(#)$Id: munchies_suid 738 2009-06-09 16:42:23Z pjf $
+# @(#)$Id: munchies_admin 780 2009-06-26 15:57:01Z pjf $
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.2.%d', q$Rev: 738 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.3.%d', q$Rev: 780 $ =~ /\d+/gmx );
 # Using FindBin is incompatible with taint mode and suid programs
 # This path is edited by Bob the Module::Builder on installation
 use lib q(/opt/app-munchies/default/lib);
 
 use Carp;
+use App::Munchies::Admin;
 use English qw(-no_match_vars);
-use App::Munchies::Programs::Suid;
-
-my ($cmd, $prog, $ref, $text);
 
 $ENV{ENV}  = q();
 $ENV{PATH} = q(/usr/local/bin:/usr/bin:/bin); # For taint mode
 
-$prog = App::Munchies::Programs::Suid->new( appclass => q(App::Munchies),
-                                            arglist  => q(e) );
+my $prog = App::Munchies::Admin->new( appclass => q(App::Munchies),
+                                      arglist  => q(e) );
 
-if (exists $prog->args->{h} || exists $prog->args->{H} || !$prog->method) {
+if (exists $prog->args->{h} or exists $prog->args->{H} or not $prog->method) {
    $prog->method( undef );
    exit $prog->dispatch;
 }
@@ -33,15 +31,14 @@ $EFFECTIVE_GROUP_ID = 0; $REAL_GROUP_ID = 0;
 
 # Taint mode workaround
 unless (exists $prog->args->{e}) {
-   $cmd   = $prog->pathname.($prog->debug ? ' -D' : ' -n');
-   $cmd  .= ' -e -c "'.$prog->method.'"';
+   my $cmd = $prog->pathname.($prog->debug ? ' -D' : ' -n');
 
-   $cmd  .= ' -L '.$prog->language if ($prog->language);
+   $cmd   .= ' -e -c "'.$prog->method.'"';
+   $cmd   .= ' -L '.$prog->language if ($prog->language);
+   $cmd   .= ' -o "'.$_.q(=).$prog->vars->{$_}.'"' for (keys %{$prog->vars});
+   $cmd   .= ' -- '.(join q( ), map { '"'.$_.'"' } @ARGV);
 
-   $cmd  .= ' -o "'.$_.q(=).$prog->vars->{$_}.'"' for (keys %{$prog->vars});
-
-   $cmd  .= ' -- '.(join q( ), map { '"'.$_.'"' } @ARGV);
-   ($cmd) = $cmd =~ m{ \A ([[:print:]]+) \z }msx; # Untaint
+   ($cmd)  = $cmd =~ m{ \A ([[:print:]]+) \z }msx; # Untaint
 
    $prog->log_debug( $cmd ) if ($prog->debug);
 
@@ -50,14 +47,11 @@ unless (exists $prog->args->{e}) {
 # End of workaround
 
 # Running as root not suid root during install
-if ((stat $prog->pathname)[2] & oct q(04000)) {
-   $ref = { method => $prog->method, user => $ENV{USER} };
+if ((stat $prog->pathname)[2] & oct q(04000) and not $prog->is_authorised) {
+   my $text = 'Permission denied to '.$prog->method.' for '.$prog->logname;
 
-   unless ($prog->authorise( $ref )) {
-      $text = 'Permission denied to '.$prog->method.' for '.$prog->logname;
-      $prog->error( $text );
-      exit 1;
-   }
+   $prog->error( $text );
+   exit 1;
 }
 
 $prog->mode( oct q(022) );
@@ -70,17 +64,17 @@ __END__
 
 =head1 NAME
 
-munchies_suid - Run subroutines as the super user
+munchies_admin - Run subroutines as the super user
 
 =head1 SYNOPSIS
 
 =over 3
 
-=item B<munchies_suid> B<-c> I<subroutine> [B<-o> I<var=value,...>]
+=item B<munchies_admin> B<-c> I<subroutine> [B<-o> I<var=value,...>]
 
 Run subroutine as the super user only if the excuting user is permitted
 
-=item B<munchies_misc> B<-H>|B<-h>
+=item B<munchies_admin> B<-H>|B<-h>
 
 Display man page/usage string
 
@@ -88,14 +82,14 @@ Display man page/usage string
 
 =head1 VERSION
 
-$Revision: 738 $
+$Revision: 780 $
 
 =head1 DESCRIPTION
 
-This program exposes the subroutines in the
-App::Munchies::Programs::Suid module.  Runs suid root. Only executes
-the subroutine as the super user if the subroutine name appears in
-secure list belonging to one of the user's groups
+This program exposes the subroutines in the L<App::Munchies::Admin>
+module. Runs suid root. Only executes the subroutine as the super user
+if the subroutine name appears in a secure list belonging to one of the
+user's groups
 
 =head1 REQUIRED ARGUMENTS
 
@@ -139,7 +133,7 @@ Uses the constructor's I<appclass> attribute to locate a configuration file
 
 =over 3
 
-=item L<App::Munchies::Programs::Suid>
+=item L<App::Munchies::Admin>
 
 =back
 
