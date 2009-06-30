@@ -1,10 +1,10 @@
-# @(#)$Id: Catalog.pm 757 2009-06-11 16:42:06Z pjf $
+# @(#)$Id: Catalog.pm 790 2009-06-30 02:51:12Z pjf $
 
 package App::Munchies::Model::Catalog;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.3.%d', q$Rev: 757 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.4.%d', q$Rev: 790 $ =~ /\d+/gmx );
 use parent qw(CatalystX::Usul::Model::Schema);
 
 use Class::C3;
@@ -689,7 +689,7 @@ App::Munchies::Model::Catalog - Manipulate the library catalog database
 
 =head1 Version
 
-0.3.$Revision: 757 $
+0.4.$Revision: 790 $
 
 =head1 Synopsis
 

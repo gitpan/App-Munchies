@@ -1,5 +1,8 @@
 Revision history for App::Munchies
 
+0.3.794  30/06/2009
+         - Build.PL no longer needs APPLDIR
+
 0.3.786  29/06/2009
          - Renamed suid to admin and misc to cli
          - Adapted to Catalyst 5.8

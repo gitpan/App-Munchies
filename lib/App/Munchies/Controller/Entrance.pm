@@ -1,10 +1,10 @@
-# @(#)$Id: Entrance.pm 767 2009-06-12 16:08:03Z pjf $
+# @(#)$Id: Entrance.pm 790 2009-06-30 02:51:12Z pjf $
 
 package App::Munchies::Controller::Entrance;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.3.%d', q$Rev: 767 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.4.%d', q$Rev: 790 $ =~ /\d+/gmx );
 use parent qw(CatalystX::Usul::Controller::Entrance);
 
 sub clock : Chained(common) Args(0) Public {
@@ -75,7 +75,7 @@ App::Munchies::Controller::Entrance - Welcome to this application framework
 
 =head1 Version
 
-$Revision: 767 $
+$Revision: 790 $
 
 =head1 Synopsis
 

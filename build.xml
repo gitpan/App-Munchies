@@ -31,7 +31,7 @@
   </link_files>
   <make_default>1</make_default>
   <owner>munchies</owner>
-  <phase>2</phase>
+  <phase>1</phase>
   <prefix>munchies</prefix>
   <pwidth>50</pwidth>
   <restart_apache>1</restart_apache>

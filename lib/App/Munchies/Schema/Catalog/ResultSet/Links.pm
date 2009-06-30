@@ -1,13 +1,13 @@
 package App::Munchies::Schema::Catalog::ResultSet::Links;
 
-# @(#)$Id: Links.pm 754 2009-06-09 23:50:51Z pjf $
+# @(#)$Id: Links.pm 790 2009-06-30 02:51:12Z pjf $
 
 use strict;
 use warnings;
 use base qw(DBIx::Class::ResultSet);
 use List::Util qw(first);
 
-use version; our $VERSION = qv( sprintf '0.3.%d', q$Rev: 754 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.4.%d', q$Rev: 790 $ =~ /\d+/gmx );
 
 sub list {
    my ($self, $cat, $labels, $current) = @_; my ($links, $ref);
@@ -45,7 +45,7 @@ App::Munchies::Schema::Catalog::ResultSet::Links - Canned queries against the li
 
 =head1 Version
 
-0.3.$Revision: 754 $
+0.4.$Revision: 790 $
 
 =head1 Synopsis
 

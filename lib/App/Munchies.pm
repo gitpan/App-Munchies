@@ -1,11 +1,11 @@
-# @(#)$Id: Munchies.pm 786 2009-06-29 17:28:03Z pjf $
+# @(#)$Id: Munchies.pm 794 2009-06-30 16:49:49Z pjf $
 
 package App::Munchies;
 
 use 5.008;
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.3.%d', q$Rev: 786 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.4.%d', q$Rev: 794 $ =~ /\d+/gmx );
 
 use File::Spec;
 use Catalyst::Runtime q(5.70);
@@ -235,7 +235,7 @@ App::Munchies - Catalyst example application using food recipes as a data set
 
 =head1 Version
 
-0.3.$Revision: 786 $
+0.4.$Revision: 794 $
 
 =head1 Synopsis
 
@@ -414,3 +414,4 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE
 # mode: perl
 # tab-width: 3
 # End:
+

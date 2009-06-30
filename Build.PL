@@ -1,7 +1,6 @@
-# @(#)$Id: Build.PL 785 2009-06-29 17:22:42Z pjf $
+# @(#)$Id: Build.PL 791 2009-06-30 11:08:00Z pjf $
 
 my $PREFIX     = q(/opt);
-my $APPLREL    = q(v0.1p3);
 my $APPNAME    = q(App::Munchies);
 my $HOME_PAGE  = q(http://www.roxsoft.co.uk);
 my $LICENSE    = q(http://dev.perl.org/licenses/);
@@ -48,7 +47,7 @@ BEGIN {
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.3.%d', q$Rev: 785 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.4.%d', q$Rev: 791 $ =~ /\d+/gmx );
 use File::Spec::Functions;
 use FindBin qw( $Bin );
 use lib catdir( $Bin, q(lib) );
@@ -152,8 +151,7 @@ my $builder = $sub_class->new
      license            => q(perl),
      module_name        => $APPNAME,
      no_index           => { directory => [ qw(t var/root) ] },
-     notes              => { applrel   => $APPLREL,
-                             dbname    => $DBNAME,
+     notes              => { dbname    => $DBNAME,
                              prefix    => $PREFIX, },
      recommends         => $RECOMMENDS,
      requires           => $REQUIRES,

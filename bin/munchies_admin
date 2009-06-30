@@ -1,10 +1,10 @@
 #!/usr/bin/perl
 
-# @(#)$Id: munchies_admin 780 2009-06-26 15:57:01Z pjf $
+# @(#)$Id: munchies_admin 790 2009-06-30 02:51:12Z pjf $
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.3.%d', q$Rev: 780 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.4.%d', q$Rev: 790 $ =~ /\d+/gmx );
 # Using FindBin is incompatible with taint mode and suid programs
 # This path is edited by Bob the Module::Builder on installation
 use lib q(/opt/app-munchies/default/lib);
@@ -82,7 +82,7 @@ Display man page/usage string
 
 =head1 VERSION
 
-$Revision: 780 $
+0.4.$Rev: 790 $
 
 =head1 DESCRIPTION
 

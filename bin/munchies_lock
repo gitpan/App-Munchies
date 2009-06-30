@@ -1,10 +1,10 @@
 #!/usr/bin/env perl
 
-# @(#)$Id: munchies_lock 781 2009-06-26 15:59:13Z pjf $
+# @(#)$Id: munchies_lock 790 2009-06-30 02:51:12Z pjf $
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.2.%d', q$Rev: 781 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.4.%d', q$Rev: 790 $ =~ /\d+/gmx );
 use File::Spec::Functions;
 use FindBin  qw( $Bin );
 use lib catfile( $Bin, updir, q(lib) );
@@ -52,7 +52,7 @@ Display man page/usage string
 
 =head1 VERSION
 
-$Revision: 781 $
+0.4.$Rev: 790 $
 
 =head1 DESCRIPTION
 

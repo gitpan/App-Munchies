@@ -1,11 +1,11 @@
 # Created by DBIx::Class::Schema::Loader v0.03009 @ 2007-03-04 02:50:46
-# @(#)$Id: Catalog.pm 754 2009-06-09 23:50:51Z pjf $
+# @(#)$Id: Catalog.pm 790 2009-06-30 02:51:12Z pjf $
 
 package App::Munchies::Schema::Catalog;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.3.%d', q$Rev: 754 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.4.%d', q$Rev: 790 $ =~ /\d+/gmx );
 use parent qw(DBIx::Class::Schema);
 
 use File::Spec;
@@ -34,7 +34,7 @@ App::Munchies::Schema::Catalog - Schema base class
 
 =head1 Version
 
-0.3.$Revision: 754 $
+0.4.$Revision: 790 $
 
 =head1 Synopsis
 

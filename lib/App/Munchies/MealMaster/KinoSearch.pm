@@ -1,10 +1,10 @@
-# @(#)$Id: KinoSearch.pm 775 2009-06-22 01:15:40Z pjf $
+# @(#)$Id: KinoSearch.pm 790 2009-06-30 02:51:12Z pjf $
 
 package App::Munchies::MealMaster::KinoSearch;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.3.%d', q$Rev: 775 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.4.%d', q$Rev: 790 $ =~ /\d+/gmx );
 
 package # Hide from indexer
    MealMaster::KinoSearch::Schema::NoAnalNoVector;
@@ -94,7 +94,7 @@ App::Munchies::MealMaster::KinoSearch - Text search model for food recipes in MM
 
 =head1 Version
 
-0.3.$Revision: 775 $
+0.4.$Revision: 790 $
 
 =head1 Synopsis
 
