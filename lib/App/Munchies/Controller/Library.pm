@@ -1,49 +1,80 @@
-# @(#)$Id: Library.pm 790 2009-06-30 02:51:12Z pjf $
+# @(#)$Id: Library.pm 1269 2012-01-11 16:28:05Z pjf $
 
 package App::Munchies::Controller::Library;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.4.%d', q$Rev: 790 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.5.%d', q$Rev: 1269 $ =~ /\d+/gmx );
 use parent qw(CatalystX::Usul::Controller);
 
-sub base : Chained(lang) CaptureArgs(0) {
-   # PathPart set in global configuration
-}
+use CatalystX::Usul::Constants;
+
+__PACKAGE__->config( catalog_class => q(Catalog),
+                     search_key    => q(search_expression), );
+
+__PACKAGE__->mk_accessors( qw(catalog_class search_key) );
 
 sub begin : Private {
    return shift->next::method( @_ );
 }
 
-sub check_field : Chained(base) Args(0) HasActions Public {
+sub base : Chained(/) CaptureArgs(0) {
+   # PathPart set in global configuration
+   my ($self, $c) = @_;
+
+   return $self->init_uri_attrs( $c, $self->model_base_class );
+}
+
+sub check_field : Chained(base) Args(0) HasActions NoToken Public {
    return shift->next::method( @_ );
 }
 
 sub common : Chained(base) PathPart('') CaptureArgs(0) {
-   my ($self, $c) = @_;
+   my ($self, $c) = @_; my $s = $c->stash; my $nav = $s->{nav_model};
 
-   $self->next::method( $c, $c->model( q(Catalog) ) );
-   $self->load_keys( $c );
-   $self->add_sidebar_panel( $c, { name => q(conversion) } );
+   $nav->add_header; $nav->add_footer;
+
+   my $model = $c->model( $self->model_base_class );
+
+   $model->add_sidebar_panel( { name => q(conversion) } );
    return;
 }
 
-sub lang : Chained(/) PathPart('') CaptureArgs(1) {
-   # Capture the language selection from the requested url
+sub add_search_panel : Private {
+   my ($self, $c, $action, @rest) = @_;
+
+   my @args  = ($action, @rest);
+   my $model =  $c->model( $self->catalog_class );
+   my $query =  $model->search_view( @args );
+   my $pno   =  $model->add_sidebar_panel( {
+      action      => $action,
+      name        => q(search),
+      on_complete => 'function() { this.tips.build() }',
+      value       => $query,
+      unshift     => TRUE } );
+
+   $self->select_sidebar_panel( $c, $pno );
+   $self->open_sidebar( $c );
+
+   return $c->stash->{sdata} ? TRUE : FALSE;
 }
 
-sub reception : Chained(common) Args(0) Public {
+sub footer : Chained(base) Args(0) NoToken Public {
+   my ($self, $c) = @_; return $c->model( $self->help_class )->add_footer;
+}
+
+sub redirect_to_search : Private {
    my ($self, $c) = @_;
 
-   $c->model( q(Base) )->simple_page( q(reception) );
-   return;
+   my $model = $c->model( $self->catalog_class );
+   my $query = $model->query_value( $self->search_key );
+
+   $c->res->redirect( $c->uri_for_action( $c->action->reverse, $query ) );
+   $c->detach(); # Never returns
+   return TRUE;
 }
 
-sub redirect_to_default : Chained(base) PathPart('') Args {
-   my ($self, $c) = @_; return $self->redirect_to_path( $c, q(/reception) );
-}
-
-sub version {
+sub version : Private {
    return $VERSION;
 }
 
@@ -59,13 +90,15 @@ App::Munchies::Controller::Library - A server side bookmark manager and food rec
 
 =head1 Version
 
-$Revision: 790 $
+$Revision: 1269 $
 
 =head1 Synopsis
 
 =head1 Description
 
 =head1 Subroutines/Methods
+
+=head2 add_search_panel
 
 =head2 base
 
@@ -75,11 +108,9 @@ $Revision: 790 $
 
 =head2 common
 
-=head2 lang
+=head2 footer
 
-=head2 reception
-
-=head2 redirect_to_default
+=head2 redirect_to_search
 
 =head2 version
 

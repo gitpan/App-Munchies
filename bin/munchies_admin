@@ -1,10 +1,9 @@
 #!/usr/bin/perl
-
-# @(#)$Id: munchies_admin 790 2009-06-30 02:51:12Z pjf $
+# @(#)$Id: munchies_admin 1223 2011-08-01 20:55:53Z pjf $
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.4.%d', q$Rev: 790 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.5.%d', q$Rev: 1223 $ =~ /\d+/gmx );
 # Using FindBin is incompatible with taint mode and suid programs
 # This path is edited by Bob the Module::Builder on installation
 use lib q(/opt/app-munchies/default/lib);
@@ -14,49 +13,29 @@ use App::Munchies::Admin;
 use English qw(-no_match_vars);
 
 $ENV{ENV}  = q();
-$ENV{PATH} = q(/usr/local/bin:/usr/bin:/bin); # For taint mode
+$ENV{PATH} = q(/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin); # For taint mode
 
 my $prog = App::Munchies::Admin->new( appclass => q(App::Munchies),
                                       arglist  => q(e) );
 
 if (exists $prog->args->{h} or exists $prog->args->{H} or not $prog->method) {
-   $prog->method( undef );
-   exit $prog->dispatch;
+   $prog->method( undef ); exit $prog->run;
 }
 
-$ENV{USER} = $ENV{LOGNAME} = getpwuid $REAL_USER_ID if ($REAL_USER_ID != 0);
+$REAL_USER_ID != 0 and $ENV{USER} = $ENV{LOGNAME} = getpwuid $REAL_USER_ID;
 
 $EFFECTIVE_USER_ID  = 0; $REAL_USER_ID  = 0;
 $EFFECTIVE_GROUP_ID = 0; $REAL_GROUP_ID = 0;
 
-# Taint mode workaround
-unless (exists $prog->args->{e}) {
-   my $cmd = $prog->pathname.($prog->debug ? ' -D' : ' -n');
-
-   $cmd   .= ' -e -c "'.$prog->method.'"';
-   $cmd   .= ' -L '.$prog->language if ($prog->language);
-   $cmd   .= ' -o "'.$_.q(=).$prog->vars->{$_}.'"' for (keys %{$prog->vars});
-   $cmd   .= ' -- '.(join q( ), map { '"'.$_.'"' } @ARGV);
-
-   ($cmd)  = $cmd =~ m{ \A ([[:print:]]+) \z }msx; # Untaint
-
-   $prog->log_debug( $cmd ) if ($prog->debug);
-
-   exec $cmd or croak "Exec failed $cmd\n";
-}
-# End of workaround
+exists $prog->args->{e} or exec $prog->untaint_self or croak "Exec failed\n";
 
 # Running as root not suid root during install
-if ((stat $prog->pathname)[2] & oct q(04000) and not $prog->is_authorised) {
-   my $text = 'Permission denied to '.$prog->method.' for '.$prog->logname;
-
-   $prog->error( $text );
+if ($prog->is_setuid and not $prog->is_authorised) {
+   $prog->error( 'Access denied to '.$prog->method.' for '.$prog->logname );
    exit 1;
 }
 
-$prog->mode( oct q(022) );
-
-exit $prog->dispatch;
+$prog->mode( oct q(007) ); exit $prog->run;
 
 __END__
 
@@ -82,7 +61,7 @@ Display man page/usage string
 
 =head1 VERSION
 
-0.4.$Rev: 790 $
+0.5.$Rev: 1223 $
 
 =head1 DESCRIPTION
 
@@ -106,10 +85,6 @@ user's groups
 =item B<-D>
 
 Turn debugging on
-
-=item B<-m> I<path>
-
-Append to logfile on completion
 
 =item B<-n>
 
@@ -151,7 +126,7 @@ Peter Flanigan
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright (c) 2009 Peter Flanigan
+Copyright (c) 2011 Peter Flanigan
 
 This is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself

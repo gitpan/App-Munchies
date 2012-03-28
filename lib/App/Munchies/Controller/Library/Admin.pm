@@ -1,147 +1,84 @@
-# @(#)$Id: Admin.pm 790 2009-06-30 02:51:12Z pjf $
+# @(#)$Id: Admin.pm 1119 2011-03-23 00:59:26Z pjf $
 
 package App::Munchies::Controller::Library::Admin;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.4.%d', q$Rev: 790 $ =~ /\d+/gmx );
-use parent qw(CatalystX::Usul::Controller);
+use version; our $VERSION = qv( sprintf '0.5.%d', q$Rev: 1119 $ =~ /\d+/gmx );
+use parent qw(App::Munchies::Controller::Library);
 
-__PACKAGE__->config( catalog_class => q(Catalog),
-                     links_class   => q(Catalog::Links),
-                     names_class   => q(Catalog::Names),
-                     namespace     => q(library),
-                     nodes_class   => q(Catalog::Nodes) );
+use CatalystX::Usul::Constants;
 
-__PACKAGE__->mk_accessors( qw(catalog_class links_class
-                              names_class namespace nodes_class) );
+sub admin_base : Chained(common) PathPart(admin) CaptureArgs(0) {
+   my ($self, $c) = @_;
 
-sub admin : Chained(common) CaptureArgs(0) {
-   my ($self, $c) = @_; my $s = $c->stash;
-
-   my $model    = $c->model( $self->names_class );
-   my $names    = { map { $_->id => $_->text } $model->search() };
-
-   $names->{0}  = q(); $names->{'-1'} = $s->{newtag};
-
-   $s->{model}->{catalog } = $c->model( $self->catalog_class );
-   $s->{model}->{catalogs} = $c->model( $self->nodes_class )->catalogs();
-   $s->{model}->{links   } = $c->model( $self->links_class );
-   $s->{model}->{names   } = $names;
-   $s->{model}->{nodes   } = $c->model( $self->nodes_class );
+   $c->stash->{catalog_model} = $c->model( $self->catalog_class );
    return;
+}
+
+sub admin : Chained(admin_base) PathPart('') Args(0) Public {
+   my ($self, $c) = @_;
+
+   return $self->redirect_to_path( $c, SEP.q(recatalog_view) );
 }
 
 sub collection_update : ActionFor(collection_view.update) {
-   my ($self, $c) = @_; my $s = $c->stash; my $model = $s->{model}->{catalog};
-
-   my $args = { subject => $self->get_key( $c, q(subject) ) };
-
-   if ($model->query_value( q(links_n_added) )) {
-      $args->{field} = q(links_added);
-      $model->add_links_to_subject( $args );
-   }
-
-   if ($model->query_value( q(links_n_deleted) )) {
-      $args->{field} = q(links_deleted);
-      $model->remove_links_from_subject( $args );
-   }
-
-   return 1;
+   my ($self, $c) = @_; return $c->stash->{catalog_model}->update_links;
 }
 
-sub collection_view : Chained(admin) PathPart(collection) Args HasActions {
-   my ($self, $c, $cat, $subject) = @_;
-
-   $cat     = $self->set_key( $c, q(catalog), $cat );
-   $subject = $self->set_key( $c, q(subject), $subject );
-   $c->stash->{model}->{catalog}->form( $cat, $subject );
-   return;
+sub collection_view : Chained(admin_base)
+                      PathPart(collection) Args HasActions {
+   my ($self, $c, @args) = @_; return $c->stash->{catalog_model}->form( @args );
 }
 
 sub links_delete : ActionFor(links_view.delete) {
-   my ($self, $c) = @_;
+   my ($self, $c, $cat) = @_;
 
-   $c->stash->{model}->{catalog}->links_delete( $self->get_key( $c, q(link) ));
-   $self->set_key( $c, q(link), -1 );
-   return 1;
+   $c->stash->{catalog_model}->links_delete;
+   $self->set_uri_args( $c, $cat, -1 );
+   return TRUE;
 }
 
 sub links_insert : ActionFor(links_view.insert) {
-   my ($self, $c) = @_;
+   my ($self, $c, $cat) = @_;
 
-   my $id = $c->stash->{model}->{catalog}->links_insert;
+   my $id = $c->stash->{catalog_model}->links_insert;
 
-   $self->set_key( $c, q(link), $id );
-   return 1;
+   $self->set_uri_args( $c, $cat, $id );
+   return TRUE;
 }
 
 sub links_save : ActionFor(links_view.save) {
-   my ($self, $c) = @_;
-
-   $c->stash->{model}->{catalog}->links_save( $self->get_key( $c, q(link) ) );
-   return 1;
+   my ($self, $c) = @_; return $c->stash->{catalog_model}->links_save;
 }
 
-sub links_view : Chained(admin) PathPart(links) Args HasActions {
-   my ($self, $c, $cat, $link) = @_;
-
-   $cat  = $self->set_key( $c, q(catalog), $cat  );
-   $link = $self->set_key( $c, q(link),    $link );
-   $c->stash->{model}->{catalog}->form( $cat, $link );
-   return;
+sub links_view : Chained(admin_base) PathPart(links) Args HasActions {
+   my ($self, $c, @args) = @_; return $c->stash->{catalog_model}->form( @args );
 }
 
 sub nodes_delete : ActionFor(nodes_view.delete) {
-   my ($self, $c) = @_;
-
-   my $args = { catalog => $self->get_key( $c, q(catalog) ),
-                names   => $c->model( $self->names_class ),
-                subject => $self->get_key( $c, q(subject) ) };
-
-   $c->stash->{model}->{catalog}->nodes_delete( $args );
-   return 1;
+   my ($self, $c) = @_; return $c->stash->{catalog_model}->nodes_delete;
 }
 
 sub nodes_insert : ActionFor(nodes_view.insert) {
-   my ($self, $c) = @_;
-
-   my $args = { catalog => $self->get_key( $c, q(catalog) ),
-                names   => $c->model( $self->names_class ),
-                subject => $self->get_key( $c, q(subject) ) };
-
-   $c->stash->{model}->{catalog}->nodes_insert( $args );
-   return 1;
+   my ($self, $c) = @_; return $c->stash->{catalog_model}->nodes_insert;
 }
 
 sub nodes_save : ActionFor(nodes_view.save) {
-   my ($self, $c) = @_; my $s = $c->stash;
-
-   $s->{model}->{catalog}->nodes_save( $c->model( $self->names_class ) );
-   return 1;
+   my ($self, $c) = @_; return $c->stash->{catalog_model}->nodes_save;
 }
 
-sub nodes_view : Chained(admin) PathPart(nodes) Args HasActions {
-   my ($self, $c, $cat, $subject) = @_;
-
-   $cat     = $self->set_key( $c, q(catalog), $cat );
-   $subject = $self->set_key( $c, q(subject), $subject );
-   $c->stash->{model}->{catalog}->form( $cat, $subject );
-   return;
+sub nodes_view : Chained(admin_base) PathPart(nodes) Args HasActions {
+   my ($self, $c, @args) = @_; return $c->stash->{catalog_model}->form( @args );
 }
 
-sub recatalog : Chained(admin) PathPart('') Args(0) Public {
-   my ($self, $c) = @_;
-
-   return $self->redirect_to_path( $c, q(/recatalog_view) );
-}
-
-sub recatalog_view : Chained(admin) PathPart(recatalog) Args(0) HasActions {
-   my ($self, $c) = @_; $c->stash->{model}->{catalog}->recatalog_form; return;
+sub recatalog_view : Chained(admin_base)
+                     PathPart(recatalog) Args(0) HasActions {
+   my ($self, $c) = @_; return $c->stash->{catalog_model}->recatalog_form;
 }
 
 sub recatalog_exec : ActionFor(recatalog_view.execute) {
-   my ($self, $c) = @_; $c->stash->{model}->{catalog}->recatalog_exec; return;
+   my ($self, $c) = @_; return $c->stash->{catalog_model}->recatalog_exec;
 }
 
 1;
@@ -156,7 +93,7 @@ App::Munchies::Controller::Library::Admin - Manage server side bookmarks databas
 
 =head1 Version
 
-0.4.$Revision: 790 $
+0.5.$Revision: 1119 $
 
 =head1 Synopsis
 
@@ -168,6 +105,8 @@ App::Munchies::Controller::Library::Admin - Manage server side bookmarks databas
 =head1 Subroutines/Methods
 
 =head2 admin
+
+=head2 admin_base
 
 =head2 collection_update
 

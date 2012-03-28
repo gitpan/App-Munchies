@@ -1,85 +1,86 @@
-# @(#)$Id: KinoSearch.pm 790 2009-06-30 02:51:12Z pjf $
+# @(#)$Id: KinoSearch.pm 1037 2010-07-14 01:32:50Z pjf $
 
 package App::Munchies::MealMaster::KinoSearch;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.4.%d', q$Rev: 790 $ =~ /\d+/gmx );
-
-package # Hide from indexer
-   MealMaster::KinoSearch::Schema::NoAnalNoVector;
-
-use parent qw(KinoSearch::Schema::FieldSpec);
-
-sub analyzed   { return 0 }
-
-sub vectorized { return 0 }
-
-package # Hide from indexer
-   MealMaster::KinoSearch::Schema::NoAnalNoIndexNoVector;
-
-use parent qw(KinoSearch::Schema::FieldSpec);
-
-sub analyzed   { return 0 }
-
-sub indexed    { return 0 }
-
-sub vectorized { return 0 }
-
-package # Hide from indexer
-   MealMaster::KinoSearch::Schema;
-
-use parent qw(KinoSearch::Schema);
+use version; our $VERSION = qv( sprintf '0.5.%d', q$Rev: 1037 $ =~ /\d+/gmx );
+use parent qw(Class::Accessor::Fast);
 
 use KinoSearch::Analysis::PolyAnalyzer;
-
-our %fields = (
-    title       => __PACKAGE__.q(::NoAnalNoVector),
-    ingredients => q(KinoSearch::Schema::FieldSpec),
-    url         => __PACKAGE__.q(::NoAnalNoIndexNoVector),
-    file        => __PACKAGE__.q(::NoAnalNoIndexNoVector),
-    key         => __PACKAGE__.q(::NoAnalNoIndexNoVector),
-);
-
-sub analyzer {
-   return KinoSearch::Analysis::PolyAnalyzer->new( language => q(en) );
-}
-
-package # Hide from indexer
-   App::Munchies::MealMaster::KinoSearch;
-
+use KinoSearch::FieldType::FullTextType;
+use KinoSearch::FieldType::StringType;
 use KinoSearch::Highlight::Highlighter;
-use KinoSearch::InvIndexer;
+use KinoSearch::Indexer;
+use KinoSearch::QueryParser;
+use KinoSearch::Schema;
+use KinoSearch::Search::SortRule;
 use KinoSearch::Search::SortSpec;
 use KinoSearch::Searcher;
+use Scalar::Util qw(blessed);
+
+__PACKAGE__->mk_accessors( qw(list total_hits) );
 
 sub new {
-   my ($self, @rest) = @_;
+   my ($self, $path) = @_;
 
-   return KinoSearch::InvIndexer->new(
-      invindex => MealMaster::KinoSearch::Schema->open( @rest ) );
+   my $schema       =  KinoSearch::Schema->new;
+   my $polyanalyzer =  KinoSearch::Analysis::PolyAnalyzer->new
+      ( language    => q(en) );
+   my $full_text    =  KinoSearch::FieldType::FullTextType->new
+      ( analyzer    => $polyanalyzer, highlightable => 1 );
+   my $non_indexed  =  KinoSearch::FieldType::StringType->new
+      ( indexed     => 0 );
+   my $sortable     =  KinoSearch::FieldType::StringType->new
+      ( sortable    => 1 );
+
+   $schema->spec_field( name => q(title),       type => $full_text   );
+   $schema->spec_field( name => q(ingredients), type => $full_text   );
+   $schema->spec_field( name => q(key),         type => $sortable    );
+   $schema->spec_field( name => q(file),        type => $non_indexed );
+
+   return KinoSearch::Indexer->new
+      ( create => 1, index => $path, schema => $schema );
 }
 
 sub search_for {
-   my ($self, $args, $query, $hits_per_page, $page) = @_;
+   my ($self, $args) = @_; $args ||= {};
 
-   $args ||= {}; $query ||= q(); $hits_per_page ||= 64; $page ||= 0;
+   my $hits_per     =  $args->{hits_per} || 64;
+   my $page         =  $args->{page    } || 0;
+   my $searcher     =  KinoSearch::Searcher->new( index => $args->{invindex} );
+   my $field_rule   =  KinoSearch::Search::SortRule->new( field => q(key)    );
+   my $score_rule   =  KinoSearch::Search::SortRule->new( type  => q(score)  );
+   my $doc_id_rule  =  KinoSearch::Search::SortRule->new( type  => q(doc_id) );
+   my $sort_spec    =  KinoSearch::Search::SortSpec->new
+      ( rules       => [ $field_rule, $score_rule, $doc_id_rule ], );
+   my $query_parser =  KinoSearch::QueryParser->new
+      ( fields      => [ $args->{search_field} ],
+        schema      => $searcher->get_schema );
+   my $query        =  $query_parser->parse( '"'.($args->{query} || q()).'"' );
+   my $hits         =  $searcher->hits( num_wanted => $hits_per,
+                                        offset     => $hits_per * $page,
+                                        query      => $query,
+                                        sort_spec  => $sort_spec );
+   my $highlighter  =  $args->{search_field} ne q(title)
+                    ?  KinoSearch::Highlight::Highlighter->new
+                        ( field    => $args->{search_field},
+                          query    => $query,
+                          searcher => $searcher, )
+                    :  0;
+   my $class        =  blessed $self || $self;
+   my $new          =  bless { list       => [],
+                               total_hits => $hits->total_hits }, $class;
 
-   my $invindex    = MealMaster::KinoSearch::Schema->read( $args->{invindex} );
-   my $searcher    = KinoSearch::Searcher->new( invindex => $invindex );
-   my $highlighter = KinoSearch::Highlight::Highlighter->new();
-   my $sort_spec   = KinoSearch::Search::SortSpec->new();
+   while (my $hit = $hits->next) {
+      my $hash = $hit->get_fields;
 
-   $highlighter->add_spec( field => $args->{highlight_field} );
-   $sort_spec->add       ( field => $args->{sort_field     } );
+      $highlighter and $hash->{excerpt} = $highlighter->create_excerpt( $hit );
+      $hash->{score} = $hit->get_score;
+      push @{ $new->list }, $hash;
+   }
 
-   my $hits = $searcher->search( num_wanted => $hits_per_page,
-                                 offset     => $hits_per_page * $page,
-                                 query      => $query,
-                                 sort_spec  => $sort_spec );
-
-   $hits->create_excerpts( highlighter => $highlighter );
-   return $hits;
+   return $new;
 }
 
 1;
@@ -94,7 +95,7 @@ App::Munchies::MealMaster::KinoSearch - Text search model for food recipes in MM
 
 =head1 Version
 
-0.4.$Revision: 790 $
+0.5.$Revision: 1037 $
 
 =head1 Synopsis
 

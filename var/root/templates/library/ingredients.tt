@@ -1,0 +1,10 @@
+<!-- @(#)$Id: ingredients.tt 1043 2010-07-17 01:55:10Z pjf $ -->
+[% IF display_instructions %]
+<div class="sdata_panel">
+  <h1>Ingredients Search</h1>
+  <p>Enter the ingedients to search for in the text field on the
+    search panel of the side bar. Click the search button. Results of
+    the search are displayed using a paged query
+  </p>
+</div>
+[% END %]

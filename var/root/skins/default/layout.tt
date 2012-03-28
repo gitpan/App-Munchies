@@ -1,21 +1,19 @@
-[%# @(#)$Id: layout.tt 755 2009-06-10 00:01:56Z pjf $ %]
+[%# @(#)$Id: layout.tt 1269 2012-01-11 16:28:05Z pjf $ %]
 
-[% MACRO Append IF append %]
-<div class="[% class %]" id="append">
-   [% FOREACH item = append.items %]
-   <div class="appendItem [% item.class %]" style="[% item.style %]">
-      [% item.content | eval %]
-   </div>
-	[% END %]
-</div>
+[% MACRO Loc(text, args) BLOCK; self = ''; self.loc( text, args ); END; %]
+
+[% MACRO Heading BLOCK; level = heading_data.level || "1" %]
+<h[% level; IF heading_data.class %] class="[% heading_data.class %]"[% END %]>
+   [%+ heading_data.content | html_line_break | eval %]
+</h[% level %]>
 [% END %]
 
-[% MACRO Buttons IF bbar %]
-<div class="[% class %]" id="buttonDisp">
-   [% bbar.heading %]
-   <div class="[% class %]" id="buttonList">
-	[% FOREACH item = bbar.items %]
-      <div class="button">
+[% MACRO Append IF append %]
+<div id="appendDisp">
+   [% IF append.heading; Heading( heading_data = append.heading ); END %]
+   <div id="appendList">
+   [% FOREACH item = append.items %]
+      <div class="append_item [% item.class %]">
          [% item.content | eval %]
       </div>
 	[% END %]
@@ -23,181 +21,193 @@
 </div>
 [% END %]
 
-[% MACRO Footer IF footer %]
-<div class="[% class %]" id="footerDisp">
-   [% footer.heading %]
-   <div class="[% class %]" id="footerList">
-   [% FOREACH item = footer.items %]
-      <div class="footerItem [% item.class %]" style="[% item.style %]">
-      [% item.content | eval %]
+[% MACRO Button IF button %]
+<div id="buttonDisp">
+   [% IF button.heading; Heading( heading_data = button.heading ); END %]
+   <div id="buttonList">
+	[% FOREACH item = button.items %]
+      <div class="button_item [% item.class %]">
+         [% item.content | eval %]
       </div>
 	[% END %]
    </div>
 </div>
 [% END %]
 
+[% MACRO Content IF sdata;
+      IF sdata.heading; Heading( heading_data = sdata.heading ); END;
+      IF sdata.sub_heading; Heading( heading_data = sdata.sub_heading ); END;
+      FOREACH item = sdata.items %]
+   <div class="sdata_item [% item.class %]">
+      [% item.content | eval %]
+   </div>
+   [% END;
+   ELSE; content.text; END %]
+
+[% MACRO DHTML IF dhtml; IF async_js; last_item = 0; sep = '' %]
+   <script src="[% async_js %]" type="text/javascript"></script>
+   <script type="text/javascript"><!--//--><![CDATA[//><!--
+   [% FOREACH item = scripts;
+         IF item.0 > last_item; last_item = item.0; sep = ''; %] ] );[% ELSE; sep; END;
+         IF sep == ''; %]
+      $script( [[% END %]
+         "[%+ item.1; sep = ', '; %]"
+   [% END %] ], "all" );
+      $script.ready( "all", function() {
+         [% LITERAL_JS %]
+         this.[% js_object %] = [% js_object %];
+      }.bind( window ) );
+   //--><!]]></script>
+[% ELSE; FOREACH item = scripts %]
+   <script src="[% item.1 %]" type="text/javascript"></script>
+   [% END %]
+   <script type="text/javascript"><!--//--><![CDATA[//><!--
+   [% LITERAL_JS %]
+   //--><!]]></script>
+[% END; END %]
+
+[% MACRO Footer IF footer %]
+<div id="footerDisp" [% IF ! footer.state %]style="display:none;"[% END %]>
+   [% IF footer.heading; Heading( heading_data = footer.heading ); END %]
+   <div id="footerList">
+   [% FOREACH item = footer.items %]
+      <div class="footer_item [% item.class %]">
+         [% item.content | eval %]
+      </div>
+	[% END %]
+   </div>
+</div>
+[% END %]
+
+[% MACRO Form IF form %]
+   <form action="[% form.action %]"
+   [% IF is_xml %] id="[% form.name %]"
+   [% ELSE %] name="[% form.name %]" [% END %]
+          enctype="application/x-www-form-urlencoded" method="post">
+      <div id="body"><a id="top"></a>
+         [% FOREACH item = hidden.items; item.content; END;
+            Header; Sidebar %]
+         <div id="content" class="[% content.class %]">
+            [% Result; Content %]
+         </div>
+         [% Append; Button; Footer %]
+      </div>
+   </form>
+[% ELSE; Content; END %]
+
 [% MACRO Header IF header %]
-<div class="[% class %]" id="headerDisp">
+<div id="headerDisp">
    [% item = header.items.0; IF item; item.content; END %]
-   <div class="[% class %]" id="headerTop">
-      <div class="[% class %]" id="headerTitle">
-         <h1 class="split" title="[% header.title %]">
-            <span>[% header.title %]</span>
-         </h1>
+   <div id="headerTop">
+      <div id="headerTitle">
+         <div class="typeface-js header_title split">[% header.title %]</div>
+         <div class="typeface-js header_title">[% header.title %]</div>
       </div>
    [% item = header.items.1; IF item; item.content; END %]
-      <div class="[% class %]" id="headerQuickLinks">
+      <div id="headerQuickLinks">
    [% IF quick_links;
 		   FOREACH item = quick_links.items;
-            IF loop.index > 0 %]<span class="quickLinkSep">|</span>[% END;
+            IF loop.index > 0 %]<span class="quick_link_sep">|</span>[% END;
             item.content;
          END;
       END %]
       </div>
    </div>
-   <div class="[% class %]" id="headerBottom">
-      <div class="[% class %]" id="sidebarCap">
+   <div id="headerBottom">
+      <div id="sidebarCap">
 	[% IF sidebar %]
          <span class="tips" id="sidebar" title="[% sidebar.tip %]">
-            <img id="sidebarImg" src="[% assets %]pushpin.gif"
-                 alt="Pin"[% EOT %]
+            <span id="sidebarIcon" class="pushpin_icon"> </span>
          </span>
 	[% ELSE %]
-         <img id="sidebarImg" src="[% assets %]onePixel.gif"
-              alt="Filler"[% EOT %]
+         <span class="blank_icon" title="Filler"> </span>
    [% END %]
       </div>
-      <div class="[% class %]" id="navigation">
-         <div class="navigationMenu">
+      <div class="navigation_container">
+         <div class="navigation_menu">
             [% item = menus.items.0; IF item; item.content; END %]
          </div>
-         <div class="navigationFiller">
-				<b class="pad">&nbsp;</b>
-            <span class="navigationFiller">&nbsp;</span>
+         <div class="navigation_filler">
+            <span class="menu_pad"> </span>
+            <span class="menu_filler"> </span>
          </div>
       </div>
-      <div class="navigationTools">
+      <div class="tools_menu">
          [% item = menus.items.1; IF item; item.content; END %]
       </div>
    </div>
 </div>
 [% END %]
 
-[% MACRO IFrame IF sdata %]
-<div class="[% class %]" id="iFrameDisp">
-	[% FOREACH item = hidden.items;
-	      item.content;
-      END;
-	   IF sdata.heading %]
-   <div class="iFrameHeading">
-      [% sdata.heading | eval %]
-   </div>
-   [% END;
-	   IF sdata.subHeading %]
-   <div class="iFrameSubHeading [% sdata.subHeading.class %]">
-	   [% sdata.subHeading.content | eval %]
-   </div>
-	[% END %]
-   <div class="[% class %]" id="iFrameList">
-	[% FOREACH item = sdata.items %]
-      <div class="iFrameItem [% item.class %]" style="[% item.style %]">
-         [% item.content | eval %]
-      </div>
-   [% END %]
-   </div>
-</div>
-[% ELSE; content.text; END %]
+[% MACRO LITERAL_JS BLOCK; %]
+         var [% js_object %]  = new Behaviour( {
+            defaultURL  : '[% default_url %]',
+            formName    : '[% form.name %]',
+            firstField  : '[% firstfld %]',
+            popup       : [% is_popup %],
+            target      : '[% target %]',
+            cookiePrefix: '[% cookie_prefix %]',
+            cookieDomain: '[% domain %]',
+            cookiePath  : '[% cookie_path %]' } );
+[% FOREACH line = literal_js; %]
+         [%+ line | eval %]
+[% END; END %]
 
-[% MACRO Results IF result %]
-<div class="[% class %]" id="result">
-   <fieldset><legend>
-      <b>[% result.text %]</b></legend>
-   <div class="[% result.class %]">
+[% MACRO Result IF result %]
+<div id="resultDisp">
+   <fieldset class="results">
+      <legend>[% result.text %]</legend>
+      <div id="results">
 	[% FOREACH item = result.items;
-      item.content | html_line_break;
+         item.content | html_line_break;
 	   END %]
-   </div>
+      </div>
+   [% IF stacktrace %]
+      <div id="stacktrace"><pre>[% stacktrace %]</pre></div>
+   [% END %]
    </fieldset>
 </div>
 [% END %]
 
 [% MACRO Sidebar IF sidebar %]
-<div class="[% class %]" id="sidebarDisp"
-   [% IF ! sbstate %] style="display:none;"[% END %]>
+<div id="sidebarDisp" [% IF ! sbstate %] style="display:none;"[% END %]>
    <div id="sidebarContainer">
       <div id="sidebarGrippy">
          <img src="[% assets %]grippy.gif" alt="Side Bar Grippy"[% EOT %]
       </div>
-      <div class="[% class %]" id="sidebarFill">
-         <div class="[% class %]" id="accordionDiv">
-   [% FOREACH item = sidebar.items; item = item.content %]
-            <div class="[% class %]" id="[% item.panelId %]">
-               <div class="[% item.headerClass %]"
-                    id="[% item.headerId %]"
-                     onclick="[% item.header.onclick %]">
-			         <span>
-                     [% item.header.content %]</span>
-               </div>
-               <div class="[% item.contentClass %]" id="[% item.contentId %]">
-                  <div class="[% item.content.class %]"
-                       id="[% item.content.id %]">
-                     [% item.content.text %]
-                  </div>
-               </div>
-            </div>
-	[% END %]
+      <div id="sidebarFill">
+         <div id="accordionDiv">
+   [% FOREACH item = sidebar.items; item.content; END %]
          </div>
       </div>
    </div>
 </div>
 [% END %]
 
-[% MACRO Body IF body %]
-<body onload="[% onload %]">
-   <form action="[% form.action %]"
-   [% IF is_xml %] id="[% form.name %]"
-   [% ELSE %] name="[% form.name %]" [% END %]
-          enctype="application/x-www-form-urlencoded" method="post">
-      <div class="[% class %]" id="body"><a id="top"></a>
-         [% Header; Sidebar %]
-         <div class="[% class %]" id="content" style="[% content.style %]">
-            [% Results; IFrame %]
-         </div>
-         [% Append; Buttons; Footer %]
-      </div>
-   </form>
-</body>
-[% ELSE; content; END %]
-
 [%# Main %]
 
 [% IF page;
-      IF is_xml;
-         EOT = " />" %]
+      IF is_xml; EOT = " />"; BRK = "<br />"; RULE = "<hr />" %]
 <?xml version="1.0" encoding="[% encoding %]"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
-   "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="[% weblang %]">
-   [% ELSE;
-         EOT = ">" %]
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+<!DOCTYPE html PUBLIC "-//w3c//DTD XHTML 1.1//EN"
+   "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"
+   [
+      <!ENTITY dagger "&#8224;"> <!ENTITY hellip "&#8230;">
+   ]>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="[% lang %]">
+   [% ELSE; EOT = ">"; BRK = "<br>"; RULE = "<hr>" %]
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
    "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<html lang="[% lang %]">
    [% END %]
 <head>
 <!-- [% platform %] Service -->
-   <title>[% page_title %]</title>
-   [% FOREACH item = css %]
-   <link rel="[% item.rel %]" type="text/css" media="screen"
-          href="[% item.href %]" title="[% item.title %]"[% EOT %]
-   [% END %]
-   <link rel="shortcut icon" href="[% c.req.base %]favicon.ico"[% EOT %]
    <meta http-equiv="Content-Type" content="[% content_type %]"[% EOT %]
    <meta http-equiv="imagetoolbar" content="no"[% EOT %]
    [% IF refresh %]
    <meta http-equiv="refresh" content="[% refresh %]"[% EOT %]
    [% END %]
-   <meta name="copyright" content="[% copyright %]"[% EOT %]
+   <meta name="author" content="[% copyright %]"[% EOT %]
    [% IF description %]
    <meta name="description" content="[% description %]"[% EOT %]
    [% END;
@@ -206,32 +216,24 @@
    [% ELSE %]
    <meta name="robots" content="noindex, nofollow"[% EOT %]
    [% END %]
-   <meta name="revision" content="$Id: layout.tt 755 2009-06-10 00:01:56Z pjf $"[% EOT %]
-   [% IF dhtml %]
-   <script type="text/javascript">//<![CDATA[
-      var behaviour = {};
-      behaviour.assetsPath    = '[% assets %]';
-      behaviour.baseURL       = '[% c.req.base %]';
-      behaviour.formName      = '[% form.name %]';
-      behaviour.isPopup       =  [% is_popup %];
-      behaviour.sessionDomain = '[% domain %]';
-      behaviour.sessionPath   = '[% sess_path %]';
-      behaviour.sessionPrefix = '[% cookiep %]';
-      behaviour.target        = '[% target %]';
-      behaviour.url           = '[% url %]';
-   //]]></script>
-      [% FOREACH item = scripts %]
-   <script src="[% item %]" type="text/javascript"></script>
-      [% END;
-      END %]
+   <meta name="revision" content="$Id: layout.tt 1269 2012-01-11 16:28:05Z pjf $"[% EOT %]
+   [% FOREACH item = css %]
+   <link  rel="[% item.rel %]" type="text/css" media="screen"
+         href="[% item.href %]" title="[% item.title %]"[% EOT %]
+   [% END %]
+   <link  rel="shortcut icon" href="[% c.req.base %]favicon.ico"[% EOT %]
+   [% DHTML %]
+   <title>[% page_title %]</title>
 </head>
-   [% Body %]
+<body>
+   [% Form %]
+</body>
 </html>
-[% ELSE; Body; END %]
+[% ELSE; Form; END %]
 
 [%#
 # Local Variables:
-# mode: html
+# mode: tt-mode
 # tab-width: 3
 # End:
 %]

@@ -1,18 +1,20 @@
-# @(#)$Id: support.sub 730 2009-06-09 10:50:18Z pjf $
+# @(#)$Id: support.sub 1196 2011-06-18 14:59:20Z pjf $
 #
 account_report
-aliases_update
 create_account
 delete_account
 populate_account
+post_install
 roles_update
 set_password
 signal_process
 tape_backup
+uninstall
 update_account
+update_mail_aliases
 update_password
 update_progs
 user_apache
 user_munchies
-user_root
+user_root             # Interactive super user shell
 user_www-data

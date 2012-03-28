@@ -4,11 +4,11 @@
 
 perl Build.PL || exit
 
+./Build || exit
+
 ./Build installdeps || exit
 
-./Build --ask || exit
-
-./Build test || exit
+[ -n "${1}" -a "${1}" = "--notest" ] || ./Build test || exit
 
 ./Build install
 

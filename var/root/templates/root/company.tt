@@ -1,0 +1,9 @@
+<!-- @(#)$Id: company.tt 1043 2010-07-17 01:55:10Z pjf $ -->
+<div class="banner">
+  <h1>[% company %]</h1>
+  <p>Provides bespoke software to the financial services industry in the
+    City of London. Clients include; UBS, MorleyFM, and
+    Cogent. Specializing in back office automation and Catalyst Web
+    applications
+  </p>
+</div>

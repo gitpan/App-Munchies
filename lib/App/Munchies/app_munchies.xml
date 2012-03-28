@@ -1,45 +1,48 @@
 <config>
    <appldir>__APPLDIR__</appldir>
    <binsdir>__BINSDIR__</binsdir>
-   <libsdir>__LIBSDIR__</libsdir>
+   <phase>__PHASE__</phase>
    <access_denied>root/access_denied</access_denied>
+   <action_closed>root/action_closed</action_closed>
    <admin_role>support</admin_role>
+   <aliases_path>__appldir(var/etc/aliases)__</aliases_path>
    <app_closed>root/app_closed</app_closed>
+   <xasync_js>99async_loader.js</xasync_js>
    <authenticate>entrance/authentication</authenticate>
-   <captcha>
-      <new>
-         <bgcolor>#CCCC99</bgcolor>
-      </new>
-   </captcha>
    <content_type>text/html</content_type>
    <ctrldir>__appldir(var/etc)__</ctrldir>
    <dbasedir>__appldir(var/db)__</dbasedir>
-   <default_action>entrance/reception</default_action>
-   <default_css>colour-green.css</default_css>
    <default_skin>default</default_skin>
    <default_view>HTML</default_view>
-   <doc_title>User Contributed Documentation</doc_title>
    <encoding>UTF-8</encoding>
-   <languages>en-gb en de</languages>
-   <lock>
+   <fonts>mukokuseki_kitchen_regular helvetiker_regular</fonts>
+   <has_loaded>1</has_loaded>
+   <languages>en de sp sw</languages>
+   <localedir>__appldir(var/locale)__</localedir>
+   <lock_attrs>
+      <mode>666</mode>
       <type>sysv</type>
-   </lock>
+   </lock_attrs>
    <logfile>__appldir(var/logs/server.log)__</logfile>
    <logsdir>__appldir(var/logs)__</logsdir>
    <misery_page>/misery.html</misery_page>
    <mode>007</mode>
+   <module_docs>entrance/module_docs</module_docs>
    <negotiate_content_type>1</negotiate_content_type>
    <no_thrash>3</no_thrash>
+   <optional_js>typeface.js</optional_js>
    <prefix>munchies</prefix>
-   <room_closed>root/room_closed</room_closed>
+   <profiles_path>__appldir(var/etc/user_profiles.xml)__</profiles_path>
    <root>__appldir(var/root)__</root>
    <rprtdir>__appldir(var/root/reports)__</rprtdir>
    <rundir>__appldir(var/run)__</rundir>
    <shell>/bin/ksh</shell>
    <skindir>__appldir(var/root/skins)__</skindir>
    <skins>skins</skins>
+   <stylesheet>colour-green.css</stylesheet>
    <suid>__binsdir(munchies_admin)__</suid>
    <tempdir>__appldir(var/tmp)__</tempdir>
+   <template_dir>__appldir(var/root/templates)__</template_dir>
    <token>_token</token>
    <vardir>__appldir(var)__</vardir>
    <component name="Model::IdentityDBIC">
@@ -47,5 +50,10 @@
    </component>
    <component name="Model::IdentityUnix">
       <mail_domain>example.co.uk</mail_domain>
+   </component>
+   <component name="Plugin::Captcha">
+      <new>
+         <bgcolor>#CCCC99</bgcolor>
+      </new>
    </component>
 </config>

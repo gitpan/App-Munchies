@@ -1,0 +1,15 @@
+<!-- @(#)$Id: login_text.tt 1053 2010-07-26 13:04:57Z pjf $ -->
+<p>
+   Programs and data held on this system are private[% BRK %]
+   property and may be accessed only by authorised[% BRK %]
+   users for purposes which have been authorised.[% BRK %]
+</p>
+<p>
+   Unauthorised access to this system contravenes[% BRK %]
+   Company rules and is a disciplinary offence.[% BRK %]
+   Unauthorised access is a criminal offence and may[% BRK %]
+   lead to criminal penalties and civil damages.[% BRK %]
+</p>
+<p>
+   If you are not an authorised user, disconnect immediately.
+</p>

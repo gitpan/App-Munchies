@@ -1,0 +1,10 @@
+{
+   "roles" : {
+      "support" : {
+         "name" : "support",
+         "users" : [
+            "admin"
+         ]
+      }
+   }
+}

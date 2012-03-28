@@ -1,27 +1,26 @@
-# @(#)$Id: Authentication.pm 790 2009-06-30 02:51:12Z pjf $
+# @(#)$Id: Authentication.pm 1129 2011-04-04 10:42:50Z pjf $
 
 package App::Munchies::Model::Authentication;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.4.%d', q$Rev: 790 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.5.%d', q$Rev: 1129 $ =~ /\d+/gmx );
 use parent qw(CatalystX::Usul::Model::Schema);
 
-use Class::C3;
+use MRO::Compat;
 
 __PACKAGE__->config
-   ( connect_info => [],
-     database     => q(library),
+   ( database     => q(library),
      schema_class => q(App::Munchies::Schema::Authentication) );
 
-sub new {
-   my ($self, $app, $config) = @_;
+sub COMPONENT {
+   my ($class, $app, $config) = @_;
 
-   my $database = $config->{database} || $self->config->{database};
+   $config->{database}     ||= $class->config->{database};
+   $config->{connect_info} ||=
+      $class->get_connect_info( $app->config, $config->{database} );
 
-   $config->{connect_info} = $self->connect_info( $app, $database );
-
-   return $self->next::method( $app, $config );
+   return $class->next::method( $app, $config );
 }
 
 1;
@@ -36,7 +35,7 @@ App::Munchies::Model::Authentication - Database authentication class
 
 =head1 Version
 
-0.4.$Revision: 790 $
+0.5.$Revision: 1129 $
 
 =head1 Synopsis
 
@@ -47,7 +46,7 @@ App::Munchies::Model::Authentication - Database authentication class
 
 =head1 Subroutines/Methods
 
-=head2 new
+=head2 COMPONENT
 
 =head1 Diagnostics
 

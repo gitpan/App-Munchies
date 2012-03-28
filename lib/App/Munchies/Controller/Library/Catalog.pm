@@ -1,134 +1,66 @@
-# @(#)$Id: Catalog.pm 790 2009-06-30 02:51:12Z pjf $
+# @(#)$Id: Catalog.pm 1269 2012-01-11 16:28:05Z pjf $
 
 package App::Munchies::Controller::Library::Catalog;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.4.%d', q$Rev: 790 $ =~ /\d+/gmx );
-use parent qw(CatalystX::Usul::Controller);
+use version; our $VERSION = qv( sprintf '0.5.%d', q$Rev: 1269 $ =~ /\d+/gmx );
+use parent qw(App::Munchies::Controller::Library);
 
-__PACKAGE__->config( catalog_class => q(Catalog),
-                     data_class    => q(MealMaster),
-                     hits_per_page => 16,
-                     links_class   => q(Catalog::Links),
-                     names_class   => q(Catalog::Names),
-                     namespace     => q(library),
-                     nodes_class   => q(Catalog::Nodes) );
-
-__PACKAGE__->mk_accessors( qw(catalog_class data_class hits_per_page
-                              links_class namespace nodes_class) );
-
-my $SEP = q(/);
-
-sub browse : Chained(common) Args Public {
-   my ($self, $c, $id) = @_; my $s = $c->stash; my ($class, $res);
-
-   $self->redirect_to_path( $c, $SEP.q(catalog) ) unless ($id);
-
-   unless ($res = $c->model( $self->links_class )->find( $id )) {
-      $self->log_error( $self->loc( $c, 'Link [_1] unknown', $id ) );
-      return;
-   }
-
-   unless ($res->url) {
-      $self->log_error( $self->loc( $c, 'Link [_1] no URL', $id ) );
-      return;
-   }
-
-   my ($file, $pos) = split m{ \? }mx, $res->url, 2;
-   $class = $file && $file =~ m{ \.mmf \z }msx
-          ? $self->data_class : $self->catalog_class;
-   $c->model( $class )->browse( $id, $res->url );
-   return;
-}
+use CatalystX::Usul::Constants;
 
 sub catalog : Chained(common) Args HasActions Public {
+   my ($self, $c, @rest) = @_;
+
+   $c->forward( q(add_search_panel), [ q(catalog), @rest ] ) and return;
+
+   my $params = $self->get_uri_query_params( $c );
+
+   return $c->model( $self->catalog_class )->form( $params );
+}
+
+sub catalog_clear_search : ActionFor(catalog.clear) {
    my ($self, $c) = @_;
 
-   my $args = { cat_type   => $self->get_key( $c, q(catalog_type) ),
-                catalog    => $self->get_key( $c, q(catalog)      ),
-                col_type   => $self->get_key( $c, q(colour_type)  ),
-                min_count  => $self->get_key( $c, q(min_count)    ),
-                nodes      => $c->model( $self->nodes_class  ),
-                sort_field => $self->get_key( $c, q(sort_field)   ) };
-
-   $c->model( $self->catalog_class )->form( $args );
-   return;
+   $c->req->params->{ $self->search_key } = NUL;
+   $self->set_uri_args( $c, NUL );
+   return TRUE;
 }
 
-sub catalog_grid_rows : Chained(base) Args(0) HasActions Public {
+sub catalog_grid_rows : Chained(base) Args(0) Public {
+   my ($self, $c) = @_; return $c->model( $self->catalog_class )->grid_rows;
+}
+
+sub catalog_grid_table : Chained(base) Args(0) Public {
+   my ($self, $c) = @_; return $c->model( $self->catalog_class )->grid_table;
+}
+
+sub catalog_search : ActionFor(catalog.search) {
+   my ($self, $c) = @_; return $c->forward( q(redirect_to_search) );
+}
+
+sub reception : Chained(common) Args(0) Public {
+}
+
+sub redirect_to_default : Chained(base) PathPart('') Args(0) {
+   my ($self, $c) = @_; return $self->redirect_to_path( $c, SEP.q(reception) );
+}
+
+sub search_base : Chained(base) PathPart('search') CaptureArgs(1) {
+   my ($self, $c, $action_name) = @_; my $s = $c->stash;
+
+   my $action_path = $c->action->namespace.SEP.$action_name;
+
+   $s->{form} = { action => $c->uri_for_action( $action_path ),
+                  name   => $action_name };
+
+   return $self->init_uri_attrs( $c, $self->model_base_class );
+}
+
+sub search : Chained(search_base) PathPart('') Args Public {
    my ($self, $c) = @_; my $model = $c->model( $self->catalog_class );
 
-   $model->grid_rows( $c->model( $self->nodes_class ),
-                      $c->model( $self->links_class ) );
-   return;
-}
-
-sub catalog_grid_table : Chained(base) Args(0) HasActions Public {
-   my ($self, $c) = @_; my $model = $c->model( $self->catalog_class );
-
-   $model->grid_table( $c->model( $self->nodes_class ) );
-   return;
-}
-
-sub ingredients : Chained(common) Args HasActions {
-   my ($self, $c, $expr, $hits_per, $offset) = @_; my $s = $c->stash; my $pno;
-
-   $pno = $self->add_sidebar_panel( $c, { name => q(search), value => $expr });
-
-   $self->select_sidebar_panel( $c, $pno );
-   $self->open_sidebar( $c );
-
-   $c->forward( q(search_view), [ $expr, $hits_per, $offset ] ) if ($expr);
-
-   return if ($s->{sdata});
-
-   $c->model( $self->data_class )->simple_page( q(ingredients) );
-   $s->{token} = $c->config->{token};
-   return;
-}
-
-sub search : Chained(base) Args(0) HasActions Public {
-   my ($self, $c) = @_; my $s = $c->stash;
-
-   $s->{form} = {
-      action => $self->uri_for( $c, $SEP.q(ingredients), $s->{lang} ),
-      name   => q(ingredients) };
-   $self->load_keys( $c );
-
-   my $expr  = $self->get_key( $c, q(search_expression) );
-   my $model = $c->model( $self->catalog_class );
-
-   $model->search_form( $model->query_value( q(id) ), $expr );
-   return;
-}
-
-sub search_results : ActionFor(ingredients.search) {
-   my ($self, $c) = @_;
-
-   my $expr = $c->model( $self->catalog_class )->query_value( q(expression) );
-
-   $c->forward( q(search_view), [ $expr, 0, 0 ] );
-   return 1;
-}
-
-sub search_view : Private {
-   my ($self, $c, $expr, $hits_per, $offset) = @_;
-
-   my $key = q(search_expression); $expr ||= q();
-
-   $self->set_key( $c, $key, $expr );
-   $hits_per ||= $self->hits_per_page;
-   $offset     = $offset && $offset =~ m{ \d+ }mx ? $offset - 1 : 0;
-
-   my $ref = { data_model => $c->model( $self->data_class ),
-               excerpts   => q(ingredients),
-               expression => $expr,
-               hits_per   => $hits_per,
-               key        => $key,
-               offset     => $offset };
-   $c->model( $self->catalog_class )->search_page( $ref );
-   return;
+   return $model->search_form( $c->req->captures->[ 0 ], q(id), q(val) );
 }
 
 1;
@@ -143,7 +75,7 @@ App::Munchies::Controller::Library::Catalog - Server side bookmarks
 
 =head1 Version
 
-0.4.$Revision: 790 $
+0.5.$Revision: 1269 $
 
 =head1 Synopsis
 
@@ -154,21 +86,23 @@ App::Munchies::Controller::Library::Catalog - Server side bookmarks
 
 =head1 Subroutines/Methods
 
-=head2 browse
-
 =head2 catalog
+
+=head2 catalog_clear_search
 
 =head2 catalog_grid_rows
 
 =head2 catalog_grid_table
 
-=head2 ingredients
+=head2 catalog_search
+
+=head2 reception
+
+=head2 redirect_to_default
 
 =head2 search
 
-=head2 search_results
-
-=head2 search_view
+=head2 search_base
 
 =head1 Diagnostics
 
@@ -178,7 +112,7 @@ App::Munchies::Controller::Library::Catalog - Server side bookmarks
 
 =over 3
 
-=item L<Class::Accessor::Fast>
+=item L<App::Munchies::Controller::Library>
 
 =back
 
@@ -198,7 +132,7 @@ Peter Flanigan, C<< <Support at RoxSoft.co.uk> >>
 
 =head1 License and Copyright
 
-Copyright (c) 2008 Peter Flanigan. All rights reserved
+Copyright (c) 2011 Peter Flanigan. All rights reserved
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself. See L<perlartistic>

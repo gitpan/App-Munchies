@@ -1,8 +1,8 @@
-# @(#)$Id: 05kwalitee.t 790 2009-06-30 02:51:12Z pjf $
+# @(#)$Id: 05kwalitee.t 1187 2011-06-04 03:19:20Z pjf $
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.4.%d', q$Rev: 790 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.5.%d', q$Rev: 1187 $ =~ /\d+/gmx );
 use File::Spec::Functions;
 use FindBin qw( $Bin );
 use lib catdir( $Bin, updir, q(lib) );
@@ -16,9 +16,18 @@ if (!-e catfile( $Bin, updir, q(MANIFEST.SKIP) )) {
 
 eval { require Test::Kwalitee; };
 
-plan skip_all => 'Test::Kwalitee not installed' if ($EVAL_ERROR);
+$EVAL_ERROR and plan skip_all => 'Test::Kwalitee not installed';
 
-Test::Kwalitee->import();
+$ENV{BUILDING_DEBIAN} and plan skip_all => 'Test::Kwalitee building debian';
+
+my $tests = [ qw(extractable has_readme has_manifest has_meta_yml
+                 has_buildtool has_changelog no_symlinks has_tests
+                 proper_libs use_strict has_test_pod
+                 has_test_pod_coverage) ];
+
+not -d q(local) and push @{ $tests }, q(no_pod_errors);
+
+Test::Kwalitee->import( tests => $tests );
 
 # Local Variables:
 # mode: perl

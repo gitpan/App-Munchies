@@ -1,0 +1,12 @@
+<!-- @(#)$Id: footer.tt 1268 2011-12-30 02:11:54Z pjf $ -->
+<div class="diagnostic_panel">
+   [% FOR item = ref; %]
+      <div class="diagnostic_item">
+         <h6>
+            <span class="help tips" title="[% item.tip | eval %]">
+               [% item.text %]
+            </span>
+         </h6>
+      </div>
+   [% END %]
+</div>

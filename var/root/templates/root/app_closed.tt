@@ -1,0 +1,7 @@
+<!-- @(#)$Id: app_closed.tt 1135 2011-04-13 00:21:38Z pjf $ -->
+<div class="banner">
+  <h1>[% Loc( 'Error apology', firstName ) %]</h1>
+  <h4>[% Loc( 'Application [_1] closed', application ) %]</h4>
+  <p><img src="[% assets %]construct.gif"[% EOT %]</p>
+  <p>[% Loc( 'Authenticate to reopen' ) %]</p>
+</div>

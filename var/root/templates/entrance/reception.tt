@@ -1,0 +1,86 @@
+<!-- @(#)$Id: reception.tt 1264 2011-12-01 05:23:00Z pjf $ -->
+<div class="sdata_panel">
+  <h1>[% application %] - A Catalyst demonstration application</h1>
+  <h2>What's does it do ?</h2>
+  <p>Extending Catalyst, the Perl MVC framework, these modules
+    implement components useful to many web applications</p>
+  <dl>
+     <div style="display: inline-block;">
+        <div style="float: left; width: 33%;">
+           <dt>Authentication, registration, and account management</dt>
+           <dd style="margin-right: 10px">
+              Storage models include databases (DBIC), Unix password and group
+              files, and a simple JSON file. There are forms for managing
+              accounts and an account registration and activation form with
+              templated email verification
+           </dd>
+        </div>
+        <div style="float: left; width: 33%;">
+           <dt>Documentation, help, and feedback</dt>
+           <dd style="margin-right: 10px">
+              Creates HTML documentation from POD when the application is
+              installed. There is context sensitive help and an email form
+              providing feedback. L10N uses GNU Gettext Portable Object
+              files
+           </dd>
+        </div>
+        <div style="float: left; width: 33%;">
+           <dt>Navigation and site mapping</dt>
+           <dd style="margin-right: 10px">
+              The navigation model provides data structures for different types
+              user interface widget. Tree, table, list, and cone forest are
+              calculated for each user. The running application can
+              introspect itself and produce a table of loaded modules with
+              source code and documentation links
+           </dd>
+        </div>
+     </div>
+  </dl>
+  [% RULE %]
+  <h2>Who is it aimed at ?</h2>
+  <p>
+    Web application developers writing for the corporate intranet. Although
+    (like this page) an individual template <em>can</em> be used, most pages
+    within the application are created using a single data driven template
+    and a componentized widget library. The presence of data in the per context
+    stash causes the view to generate markup that is included on the page by
+    the data driven template
+  </p>
+  [% RULE %]
+  <h2>What are it's main features ?</h2>
+  <dl>
+     <div style="display: inline-block;">
+        <div style="float: left; width: 50%;">
+           <dt>Themes</dt>
+           <dd style="margin-right: 10px">
+              Selected from the tools menu a theme contains the CSS, TT
+              template, and Javascript files used to present the pages of
+              an application. These files control font selection,
+              colours, content positioning, and interactive
+              behaviour. Replace the contents of the image files as
+              required, the one TT template contains the HTML element
+              container relationships for all pages in the application</dd>
+           <dt>Internationalization</dt>
+           <dd style="margin-right: 10px">
+              With all the literal text stored in GNU Gettext Portable Object
+              files and copies translated into multiple languages, providing
+              localised applications is straightforward</dd>
+        </div>
+        <div style="float: left; width: 50%;">
+           <dt>XML configuration editors</dt>
+           <dd style="margin-right: 10px">
+              All of the form field definitions are stored XML files for which
+              editors are provided within the application. The application
+              name 'Munchies' can be altered from Admin &gt; Configuration
+              page. MyApp becomes YourApp, MyCompany becomes YourCompany,
+              etc. This text is in template that can be altered from Admin
+              &gt; Configuration &gt; Templates</dd>
+           <dt>Standalone Deployment</dt>
+           <dd>Tool chain builds normal Perl distributions with and without
+              a local::lib. Will also build Debian packages and RPMs could be
+              added through another plugin for Module::Build</dd>
+        </div>
+     </div>
+  </dl>
+  [% RULE %]
+</div>

@@ -1,0 +1,10 @@
+<!-- @(#)$Id: reception.tt 1043 2010-07-17 01:55:10Z pjf $ -->
+<div class="sdata_panel">
+  <h1>Welcome to the Administration Level</h1>
+  <p>This is the command and control centre for this web
+    application. From this level you can edit all of the XML configuration
+    files in the control directory; manager users, groups and the ACLs for
+    each level and room; perform tape backups; view logfiles and status
+    screens
+  </p>
+</div>

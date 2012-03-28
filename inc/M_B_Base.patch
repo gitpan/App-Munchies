@@ -1,0 +1,22 @@
+--- Base.pm	2011-05-31 03:30:06.000000000 +0100
++++ Base.pm	2011-05-31 03:33:16.000000000 +0100
+@@ -4609,6 +4609,7 @@
+   else {
+     # leave alone
+   }
++  ($version = ''.$version) =~ s{ \A v }{}mx;
+   return $version;
+ }
+ 
+@@ -4674,6 +4675,11 @@
+     }
+   }
+ 
++  for my $key (grep { $_ ne q(license) } keys %{ $p->{resources} }) {
++    if (defined (my $value = $p->{resources}{ $key })) {
++      $node->{resources}{ $key } = $value;
++    }
++  }
+ 
+   # add dist_* fields
+   foreach my $f (qw(dist_name dist_version dist_author dist_abstract)) {

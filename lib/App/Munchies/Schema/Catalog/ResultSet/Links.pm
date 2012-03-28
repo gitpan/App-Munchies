@@ -1,23 +1,23 @@
-package App::Munchies::Schema::Catalog::ResultSet::Links;
+# @(#)$Id: Links.pm 1199 2011-06-18 16:34:30Z pjf $
 
-# @(#)$Id: Links.pm 790 2009-06-30 02:51:12Z pjf $
+package App::Munchies::Schema::Catalog::ResultSet::Links;
 
 use strict;
 use warnings;
-use base qw(DBIx::Class::ResultSet);
-use List::Util qw(first);
+use version; our $VERSION = qv( sprintf '0.5.%d', q$Rev: 1199 $ =~ /\d+/gmx );
+use parent qw(DBIx::Class::ResultSet);
 
-use version; our $VERSION = qv( sprintf '0.4.%d', q$Rev: 790 $ =~ /\d+/gmx );
+use CatalystX::Usul::Constants;
+use CatalystX::Usul::Functions;
 
 sub list {
    my ($self, $cat, $labels, $current) = @_; my ($links, $ref);
 
-   for $ref ($self->search({ nid => [ 2, $cat ] }, { order_by => 'text' } )) {
-      push @{$links}, $ref->id
-         unless ($current && _is_member( $ref->id, $current ));
+   for $ref ($self->search( { nid => [ 2, $cat ] }, { order_by => 'text' } )) {
+      ($current and is_member $ref->id, $current) or push @{ $links }, $ref->id;
 
       unless (exists $labels->{ $ref->id }) {
-         $ref->text( $ref->id ) unless ($ref->text);
+         $ref->text or $ref->text( $ref->id );
          ($labels->{ $ref->id } = substr $ref->text, 0, 40) =~ s{ _ }{ }gmx;
       }
    }
@@ -25,12 +25,31 @@ sub list {
    return $links;
 }
 
-sub _is_member {
-   my ($candidate, $list) = @_;
+sub search_for_field {
+   my ($self, $field, $depth, @args) = @_; $args[ 0 ] or return;
 
-   return unless ($candidate && $list);
+   $args[ 0 ] =~ m{ \A \d+ \z }mx and return $self->find( $args[ 0 ] );
 
-   return (first { $_ eq $candidate } @{ $list }) ? 1 : 0;
+   my $index = 0; my $value = $args[ $index++ ];
+
+   $depth == 1 and $value .= q(%);
+
+   while ($depth > 1) {
+      $args[ $index ] and $args[ $index ] !~ m{ \A \d+ \z }mx
+         and $value .= SEP.$args[ $index ];
+      $depth--; $index++;
+   }
+
+   my $instance =  $args[ $index ] || 1;
+      $instance =~ m{ \A \d+ \z }mx or $instance = 1;
+   my $res      =  (q(%) eq substr $value, -1)
+                ?  $self->search( { $field => { like => $value } } )
+                :  $self->search( { $field => $value } );
+   my $count    =  1;
+
+   while (my $row = $res->next) { $count++ == $instance and return $row; }
+
+   return;
 }
 
 1;
@@ -45,7 +64,7 @@ App::Munchies::Schema::Catalog::ResultSet::Links - Canned queries against the li
 
 =head1 Version
 
-0.4.$Revision: 790 $
+0.5.$Revision: 1199 $
 
 =head1 Synopsis
 
@@ -57,6 +76,13 @@ App::Munchies::Schema::Catalog::ResultSet::Links - Canned queries against the li
 =head1 Subroutines/Methods
 
 =head2 list
+
+=head2 search_for_field
+
+   $obj = $self->search_for_field( $field_name, $depth, @search_args );
+
+Searches for C<$field_name>. Extracts search values from human
+readable url search args
 
 =head1 Diagnostics
 

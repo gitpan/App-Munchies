@@ -1,0 +1,8 @@
+<!-- @(#)$Id: error.tt 1110 2011-01-30 23:43:36Z pjf $ -->
+<div class="banner">
+  <h1>[% Loc( 'Error apology', firstName ) %]</h1>
+  [% Heading( heading_data = error ) %]
+  <p><img alt="Error" src="[% assets %]pc.gif"[% EOT %]</p>
+  <p><pre>[% stacktrace %]</pre></p>
+  <p>[% Loc( 'Use feedback option' ) %]</p>
+</div>

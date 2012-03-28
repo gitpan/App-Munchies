@@ -1,15 +1,22 @@
-# Created by DBIx::Class::Schema::Loader v0.03009 @ 2007-03-04 02:50:46
-# @(#)$Id: Roles.pm 790 2009-06-30 02:51:12Z pjf $
+# @(#)$Id: Roles.pm 1173 2011-05-24 18:59:47Z pjf $
 
 package App::Munchies::Schema::Authentication::Roles;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.4.%d', q$Rev: 790 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.5.%d', q$Rev: 1173 $ =~ /\d+/gmx );
 use parent qw(App::Munchies::Schema::Base);
 
 __PACKAGE__->table( 'roles' );
-__PACKAGE__->add_columns( qw(id role) );
+__PACKAGE__->add_columns( 'id',   { data_type         => 'MEDIUMINT',
+                                    default_value     => undef,
+                                    is_auto_increment => 1,
+                                    is_nullable       => 0,
+                                    size              => 8, },
+                          'role', { data_type         => 'VARCHAR',
+                                    default_value     => '',
+                                    is_nullable       => 0,
+                                    size              => 255, } );
 __PACKAGE__->set_primary_key( 'id' );
 __PACKAGE__->add_unique_constraint([ 'role' ]);
 __PACKAGE__->has_many(
@@ -27,7 +34,7 @@ App::Munchies::Schema::Authentication::Roles - Class definition for the roles ta
 
 =head1 Version
 
-0.4.$Revision: 790 $
+0.5.$Revision: 1173 $
 
 =head1 Synopsis
 

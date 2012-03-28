@@ -1,0 +1,8 @@
+<!-- @(#)$Id: reception.tt 1043 2010-07-17 01:55:10Z pjf $ -->
+<div class="sdata_panel">
+  <h1>A Catalogued Library of Links</h1>
+  <p>The Catalog screen will let you browse this collection of
+    links. Links are organised as a set of catalogs each catalog has its
+    own index.
+  </p>
+</div>

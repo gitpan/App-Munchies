@@ -1,24 +1,31 @@
-# @(#)$Id: Entrance.pm 790 2009-06-30 02:51:12Z pjf $
+# @(#)$Id: Entrance.pm 1269 2012-01-11 16:28:05Z pjf $
 
 package App::Munchies::Controller::Entrance;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.4.%d', q$Rev: 790 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.5.%d', q$Rev: 1269 $ =~ /\d+/gmx );
 use parent qw(CatalystX::Usul::Controller::Entrance);
 
-sub clock : Chained(common) Args(0) Public {
-   my ($self, $c) = @_; $c->model( q(DemoText) )->deskclock; return;
-}
+use CatalystX::Usul::Constants;
+
+__PACKAGE__->config( clock_uri  => q(/static/svg/SiemensClock.svg),
+                     demo_class => q(DemoText), );
+
+__PACKAGE__->mk_accessors( qw(clock_uri demo_class) );
 
 sub common : Chained(base) PathPart('') CaptureArgs(0) {
    my ($self, $c) = @_;
 
-   $self->next::method( $c );
-   $self->add_sidebar_panel( $c, { name => q(default)     } );
-   $self->add_sidebar_panel( $c, { name => q(overview)    } );
-   $self->add_sidebar_panel( $c, { name => q(information) } );
+   $self->next::method( $c ); $self->_add_sidebar_panels( $c );
+   $c->stash->{is_administrator} and $self->_add_display_lock( $c );
    return;
+}
+
+sub clock : Chained(common) Args(0) Public {
+   my ($self, $c) = @_;
+
+   return $c->model( $self->demo_class )->deskclock( $self->clock_uri );
 }
 
 sub custom : Chained(reception_base) Args {
@@ -28,39 +35,80 @@ sub custom : Chained(reception_base) Args {
 sub empty : Chained(common) Args(0) Public {
 }
 
-sub information : Chained(base) Args(0) Public {
-   my ($self, $c) = @_; $c->model( q(DemoText) )->information; return;
+sub information : Chained(base) Args(0) NoToken Public {
+   my ($self, $c) = @_; return $c->model( $self->demo_class )->information;
 }
 
-sub overview : Chained(base) Args(0) Public {
-   my ($self, $c) = @_; $self->next::method( $c ); return;
+sub lock_display : Chained(/) Args(0) {
+   my ($self, $c) = @_; return $c->model( $self->demo_class )->lock_display;
+}
+
+sub overview : Chained(base) Args(0) NoToken Public {
+   # Respond to the ajax call for some info about the side bar accordion
+   my ($self, $c) = @_; return $c->model( q(Help) )->overview;
 }
 
 sub sampler : Chained(reception_base) Args(0) HasActions {
-   my ($self, $c) = @_; $c->model( q(DemoText) )->sampler; return;
+   my ($self, $c) = @_; return $c->model( $self->demo_class )->sampler;
 }
 
-sub sampler_chooser : Chained(reception_base) Args(0) HasActions Public {
-   my ($self, $c) = @_; $c->model( q(DemoText) )->sampler_chooser; return;
+sub sampler_chooser : Chained(reception_base) Args(0)
+                      HasActions NoToken Public {
+   my ($self, $c) = @_; return $c->model( $self->demo_class )->sampler_chooser;
 }
 
 sub sampler_result : ActionFor(sampler.save) {
-   my ($self, $c) = @_; my $model = $c->model( q(DemoText) );
+   my ($self, $c) = @_; my $model = $c->model( $self->demo_class );
 
    $model->add_result( $model->query_value( q(textfield) ) );
-   return 1;
+   return TRUE;
 }
 
 sub test_card : Chained(common) Args(0) {
-   my ($self, $c) = @_; $c->model( q(DemoText) )->test_card; return;
+   my ($self, $c) = @_; return $c->model( $self->demo_class )->test_card;
 }
 
 sub version {
    return $VERSION;
 }
 
-sub wikipedia : Chained(doc_base) Args {
-   my ($self, $c) = @_; $c->model( q(DemoText) )->wikipedia; return;
+sub wikipedia : Chained(doc_base) Args NoToken {
+   my ($self, $c) = @_; return $c->model( $self->demo_class )->wikipedia;
+}
+
+# Private methods
+
+sub _add_display_lock {
+   my ($self, $c) = @_; my $s = $c->stash;
+
+   my $tools  = $s->{menus}->{items}->[ 1 ]->{content}->{data};
+   my $action = $c->action->namespace.SEP.q(lock_display);
+   my $url    = $c->uri_for_action( $action );
+   my $data   = q(display=:0);
+   my $name   = q(tools);
+   my $menu   = 3;
+
+   $s->{nav_model}->_push_menu_link( $tools, $menu, {
+      class    => $name.q(_title fade submit),
+      config   => {
+         args  => "[ '${url}', '${data}' ]", method => "'postData'" },
+      href     => '#top',
+      id       => $name.$menu.q(item0),
+      imgclass => q(lock_icon),
+      sep      => NUL,
+      text     => NUL,
+      tip      => DOTS.TTS.$self->loc( $s, 'Lock the display' ) } );
+
+   return;
+}
+
+sub _add_sidebar_panels {
+   my ($self, $c) = @_; my $model = $c->model( $self->model_base_class );
+
+   $model->add_sidebar_panel( { name => q(default)     } );
+   $model->add_sidebar_panel( { name => q(overview)    } );
+   $model->add_sidebar_panel( { name => q(information) } );
+   return;
 }
 
 1;
@@ -75,7 +123,7 @@ App::Munchies::Controller::Entrance - Welcome to this application framework
 
 =head1 Version
 
-$Revision: 790 $
+$Revision: 1269 $
 
 =head1 Synopsis
 
@@ -146,6 +194,10 @@ your browser
 
 This private action provides the content for the information panel of
 the accordian widget on side bar. It demonstrates user demand loaded content.
+
+=head2 lock_display
+
+Locks the display. Silly but I couldn't resist
 
 =head2 overview
 

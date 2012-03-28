@@ -1,40 +1,36 @@
 Revision history for App::Munchies
 
-0.3.794  30/06/2009
-         - Build.PL no longer needs APPLDIR
+{{ $NEXT }}
 
-0.3.786  29/06/2009
-         - Renamed suid to admin and misc to cli
-         - Adapted to Catalyst 5.8
-         - Fixed no index directory value type in META.yaml
+v0.5.1285 2012-03-28 12:58:42 BST
+          - Updated inc::Bob. Added inc::CPANTesting
+          - Updated for Catalyst 5.9
+          - Updated Moose / Class::MOP / MRO::Compat dependencies
+          - Added message translation method to CLI
+          - Moved boilerplate M::B subclass code to inc/Bob.pm
+          - Suppressed Konig CPAN testing again
+          - Added extended toolchain
+          - Switched to Catalyst 5.8. Uses Moose
 
-0.2.750  09/06/2009
-         - Worked around bug in DBIx::Class::Schema::deploy
-         - Improved testing idioms
-         - Now sets resources attribute in META.yml
-         - Paragraph columns now have a max width
+v0.4.808  2009-07-14
+          - Uses CX::Usul::Constants
+          - Build.PL no longer uses the M::B::notes attribute
+          - Now uses C::P::ContextualUriFor
+          - Fixed library/admin uri warning
+          - Fixed users/admin uri warning
+          - Only uses CX::Usul::uri_for
+          - Fixed bad DDL file names again
 
-0.1.679  12/04/2009
-         - Reverted build.xml. Fucking CPAN testing, die, die, die
+v0.4.794  30/06/2009
+          - Build.PL no longer needs APPLDIR
 
-0.1.678  12/04/2009
-         - More CPAN testing crap
-         - Added a Makefile.PL to try and deal with dumbass CPANPLUS
-         - Fixed JS bug in group membership
+v0.3.786  29/06/2009
+          - Renamed suid to admin and misc to cli
+          - Adapted to Catalyst 5.8
+          - Fixed no index directory value type in META.yaml
 
-0.1.657  09/04/2009
-         - Dropped the Menu macro from layout.tt
-
-0.1.646  07/04/2009
-         - Renamed KinoSearch class since it doesn't need to be a
-           model
-
-0.1.639  05/04/2009
-         - More CPAN testing crap
-
-0.1.637  01/04/2009
-         - Fixed documentation typos
-         - Fixed tree widget icons for non root deployment
-
-0.1.1    10/02/2008
-         - Started this log
+v0.2.750  09/06/2009
+          - Worked around bug in DBIx::Class::Schema::deploy
+          - Improved testing idioms
+          - Now sets resources attribute in META.yml
+          - Paragraph columns now have a max width

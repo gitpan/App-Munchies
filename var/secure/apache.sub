@@ -1,7 +1,6 @@
-# @(#)$Id: apache.sub 417 2008-05-29 00:30:26Z pjf $
+# @(#)$Id: apache.sub 822 2009-08-21 00:05:32Z pjf $
 #
 account_report
-aliases_update
 create_account
 delete_account
 populate_account
@@ -10,5 +9,6 @@ set_password
 signal_process
 tape_backup
 update_account
+update_mail_aliases
 update_password
 update_progs

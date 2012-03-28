@@ -1,10 +1,10 @@
-# @(#)$Id: Admin.pm 790 2009-06-30 02:51:12Z pjf $
+# @(#)$Id: Admin.pm 943 2010-01-02 22:28:18Z pjf $
 
 package App::Munchies::Controller::Admin;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.4.%d', q$Rev: 790 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.5.%d', q$Rev: 943 $ =~ /\d+/gmx );
 use parent qw(CatalystX::Usul::Controller::Admin);
 
 __PACKAGE__->build_subcontrollers;
@@ -21,7 +21,7 @@ App::Munchies::Controller::Admin - Cross application administrative functions
 
 =head1 Version
 
-$Revision: 790 $
+$Revision: 943 $
 
 =head1 Synopsis
 

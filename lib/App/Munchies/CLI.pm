@@ -1,220 +1,108 @@
-# @(#)$Id: CLI.pm 790 2009-06-30 02:51:12Z pjf $
+# @(#)$Id: CLI.pm 1261 2011-11-30 17:05:50Z pjf $
 
 package App::Munchies::CLI;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.4.%d', q$Rev: 790 $ =~ /\d+/gmx );
-use parent qw(CatalystX::Usul::Programs);
+use version; our $VERSION = qv( sprintf '0.5.%d', q$Rev: 1261 $ =~ /\d+/gmx );
+use parent qw(CatalystX::Usul::CLI);
 
-use CatalystX::Usul::FileSystem;
-use CatalystX::Usul::ProjectDocs;
-use CatalystX::Usul::TapeDevice;
-use Class::C3;
-use English qw(-no_match_vars);
-use File::Find;
-use File::Path;
+use CatalystX::Usul::Constants;
+use CatalystX::Usul::Time;
+use File::Gettext;
 use File::Spec;
-use XML::Simple;
 
-my $NUL = q();
+sub convert_messages : method {
+   my $self     = shift;
+   my $lang     = q(en);
+   my $rev_date = time2str "%Y-%m-%d %H:%M +%Z";
+   my $charset  = q(UTF-8);
+   my $header   = {
+      'translator_comment' =>
+         [ '@(#)$Id'.'$',
+           'GNU Gettext Portable Object.',
+           'Copyright (C) 2011 RoxSoft.',
+           'Lazarus Long <Support@RoxSoft.co.uk>, 2011.',
+           '', ],
+      flags     => [ 'fuzzy', ],
+      msgstr    => {
+         'project_id_version'        => "App::Munchies ${VERSION}",
+         'po_revision_date'          => $rev_date,
+         'last_translator'           => 'Athena <Support@RoxSoft.co.uk>',
+         'language_team'             => 'English <Support@RoxSoft.co.uk>',
+         'language'                  => $lang,
+         'mime_version'              => '1.0',
+         'content_type'              => 'text/plain; charset='.$charset,
+         'content_transfer_encoding' => '8bit',
+         'plural_forms'              => 'nplurals=2; plural=(n != 1);', }, };
 
-__PACKAGE__->mk_accessors( qw(delete_after file_class intfdir
-                              rel_class rprtdir tape_class version) );
+   for my $dn (qw(default entrance admin library)) {
+      my $order  = 1;
+      my $data   = { po => {}, po_header => $header };
+      my $file   = "${dn}_${lang}";
+      my $schema = File::DataClass::Schema->new
+         ( path                     => [ qw(var etc), "${file}.xml" ],
+           result_source_attributes => {
+              action                => {
+                 attributes         => [ qw(keywords text tip) ], },
+              buttons               => {
+                 attributes         => [ qw(error help prompt) ], },
+              fields                => {
+                 attributes         => [ qw(atitle ctitle fhelp
+                                            prompt text tip) ], },
+              messages              => {
+                 attributes         => [ qw(text) ], },
+              namespace             => {
+                 attributes         => [ qw(text tip) ], }, },
+           tempdir                  => q(t), );
+      my $rs     = $schema->resultset( q(messages) )->search( {} );
 
-sub new {
-   my ($class, @rest) = @_;
+      for my $msg (sort { $a->name cmp $b->name } $rs->all) {
+         my $v = $msg->text or next;
 
-   my $self = $class->next::method( @rest );
-
-   $self->delete_after( $self->delete_after || 35 );
-   $self->file_class  ( q(CatalystX::Usul::FileSystem) );
-   $self->intfdir     ( $self->catfile( $self->vardir, q(transfer) ) );
-   $self->rprtdir     ( $self->catfile( $self->vardir, q(root), q(reports) ) );
-   $self->tape_class  ( q(CatalystX::Usul::TapeDevice) );
-   $self->version     ( $VERSION );
-
-   return $self;
-}
-
-sub archive {
-   my ($self, @rest) = @_;
-
-   @rest = @ARGV unless (defined $rest[0]);
-
-   $self->output( $self->_fs_obj->archive( @rest ) );
-   return 0;
-}
-
-sub house_keeping {
-   my $self = shift; my ($dir, $delete_after, $entry, $io, $path, $rdr);
-
-   # This is a safety feature
-   chdir File::Spec->tmpdir if (-d File::Spec->tmpdir);
-
-   # Delete old files from the application tmp directory
-   if (-d $self->tempdir) {
-      $self->purge_tree( $self->tempdir, 0, 3 );
-   }
-
-   # Delete old html reports from the web server's document area
-   if (-d $self->rprtdir) {
-      find( { no_chdir => 1, wanted => \&__match_dot_files }, $self->rprtdir );
-      $self->purge_tree( $self->rprtdir, 0, $self->delete_after );
-   }
-
-   # Purge old feed files from the interface directory structure
-   $dir = $self->intfdir;
-
-   if (-d $dir) {
-      $self->info( 'Deleting old Transporter files' );
-      find( { no_chdir => 1, wanted => \&__match_dot_files }, $dir );
-      $io = $self->io( $dir );
-
-      while ($entry = $io->next) {
-         next unless ($entry->is_dir
-                      && $entry->filename ne File::Spec->curdir
-                      && $entry->filename ne File::Spec->updir);
-
-         $delete_after = $self->delete_after;
-         $path         = $self->catfile( $entry->pathname, '.house' );
-
-         if (-f $path) {
-            for (grep { m{ \A mtime= }imsx }
-                 $self->io( $path )->chomp->getlines) {
-               $delete_after = (split m{ = }mx, $_)[1];
-               last;
-            }
-         }
-
-         $self->info( "Transport $entry mod time $delete_after" );
-         $self->purge_tree( $entry->name, 0, $delete_after );
+         $data->{po}->{ $msg->name } = { msgid  => $msg->name,
+                                         msgstr => [ $msg->text ] };
       }
 
-      $io->close;
+      my $path    = [ qw(var etc), "${file}.po" ];
+      my $gettext = File::Gettext->new( charset => $charset, path => $path,
+                                        tempdir => q(t), );
+
+      for my $source (qw(action buttons fields namespace)) {
+         $rs = $schema->resultset( $source )->search( {} );
+
+         for my $msg (sort { $a->name cmp $b->name } $rs->all) {
+            for my $attr (@{ $schema->source( $source )->attributes }) {
+               my $v    = $msg->$attr() or next;
+               my $rec  = { msgctxt => $source.q(.).$attr,
+                            msgid   => $msg->name,
+                            msgstr  => [ $v ] };
+               my $k    = $gettext->storage->make_key( $rec );
+
+               exists $data->{po}->{ $k } and warn "Duplicate ${k}\n";
+               $data->{po}->{ $k } = $rec;
+            }
+         }
+      }
+
+      for my $k (sort keys %{ $data->{po} }) {
+         $data->{po}->{ $k }->{_order} = $order++;
+      }
+
+      $gettext->dump( { data => $data } );
+
+      my $cmd  = q(msgfmt --no-hash -o );
+         $cmd .= $self->catfile( qw(var locale),
+                                 $lang, q(LC_MESSAGES), "${dn}.mo" );
+         $cmd .= SPC.$self->catfile( @{ $path } );
+
+      qx( $cmd );
    }
 
-   $self->rotate_logs;
-   return 0;
-}
-
-sub lock_list {
-   my $self = shift; my $line;
-
-   for my $ref (@{ $self->lock->list || [] }) {
-      $line  = $ref->{key}.q(,).$ref->{pid}.q(,);
-      $line .= $self->time2str( '%Y-%m-%d %H:%M:%S', $ref->{stime} ).q(,);
-      $line .= $ref->{timeout};
-      $self->say( $line );
-   }
-
-   return 0;
-}
-
-sub lock_reset {
-   my $self = shift; $self->lock->reset( %{ $self->args } ); return 0;
-}
-
-sub lock_set {
-   my $self = shift; $self->lock->set( %{ $self->args } ); return 0;
-}
-
-sub pod2html {
-   my $self     = shift;
-   my $libroot  = $ARGV[0] || $self->catdir( $self->appldir, q(lib) );
-   my $rootdir  = $ARGV[1] || $self->root;
-   my $metafile = $self->catfile( $self->ctrldir, q(META.yml) );
-   my $meta     = $self->get_meta( $metafile );
-   my $htmldir  = $self->catdir( $rootdir, 'html' );
-
-   $self->info( 'Creating HTML from POD for '.$meta->name.' '.$meta->version );
-
-   $libroot = [ split m{ \s+ }mx, $libroot ] if ($libroot =~ m{ \s+ }mx);
-
-   my $pd = CatalystX::Usul::ProjectDocs->new( outroot => $htmldir,
-                                               libroot => $libroot,
-                                               title   => $meta->name,
-                                               desc    => $meta->abstract,
-                                               lang    => q(en), );
-
-   $pd->gen(); my $uid = $self->vars->{uid}; my $gid = $self->vars->{gid};
-
-   if (defined $uid and defined $gid) {
-      $self->run_cmd( q(chown -R ).$uid.q(:).$gid.q( ).$htmldir );
-      chown $uid, $gid, $htmldir;
-   }
-
-   return 0;
-}
-
-sub purge_tree {
-   my ($self, @rest) = @_;
-
-   @rest = @ARGV unless (defined $rest[0]);
-
-   $self->info( $self->_fs_obj->purge_tree( @rest ) );
-   return 0;
-}
-
-sub rotate_logs {
-   my ($self, @rest) = @_;
-
-   @rest = @ARGV unless (defined $rest[0]);
-
-   $self->info( $self->_fs_obj->rotate_logs( @rest ) );
-   return 0;
-}
-
-sub tape_backup {
-   my ($self, @rest) = @_;
-
-   @rest = @ARGV unless (defined $rest[0]);
-
-   my $tape_obj = $self->tape_class->new( $self, $self->vars );
-
-   $self->info( $tape_obj->process( @rest ) );
-   return 0;
-}
-
-sub unarchive {
-   my ($self, @rest) = @_;
-
-   @rest = @ARGV unless (defined $rest[0]);
-
-   $self->output( $self->_fs_obj->unarchive( @rest ) );
-   return 0;
-}
-
-sub wait_for {
-   my ($self, @rest) = @_;
-
-   @rest = @ARGV unless (defined $rest[0]);
-
-   my $text     = $self->io( $self->ctlfile )->all;
-      $text     = join "\n", grep { !m{ <! .+ > }mx } split  m{ \n }mx, $text;
-   my $xs       = XML::Simple->new( ForceArray => [ qw(wait_for) ] );
-   my $data     = $xs->xml_in( $text );
-   my $file_obj = $self->_fs_obj
-      ( { fuser => $self->os->{fuser}->{value}, ctldata => $data } );
-
-   $self->info( $file_obj->wait_for( $self->vars, @rest ) );
-   return 0;
-}
-
-# Private _methods
-
-sub _fs_obj {
-   my ($self, @rest) = @_; return $self->file_class->new( $self, @rest );
-}
-
-# Private subroutines
-
-sub __match_dot_files {
-   my $now = time;
-
-   utime $now, $now, $_ if (-f $_ && $_ =~ m{ \A \.\w+ }msx);
-
-   return;
+   unlink $self->catfile( qw(t ipc_srlock.lck) );
+   unlink $self->catfile( qw(t ipc_srlock.shm) );
+   unlink $self->catfile( qw(t file-dataclass-schema.dat) );
+   return OK;
 }
 
 1;
@@ -229,7 +117,7 @@ App::Munchies::CLI - Subroutines accessed from the command line
 
 =head1 Version
 
-0.4.$Revision: 790 $
+0.5.$Revision: 1261 $
 
 =head1 Synopsis
 
@@ -237,49 +125,30 @@ App::Munchies::CLI - Subroutines accessed from the command line
 
    use App::Munchies::CLI;
 
-   exit App::Munchies::CLI->new( appclass => q(App::Munchies) )->dispatch;
+   exit App::Munchies::CLI->new( appclass => q(App::Munchies) )->run;
 
 =head1 Description
 
+Implements methods available to the command line interface. Inherits from
+L<CatalystX::Usul::CLI>
+
 =head1 Subroutines/Methods
 
-=head2 new
-
-=head2 archive
-
-=head2 house_keeping
-
-=head2 lock_list
-
-=head2 lock_reset
-
-=head2 lock_set
-
-=head2 __match_dot_files
-
-=head2 pod2html
-
-=head2 purge_tree
-
-=head2 rotate_logs
-
-=head2 tape_backup
-
-=head2 unarchive
-
-=head2 wait_for
-
-=head2 _fs_obj
+=head2 convert_messages
 
 =head1 Diagnostics
 
+None
+
 =head1 Configuration and Environment
+
+None
 
 =head1 Dependencies
 
 =over 3
 
-=item L<CatalystX::Usul::Programs>
+=item L<CatalystX::Usul::CLI>
 
 =back
 
@@ -299,7 +168,7 @@ Peter Flanigan, C<< <Support at RoxSoft.co.uk> >>
 
 =head1 License and Copyright
 
-Copyright (c) 2008 Peter Flanigan. All rights reserved
+Copyright (c) 2011 Peter Flanigan. All rights reserved
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself. See L<perlartistic>

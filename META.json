@@ -1,0 +1,193 @@
+{
+   "abstract" : "Catalyst example application using food recipes as a data set",
+   "author" : [
+      "Peter Flanigan, C<< <Support at RoxSoft.co.uk> >>"
+   ],
+   "dynamic_config" : 1,
+   "generated_by" : "Module::Build version 0.38, CPAN::Meta::Converter version 2.112621",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : "2"
+   },
+   "name" : "App-Munchies",
+   "no_index" : {
+      "directory" : [
+         "examples",
+         "inc",
+         "t",
+         "var/root"
+      ]
+   },
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "Test::More" : "0.74",
+            "version" : "0.87"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "CatalystX::Usul" : "v0.4.0",
+            "Module::Build" : "0.37",
+            "version" : "0.87"
+         }
+      },
+      "runtime" : {
+         "recommends" : {
+            "Plack::Middleware::Debug" : "0.11",
+            "SVN::Class" : "0.16",
+            "local::lib" : "1.008004"
+         },
+         "requires" : {
+            "Catalyst" : "5.9001",
+            "CatalystX::RoleApplicator" : "0.005",
+            "CatalystX::Usul" : "v0.4.0",
+            "Class::Accessor" : "0.31",
+            "Class::Null" : "1.09",
+            "DBIx::Class" : "0.08112",
+            "Data::CloudWeights" : "v0.6.0",
+            "Date::Discordian" : "1.36",
+            "DateTime::Event::Sunrise" : "0.0501",
+            "DateTime::Fiction::JRRTolkien::Shire" : "0.02",
+            "File::DataClass" : "v0.7.335",
+            "HTML::Accessors" : "v0.4.0",
+            "HTML::Entities" : "3.68",
+            "KinoSearch" : "0.3",
+            "Moose" : "2.0402",
+            "Plack" : "0.9985",
+            "Starman" : "0.3",
+            "Text::Lorem::More" : "0.13",
+            "TryCatch" : "1.002",
+            "WWW::Wikipedia" : "2",
+            "namespace::autoclean" : "0.09",
+            "parent" : "0.221",
+            "perl" : "5.008",
+            "version" : "0.87"
+         }
+      }
+   },
+   "provides" : {
+      "App::Munchies" : {
+         "file" : "lib/App/Munchies.pm",
+         "version" : "v0.5.1285"
+      },
+      "App::Munchies::Admin" : {
+         "file" : "lib/App/Munchies/Admin.pm",
+         "version" : "v0.5.1192"
+      },
+      "App::Munchies::CLI" : {
+         "file" : "lib/App/Munchies/CLI.pm",
+         "version" : "v0.5.1261"
+      },
+      "App::Munchies::Controller::Admin" : {
+         "file" : "lib/App/Munchies/Controller/Admin.pm",
+         "version" : "v0.5.943"
+      },
+      "App::Munchies::Controller::Entrance" : {
+         "file" : "lib/App/Munchies/Controller/Entrance.pm",
+         "version" : "v0.5.1269"
+      },
+      "App::Munchies::Controller::Library" : {
+         "file" : "lib/App/Munchies/Controller/Library.pm",
+         "version" : "v0.5.1269"
+      },
+      "App::Munchies::Controller::Library::Admin" : {
+         "file" : "lib/App/Munchies/Controller/Library/Admin.pm",
+         "version" : "v0.5.1119"
+      },
+      "App::Munchies::Controller::Library::Catalog" : {
+         "file" : "lib/App/Munchies/Controller/Library/Catalog.pm",
+         "version" : "v0.5.1269"
+      },
+      "App::Munchies::Controller::Library::Recipes" : {
+         "file" : "lib/App/Munchies/Controller/Library/Recipes.pm",
+         "version" : "v0.5.1269"
+      },
+      "App::Munchies::MealMaster" : {
+         "file" : "lib/App/Munchies/MealMaster.pm",
+         "version" : "v0.5.1272"
+      },
+      "App::Munchies::MealMaster::KinoSearch" : {
+         "file" : "lib/App/Munchies/MealMaster/KinoSearch.pm",
+         "version" : "v0.5.1037"
+      },
+      "App::Munchies::Model::Authentication" : {
+         "file" : "lib/App/Munchies/Model/Authentication.pm",
+         "version" : "v0.5.1129"
+      },
+      "App::Munchies::Model::Catalog" : {
+         "file" : "lib/App/Munchies/Model/Catalog.pm",
+         "version" : "v0.5.1233"
+      },
+      "App::Munchies::Model::DemoText" : {
+         "file" : "lib/App/Munchies/Model/DemoText.pm",
+         "version" : "v0.5.1277"
+      },
+      "App::Munchies::Model::MealMaster" : {
+         "file" : "lib/App/Munchies/Model/MealMaster.pm",
+         "version" : "v0.5.1267"
+      },
+      "App::Munchies::Schema" : {
+         "file" : "lib/App/Munchies/Schema.pm",
+         "version" : "v0.5.1224"
+      },
+      "App::Munchies::Schema::Authentication" : {
+         "file" : "lib/App/Munchies/Schema/Authentication.pm",
+         "version" : "v0.5.1172"
+      },
+      "App::Munchies::Schema::Authentication::Roles" : {
+         "file" : "lib/App/Munchies/Schema/Authentication/Roles.pm",
+         "version" : "v0.5.1173"
+      },
+      "App::Munchies::Schema::Authentication::UserRoles" : {
+         "file" : "lib/App/Munchies/Schema/Authentication/UserRoles.pm",
+         "version" : "v0.5.1178"
+      },
+      "App::Munchies::Schema::Authentication::Users" : {
+         "file" : "lib/App/Munchies/Schema/Authentication/Users.pm",
+         "version" : "v0.5.1173"
+      },
+      "App::Munchies::Schema::Base" : {
+         "file" : "lib/App/Munchies/Schema/Base.pm",
+         "version" : "v0.5.943"
+      },
+      "App::Munchies::Schema::Catalog" : {
+         "file" : "lib/App/Munchies/Schema/Catalog.pm",
+         "version" : "v0.5.1172"
+      },
+      "App::Munchies::Schema::Catalog::Result::Links" : {
+         "file" : "lib/App/Munchies/Schema/Catalog/Result/Links.pm",
+         "version" : "v0.5.943"
+      },
+      "App::Munchies::Schema::Catalog::Result::Names" : {
+         "file" : "lib/App/Munchies/Schema/Catalog/Result/Names.pm",
+         "version" : "v0.5.943"
+      },
+      "App::Munchies::Schema::Catalog::Result::Nodes" : {
+         "file" : "lib/App/Munchies/Schema/Catalog/Result/Nodes.pm",
+         "version" : "v0.5.943"
+      },
+      "App::Munchies::Schema::Catalog::ResultSet::Links" : {
+         "file" : "lib/App/Munchies/Schema/Catalog/ResultSet/Links.pm",
+         "version" : "v0.5.1199"
+      },
+      "App::Munchies::Schema::Catalog::ResultSet::Nodes" : {
+         "file" : "lib/App/Munchies/Schema/Catalog/ResultSet/Nodes.pm",
+         "version" : "v0.5.1149"
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "http://rt.cpan.org/NoAuth/Bugs.html?Dist=App-Munchies"
+      },
+      "homepage" : "http://www.roxsoft.co.uk/munchies",
+      "license" : [
+         "http://dev.perl.org/licenses/"
+      ]
+   },
+   "version" : "0.5.1285"
+}

@@ -1,5 +1,5 @@
+<!ELEMENT rows (ARRAY)*>
 <config>
  <fields>username password email_address first_name last_name active</fields>
  <rows>dummy, *DISABLED*, dummy@example.co.uk, Dummy, User, 0</rows>
- <rows>admin, $1$m7OHQPe7$8OksedFKsRL7r4lXHhEL.., admin@example.co.uk, System, Administrator, 1</rows>
 </config>

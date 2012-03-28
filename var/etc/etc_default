@@ -1,0 +1,20 @@
+#!/bin/sh
+# @(#)$Id: etc_default 1213 2011-06-22 00:28:06Z pjf $
+
+APPLDIR=/opt/app-munchies/default
+APPNAME=App::Munchies
+PREFIX=munchies
+
+# Set this if you have more than one instance of the app and you don't want
+# them to step on each other's pidfile.
+PIDSUFFIX=
+PLACKARGS="-E production -p 8080 -s Starman"
+PLACKUP=/usr/local/bin/plackup
+
+# Leave these unset and we won't try to setuid/setgid.
+USER=${PREFIX}
+GROUP=${PREFIX}
+
+LOGFILE=${APPLDIR}/var/logs/starman.log
+PIDFILE=${APPLDIR}/var/run/${PREFIX}${PIDSUFFIX:+"-$PIDSUFFIX"}.pid
+PSGIFILE=${APPLDIR}/bin/${PREFIX}_psgi

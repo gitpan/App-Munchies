@@ -1,11 +1,7 @@
 #!/usr/bin/env ksh
+# @(#)$Id: munchies_suenv 1206 2011-06-19 22:13:44Z pjf $
 
-# @(#)$Id: munchies_suenv 721 2009-06-06 17:23:13Z pjf $
-
-if [ ! "${DT}" ]
-then
-   kbs=$(tput kbs) ; export ERASE=${kbs} ; stty erase ${kbs} -echoctl
-fi
+kbs=$(tput kbs) ; export ERASE=${kbs} ; stty erase ${kbs} -echoctl
 
 if [ -d ${HOME}/.sh_history ]
 then
@@ -17,4 +13,4 @@ fi
 export START=${HOME}/.kshrc
 export ENV='${START[(_$- = 1)+(_ = 0)-(_$- != _${-%%*i*})]}'
 
-exec ${SHELL} -o emacs
+exec ${SHELL} -o emacs ${1}

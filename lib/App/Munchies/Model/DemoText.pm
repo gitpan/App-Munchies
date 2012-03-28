@@ -1,17 +1,20 @@
-# @(#)$Id: DemoText.pm 790 2009-06-30 02:51:12Z pjf $
+# @(#)$Id: DemoText.pm 1277 2012-03-01 08:52:56Z pjf $
 
 package App::Munchies::Model::DemoText;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.4.%d', q$Rev: 790 $ =~ /\d+/gmx );
-use parent qw(CatalystX::Usul::Model);
+use version; our $VERSION = qv( sprintf '0.5.%d', q$Rev: 1277 $ =~ /\d+/gmx );
+use parent qw(CatalystX::Usul::Model CatalystX::Usul::IPC);
 
+use CatalystX::Usul::Constants;
+use CatalystX::Usul::Time;
 use Date::Discordian;
 use DateTime::Event::Sunrise;
 use DateTime::Fiction::JRRTolkien::Shire;
 use Encode;
 use Text::Lorem::More;
+use TryCatch;
 use WWW::Wikipedia;
 
 __PACKAGE__->config( fortune => q(fortune), insultd => q(insultd), );
@@ -30,29 +33,27 @@ sub build_per_context_instance {
 }
 
 sub deskclock {
-   my $self = shift;
-   my $c    = $self->context;
-   my $path = $c->uri_for( q(/static/svg/SiemensClock.svg) );
+   my ($self, $path) = @_;
 
-   $self->add_field( { class   => q(centre fullWidth),
-                       path    => $path,
-                       style   => q(margin-left: -256px;),
-                       subtype => q(html),
-                       type    => q(file) } );
+   $self->add_field( { frame_class => q(deskclock),
+                       path        => $self->context->uri_for( $path ),
+                       subtype     => q(html),
+                       type        => q(file) } );
    return;
 }
 
 sub information {
-   my $self   = shift; my ($day, $fdate, $month, $sun_riset, $text, $year);
+   my $self   = shift; my ($fdate, $sun_riset, $text);
 
-   my $data   = { values => [] }; my $c = $self->context;
-
-   ($year, $month, $day) = split q( ), $self->time2str( q(%Y %m %d), time );
+   my $c      = $self->context;
+   my $data   = { values => [] };
+   my ($year, $month, $day) = split SPC, time2str( q(%Y %m %d) );
    my $dt     = DateTime->new( year => $year, month => $month, day => $day );
    my $dtes   = DateTime::Event::Sunrise->new( altitude  => '-0.833',
                                                iteration => '1',
                                                longitude => '0',
                                                latitude  => '51.52' );
+
    $sun_riset = $dtes->sunrise_sunset_span( $dt );
    $text      = 'Sunrise '.$sun_riset->start->datetime.q(.);
    $text      =~ s{ T }{ }mx;
@@ -60,7 +61,7 @@ sub information {
    push @{ $data->{values} }, { text => $text };
 
    my $res    = eval { $self->run_cmd( $self->fortune, { err => q(out) } ) };
-   $text      = $res ? $res->out : q();
+   $text      = $res ? $res->out : NUL;
    $text      =~ s{ [\n] }{ }gmx;
 
    push @{ $data->{values} }, { text => $text };
@@ -79,7 +80,7 @@ sub information {
    push @{ $data->{values} }, { text => $text };
 
    $res       = eval { $self->run_cmd( $self->insultd, { err => q(out) } ) };
-   $text      = $res ? $res->out : q();
+   $text      = $res ? $res->out : NUL;
    $text      =~ s{ [\n] }{ }gmx;
 
    push @{ $data->{values} }, { text => $text };
@@ -91,121 +92,168 @@ sub information {
 
    $self->add_field(  { data => $data, id => $c->action->name.q(.data) } );
    $self->stash_meta( { id   => $c->action->name } );
-   delete $c->stash->{token};
+   return;
+}
+
+sub lock_display {
+   my $self = shift; my $c = $self->context;
+
+   $self->run_cmd( q(xdg-screensaver lock), { err => q(out) } );
+   $c->res->status( 204 );
+   $c->detach;
    return;
 }
 
 sub lorem {
-   my ($self, $cnt) = @_;
+   my ($self, $cnt, $class) = @_; my $text;
 
-   return scalar Text::Lorem::More::lorem->paragraph( $cnt || 3, q(</p><p>) );
+   my $sep = $class ? '</p><p class="'.$class.'">' : q(</p><p>);
+
+   try {
+      $text = scalar Text::Lorem::More::lorem->paragraph( $cnt || 3, $sep );
+   }
+   catch ($e) { $text = NUL.$e }
+
+   return $text;
 }
 
 sub sampler {
    # A page containing an example of each form widget
    my $self = shift; my $c = $self->context; my $s = $c->stash;
 
-   my $nitems = 0; my $step = 1;
+   my $params = $c->req->parameters || {}; $s->{pwidth} -= 15;
 
-   $s->{pwidth} -= 15; my $params = $c->req->parameters || {};
-
-   $self->add_field( { clear     => q(left),
+   $self->add_field( { class     => q(ifield pintarget),
                        default   => q(%),
                        name      => q(textfield),
                        prompt    => 'This is a text field',
-                       stepno    => $step++,
+                       stepno    => -1,
                        tip       => 'All fields come with optional hints',
-                       type      => q(textfield) } ); $nitems++;
-   $self->add_field( { button    => q(Choose),
-                       clear     => q(left),
-                       field     => q(textfield),
-                       height    => 500,
+                       type      => q(textfield) } );
+   $self->add_field( { field     => q(textfield),
                        href      => $s->{form}->{action}.q(_chooser),
-                       key       => q(Save),
                        name      => q(chooser),
-                       prompt    => 'This is a popup window selector',
-                       stepno    => $step++,
+                       stepno    => q(none),
                        tip       =>
                           'Press the button to popup the selection window',
                        tiptype   => q(normal),
-                       type      => q(chooser),
-                       width     => 400 } ); $nitems++;
+                       type      => q(chooser) } );
    $self->add_field( { clear     => q(left),
                        href      => $s->{form}->{action},
                        name      => q(anchor),
                        prompt    => 'This is an anchor',
-                       stepno    => $step++,
+                       stepno    => -1,
                        text      => q(Click),
                        tip       => 'Where do you want to go today?',
-                       type      => q(anchor) } ); $nitems++;
+                       type      => q(anchor) } );
    $self->add_field( { checked   => q(checked),
                        clear     => q(left),
                        labels    => { 1 => q(Label) },
                        name      => q(checkbox),
                        prompt    => 'This is a checkbox',
-                       stepno    => $step++,
+                       stepno    => -1,
                        type      => q(checkbox),
-                       value     => 1 } ); $nitems++;
+                       value     => 1 } );
    $self->add_field( { clear     => q(left),
                        name      => q(date),
                        prompt    => 'This is a date field',
-                       stepno    => $step++,
-                       type      => q(date) } ); $nitems++;
+                       stepno    => -1,
+                       type      => q(date) } );
    $self->add_field( { clear     => q(left),
                        name      => q(file),
                        path      => q(/etc/motd),
+                       pclass    => q(prompt_compact),
                        prompt    => 'This is a file',
-                       stepno    => $step++,
-                       subtype   => q(logfile),
-                       type      => q(file) } ); $nitems++;
+                       sep       => q(break),
+                       stepno    => -1,
+                       subtype   => q(text),
+                       type      => q(file) } );
    $self->add_field( { clear     => q(left),
-                       labels    => { 1 => q(Item1), 2 => q(Item2) },
                        name      => q(freelist),
                        prompt    => 'This is a free list',
-                       stepno    => $step++,
+                       stepno    => -1,
                        type      => q(freelist),
-                       values    => [ qw(1 2) ] } ); $nitems++;
+                       values    => [ qw(Item1 Item2) ] } );
    $self->add_field( { all       => [ qw(Item1 Item2) ],
                        clear     => q(left),
                        current   => [ qw(Item3 Item4) ],
                        name      => q(groupmembership),
                        prompt    => 'This is group membership',
-                       stepno    => $step++,
-                       type      => q(groupMembership) } ); $nitems++;
+                       stepno    => -1,
+                       type      => q(groupMembership) } );
    $self->add_field( { clear     => q(left),
                        name      => q(Save),
                        prompt    => 'This is an image button',
                        src       => q(Save.png),
-                       stepno    => $step++,
-                       tip       => 'Handy Hint ~ This is a handy hint',
-                       type      => q(button) } ); $nitems++;
-   $self->add_field( { clear     => q(left),
+                       stepno    => -1,
+                       tip       => 'This is a handy hint',
+                       type      => q(button) } );
+   $self->add_field( { class     => q(label_text pintarget),
+                       clear     => q(left),
                        name      => q(label),
                        prompt    => 'This is a label',
-                       stepno    => $step++,
+                       stepno    => -1,
                        text      => 'An informative label',
-                       type      => q(label) } ); $nitems++;
-   $self->add_field( { clear     => q(left),
+                       type      => q(label) } );
+   $self->add_field( { class     => q(note pintarget),
+                       clear     => q(left),
                        name      => q(note),
-                       align     => q(right),
-                       stepno    => $step++,
+                       stepno    => -1,
                        text      => 'An informative note',
-                       type      => q(note),
-                       width     => q(40%) } ); $nitems++;
+                       type      => q(note), } );
+
+   my $data = [ { content => 'List item one',   },
+                { content => 'List item two',   },
+                { content => 'List item three', },
+                { content => 'List item four',  },
+                { content => 'List item five',  },
+                { content => 'List item six',   },
+                { content => 'List item seven', },
+                { content => 'List item eight', },
+                { content => 'List item nine',  },
+                { content => 'List item ten',   }, ];
+
+   $self->add_field( { class     => q(rotate),
+                       clear     => q(left),
+                       config    => { direction => 'down', nitems => 1,
+                                      speed     => 2000 },
+                       data      => $data,
+                       name      => q(list),
+                       prompt    => 'This is a rotating list',
+                       stepno    => -1,
+                       type      => q(list), } );
+
    $self->add_field( { clear     => q(left),
                        id        => q(password1),
                        prompt    => 'This is a password',
-                       stepno    => $step++,
+                       stepno    => -1,
                        subtype   => q(verify),
-                       type      => q(password) } ); $nitems++;
+                       type      => q(password) } );
    $self->add_field( { clear     => q(left),
-                       labels    => { 1 => q(Label1), 2 => q(Label2) },
-                       name      => q(popupMenu),
+                       labels    => { 1 => q(Label1), 2  => q(Label2),
+                                      3 => q(Label3), 4  => q(Label4),
+                                      5 => q(Label5), 6  => q(Label6),
+                                      7 => q(Label7), 8  => q(Label8),
+                                      9 => q(Label9), 10 => q(Label10), },
+                       name      => q(popupMenu1),
                        prompt    => 'This is a popup menu',
-                       stepno    => $step++,
-                       tip       => q(Handy Hint ~ This is a handy hint),
+                       stepno    => -1,
+                       tip       => 'This is a handy hint',
                        type      => q(popupMenu),
-                       values    => [ q(), 1, 2 ] } ); $nitems++;
+                       values    => [ NUL, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ] } );
+   $self->add_field( { class     => q(chzn-select ifield),
+                       clear     => q(left),
+                       labels    => { 1 => q(Label1), 2  => q(Label2),
+                                      3 => q(Label3), 4  => q(Label4),
+                                      5 => q(Label5), 6  => q(Label6),
+                                      7 => q(Label7), 8  => q(Label8),
+                                      9 => q(Label9), 10 => q(Label10), },
+                       name      => q(popupMenu2),
+                       prompt    => 'This is a Javascript popup menu',
+                       stepno    => -1,
+                       tip       => 'This is a handy hint',
+                       type      => q(popupMenu),
+                       values    => [ NUL, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ] } );
    $self->add_field( { clear     => q(left),
                        columns   => 3,
                        labels    => { 1 => q(One),   2 => q(Two),
@@ -213,28 +261,44 @@ sub sampler {
                                       5 => q(Five),  6 => q(Six) },
                        name      => q(radiogroup),
                        prompt    => 'This is a radio group',
-                       stepno    => $step++,
+                       stepno    => -1,
                        type      => q(radioGroup),
-                       values    => [ 1, 2, 3, 4, 5, 6 ] } ); $nitems++;
-   $self->add_field( { class     => q(footer),
+                       values    => [ 1, 2, 3, 4, 5, 6 ] } );
+   $self->add_field( { class     => q(cut_here),
                        clear     => q(left),
                        name      => q(rule),
                        prompt    => 'This is a rule',
-                       stepno    => $step++,
-                       type      => q(rule) } ); $nitems++;
+                       stepno    => -1,
+                       type      => q(rule) } );
    $self->add_field( { clear     => q(left),
-                       labels    => { 1 => q(Label1), 2 => q(Label2) },
-                       name      => q(scrollinglist),
+                       labels    => { 1 => q(Label1), 2  => q(Label2),
+                                      3 => q(Label3), 4  => q(Label4),
+                                      5 => q(Label5), 6  => q(Label6),
+                                      7 => q(Label7), 8  => q(Label8),
+                                      9 => q(Label9), 10 => q(Label10), },
+                       name      => q(scrollinglist1),
                        prompt    => 'This is a scrolling list',
-                       stepno    => $step++,
+                       stepno    => -1,
                        type      => q(scrollingList),
-                       values    => [ q(), 1, 2 ] } ); $nitems++;
+                       values    => [ NUL, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ] } );
+   $self->add_field( { class     => q(chzn-select ifield),
+                       clear     => q(left),
+                       labels    => { 1 => q(Label1), 2  => q(Label2),
+                                      3 => q(Label3), 4  => q(Label4),
+                                      5 => q(Label5), 6  => q(Label6),
+                                      7 => q(Label7), 8  => q(Label8),
+                                      9 => q(Label9), 10 => q(Label10), },
+                       name      => q(scrollinglist2),
+                       prompt    => 'This is a Javascript scrolling list',
+                       stepno    => -1,
+                       type      => q(scrollingList),
+                       values    => [ NUL, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ] } );
    $self->add_field( { clear     => q(left),
                        default   => 50,
                        name      => q(slider),
                        prompt    => 'This is a slider',
-                       stepno    => $step++,
-                       type      => q(slider) } ); $nitems++;
+                       stepno    => -1,
+                       type      => q(slider) } );
    $self->add_field( { clear     => q(left),
                        data      => {
                           flds   => [ qw(field1 field2) ],
@@ -246,20 +310,21 @@ sub sampler {
                                         field2 => q(Row1 Value2) },
                                       { field1 => q(Row2 Value1),
                                         field2 => q(Row2 Value2) } ] },
-                           edit      => 1,
+                       edit      => q(right),
                        name      => q(table),
                        prompt    => 'This is a table',
-                       stepno    => $step++,
                        select    => q(right),
-                       type      => q(table) } ); $nitems++;
-# TODO: Add Template example
-   $self->add_field( { clear     => q(left),
+                       sortable  => TRUE,
+                       stepno    => -1,
+                       type      => q(table) } );
+   $self->add_field( { class     => q(autosize ifield),
+                       clear     => q(left),
                        name      => q(textarea),
                        prompt    => 'This is a text area',
-                       stepno    => $step++,
-                       type      => q(textarea) } ); $nitems++;
+                       stepno    => -1,
+                       type      => q(textarea) } );
 
-   my $data = {
+   $data = {
       'Root Folder'           => {
          'Label One'          => {
             _tip              => q(Help text for label one),
@@ -279,49 +344,43 @@ sub sampler {
             _tip              => q(Help text for label two) },
       } };
 
-   $self->add_field( { clear     => q(left),
+   $self->add_field( { class     => q(pintarget),
+                       clear     => q(left),
                        data      => $data,
                        name      => q(tree),
                        prompt    => 'This is a tree',
                        selected  => $params->{tree_node},
-                       stepno    => $step++,
-                       type      => q(tree) } ); $nitems++;
+                       stepno    => -1,
+                       type      => q(tree) } );
 
-   $self->group_fields( { nitems => $nitems, text => q(Sample Widgets) } );
-   $self->add_buttons(  qw(Save) );
+   $self->group_fields( { text   => q(Sample Widgets) } );
+   $self->add_field   ( { id     => q(content_pintray),
+                          type   => q(scrollPin) } );
+   $self->add_buttons ( qw(Markup Text Energise) );
    return;
 }
 
 sub sampler_chooser {
    my $self  = shift;
-   my $field = q(textfield);
-   my $form  = $self->query_value( q(form) ) || q();
-   my $value = $self->query_value( q(value) ) || q();
+   my $c     = $self->context;
+   my $nav   = $c->model( q(Navigation) );
+   my $field = $self->query_value( q(field) ) || NUL;
+   my $form  = $self->query_value( q(form)  ) || NUL;
+   my $value = $self->query_value( q(value) ) || NUL;
+   my $tip   = 'Close this window and leave the field value unchanged';
 
-   $self->add_chooser( { attr      => q(name),
-                         button    => q(Select),
-                         class     => q(chooserFade),
-                         field     => $field,
-                         form      => $form,
-                         method    => q(sampler_search),
-                         value     => $value,
-                         where_fld => q(),
-                         where_val => q() } );
-
-   my $nav_model = $self->context->model( q(Navigation) );
-   my $jscript   = "behaviour.submit.returnValue('";
-      $jscript  .= "${form}', '${field}', '${value}') ";
-   my $tip = 'Close this popup window and leave the field value unchanged';
-   my $e;
-
-   eval {
-      $nav_model->clear_controls;
-      $nav_model->add_menu_close( { onclick => $jscript,
-                                    tip     => $self->loc( $tip ) } );
-   };
-
-   $self->add_error( $e ) if ($e = $self->catch);
-
+   $nav->clear_controls;
+   $nav->add_menu_close( { field     => $field,
+                           form      => $form,
+                           tip       => $self->loc( $tip ),
+                           value     => $value } );
+   $self->add_chooser  ( { attr      => q(name),
+                           field     => $field,
+                           form      => $form,
+                           method    => q(sampler_search),
+                           value     => $value,
+                           where_fld => NUL,
+                           where_val => NUL } );
    return;
 }
 
@@ -364,23 +423,20 @@ sub wikipedia {
    for my $line (split m{ \n }mx, $text) {
       if    (length $line) { $para .= q( ).$line }
       elsif ($para) {
-         push @{ $data->{values} }, { text => $para }; $para = q();
+         push @{ $data->{values} }, { text => $para }; $para = NUL;
       }
    }
 
-   push @{ $data->{values} }, { text => $para } if ($para);
+   $para and push @{ $data->{values} }, { text => $para };
 
-   my $columns   = 2;
-   my $col_class = ($columns > 1 ? q(multi) : q(one)).q(Column);
-   my $heading   = 'Wiki entry for '.(ucfirst $term);
+   my $col_class = $self->get_para_col_class( 2 );
+   my $heading   = $self->loc( 'Wiki entry for [_1]', ucfirst $term );
 
    $self->clear_form( { heading         => $heading } );
-   $self->add_field ( { class           => q(fullWidth),
-                        column_class    => $col_class,
-                        columns         => $columns,
-                        container       => 1,
-                        container_class => q(paragraphs centre),
+   $self->add_field ( { column_class    => $col_class,
+                        container_class => q(paragraphs),
                         data            => $data,
+                        frame_class     => q(prominent),
                         name            => q(wiki),
                         type            => q(paragraphs) } );
    return;
@@ -398,7 +454,7 @@ App::Munchies::Model::DemoText - Demonstration model
 
 =head1 Version
 
-0.4.$Revision: 790 $
+0.5.$Revision: 1277 $
 
 =head1 Synopsis
 
@@ -414,6 +470,10 @@ App::Munchies::Model::DemoText - Demonstration model
 =head2 deskclock
 
 =head2 information
+
+=head2 lock_display
+
+Locks the display by running the external screensaver command
 
 =head2 lorem
 

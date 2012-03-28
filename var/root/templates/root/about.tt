@@ -1,0 +1,15 @@
+<!-- @(#)$Id: about.tt 1110 2011-01-30 23:43:36Z pjf $ -->
+<div class="banner">
+  <h1>[% application; nbsp; platform %]</h1>
+  <p>The [% application %] application is [% copyright %].
+    All rights reserved
+  </p>
+  <p>This is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself.
+  </p>
+  <p>Address bug reports and comments to [% feedback_email %]</p>
+  <p>Peter Flanigan
+    [% BRK %]
+    Authored the these modules
+  </p>
+</div>

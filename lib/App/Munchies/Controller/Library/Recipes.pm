@@ -1,58 +1,119 @@
-# @(#)$Id: Recipes.pm 790 2009-06-30 02:51:12Z pjf $
+# @(#)$Id: Recipes.pm 1269 2012-01-11 16:28:05Z pjf $
 
 package App::Munchies::Controller::Library::Recipes;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.4.%d', q$Rev: 790 $ =~ /\d+/gmx );
-use parent qw(CatalystX::Usul::Controller);
+use version; our $VERSION = qv( sprintf '0.5.%d', q$Rev: 1269 $ =~ /\d+/gmx );
+use parent qw(App::Munchies::Controller::Library);
 
-__PACKAGE__->config( recipe_class => q(MealMaster),
-                     namespace    => q(library), );
+use CatalystX::Usul::Constants;
+
+__PACKAGE__->config( recipe_class => q(MealMaster), );
 
 __PACKAGE__->mk_accessors( qw(recipe_class) );
 
-sub conversion : Chained(base) Args(0) HasActions Public {
-   my ($self, $c) = @_;
+sub conversion : Chained(base) Args(0) HasActions NoToken Public {
+   my ($self, $c) = @_; return $c->model( $self->recipe_class )->conversion;
+}
 
-   $c->model( $self->recipe_class )->conversion;
+sub ingredients : Chained(common) Args HasActions {
+   my ($self, $c, @rest) = @_;
+
+   $c->forward( q(add_search_panel), [ q(ingredients), @rest ] ) and return;
+   $c->stash->{display_instructions} = TRUE;
    return;
 }
 
-sub recipes : Chained(common) CaptureArgs(0) {
+sub ingredients_clear_search : ActionFor(ingredients.clear) {
+   my ($self, $c) = @_;
+
+   $c->req->params->{ $self->search_key } = NUL;
+   $self->set_uri_args( $c, NUL );
+   return TRUE;
+}
+
+sub ingredients_search : ActionFor(ingredients.search) {
+   my ($self, $c) = @_; return $c->forward( q(redirect_to_search) );
+}
+
+sub recipes : Chained(common) PathPart('') CaptureArgs(0) {
    my ($self, $c) = @_;
 
    $c->stash->{model} = $c->model( $self->recipe_class );
    return;
 }
 
-sub recipes_delete : ActionFor(recipes_view.delete) {
+sub recipes_delete : ActionFor(recipes_edit.delete) {
    my ($self, $c) = @_; my $s = $c->stash;
 
-   $s->{model}->delete; $self->set_key( $c, q(recipe), $s->{newtag} );
-   return 1;
+   $s->{model}->delete; $self->set_uri_args( $c, $s->{newtag} );
+   return TRUE;
 }
 
-sub recipes_index : ActionFor(recipes_view.index) {
-   my ($self, $c) = @_; $c->stash->{model}->index; return 1;
+sub recipes_edit : Chained(recipes) PathPart(edit) Args HasActions {
+   my ($self, $c, @args) = @_; $self->close_sidebar( $c );
+
+   return $c->stash->{model}->form( $self->_get_model_args( $c, @args ) );
 }
 
-sub recipes_save : ActionFor(recipes_view.save) {
+sub recipes_index : ActionFor(recipes_edit.index) {
+   my ($self, $c) = @_; return $c->stash->{model}->index( q(file) );
+}
+
+sub recipes_show : ActionFor(recipes_edit.list) {
    my ($self, $c) = @_;
 
-   my $name = $c->stash->{model}->create_or_update;
-
-   $self->set_key( $c, q(recipe), $name );
-   return 1;
+   return $self->redirect_to_path( $c, SEP.q(recipes_view) );
 }
 
-sub recipes_view : Chained(recipes) PathPart('') Args HasActions {
-   my ($self, $c, $file, $recipe) = @_;
+sub recipes_save : ActionFor(recipes_edit.save) {
+   my ($self, $c) = @_;
 
-   $file   = $self->set_key( $c, q(file),   $file   );
-   $recipe = $self->set_key( $c, q(recipe), $recipe );
-   $c->stash->{model}->form( $file, $recipe );
-   return;
+   $self->set_uri_args( $c, $c->stash->{model}->create_or_update );
+   return TRUE;
+}
+
+sub recipes_view : Chained(recipes) PathPart(view) Args HasActions Public {
+   my ($self, $c, @args) = @_;
+
+   my @model_args = $self->_get_model_args( $c, @args );
+
+   __is_recipe( $c, $model_args[ 0 ] )
+      and return $c->stash->{model}->form( @model_args );
+
+   $self->close_sidebar( $c );
+
+   $model_args[ 0 ]
+      and return $c->model( $self->catalog_class )->view( @model_args );
+
+   return $self->default( $c );
+}
+
+# Private methods
+
+sub _get_model_args {
+   my ($self, $c, @args) = @_;
+
+   my $link_url = $c->model( $self->catalog_class )->get_link_url( @args );
+
+   if (__is_recipe( $c, $link_url )) {
+      my $sep = SEP; return reverse split m{ $sep }mx, $link_url || NUL, 2;
+   }
+
+   $link_url and return ($link_url);
+
+   __is_recipe( $c, $args[ 1 ] ) and return ($args[ 1 ]);
+
+   return ();
+}
+
+# Private subroutines
+
+sub __is_recipe {
+   my ($c, $candidate) = @_; my $extn = $c->stash->{model}->extension;
+
+   return $candidate && $candidate =~ m{ \Q$extn\E \z }mx ? TRUE : FALSE;
 }
 
 1;
@@ -67,7 +128,7 @@ App::Munchies::Controller::Library::Recipes - Food recipe management
 
 =head1 Version
 
-0.4.$Revision: 790 $
+0.5.$Revision: 1269 $
 
 =head1 Synopsis
 
@@ -80,11 +141,21 @@ App::Munchies::Controller::Library::Recipes - Food recipe management
 
 =head2 conversion
 
+=head2 ingredients
+
+=head2 ingredients_clear_search
+
+=head2 ingredients_search
+
 =head2 recipes
 
 =head2 recipes_delete
 
+=head2 recipes_edit
+
 =head2 recipes_index
+
+=head2 recipes_show
 
 =head2 recipes_save
 
@@ -98,7 +169,7 @@ App::Munchies::Controller::Library::Recipes - Food recipe management
 
 =over 3
 
-=item L<Class::Accessor::Fast>
+=item L<App::Munchies::Controller::Library>
 
 =back
 
@@ -118,7 +189,7 @@ Peter Flanigan, C<< <Support at RoxSoft.co.uk> >>
 
 =head1 License and Copyright
 
-Copyright (c) 2008 Peter Flanigan. All rights reserved
+Copyright (c) 2011 Peter Flanigan. All rights reserved
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself. See L<perlartistic>

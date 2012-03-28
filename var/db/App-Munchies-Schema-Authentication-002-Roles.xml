@@ -1,3 +1,4 @@
+<!ELEMENT rows (ARRAY)*>
 <config>
  <fields>role</fields>
  <rows>dummy</rows>

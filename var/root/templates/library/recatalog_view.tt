@@ -1,0 +1,8 @@
+<!-- @(#)$Id: recatalog_view.tt 1043 2010-07-17 01:55:10Z pjf $ -->
+<div class="sdata_panel">
+  <h1>Recatalog Recipe Database</h1>
+  <p>Click the execute button to start a complete recataloging of the
+    recipe database in the background. This will take a *long* time to
+    complete
+  </p>
+</div>

@@ -1,62 +1,155 @@
 <!ELEMENT acl         (ARRAY)*>
+<!ELEMENT action      (ARRAY)*>
 <!ELEMENT buttons     (ARRAY)*>
+<!ELEMENT constraints (ARRAY)*>
 <!ELEMENT credentials (ARRAY)*>
 <!ELEMENT fields      (ARRAY)*>
 <!ELEMENT globals     (ARRAY)*>
 <!ELEMENT keys        (ARRAY)*>
-<!ELEMENT levels      (ARRAY)*>
 <!ELEMENT messages    (ARRAY)*>
-<!ELEMENT pages       (ARRAY)*>
-<!ELEMENT rooms       (ARRAY)*>
+<!ELEMENT namespace   (ARRAY)*>
 <!ELEMENT vals        (ARRAY)*>
 <config>
-  <_cvs_level>@(#)$Id: entrance.xml 725 2009-06-08 00:49:08Z pjf $</_cvs_level>
+  <_vcs_level>@(#)$Id: entrance.xml 1284 2012-03-21 10:58:48Z pjf $</_vcs_level>
+  <action>
+    <name>activate_account</name>
+    <acl>any</acl>
+    <state>1</state>
+  </action>
+  <action>
+    <name>authentication</name>
+    <acl>any</acl>
+    <pwidth>40</pwidth>
+    <quick_link>3</quick_link>
+  </action>
+  <action>
+    <name>change_password</name>
+    <acl>@users</acl>
+    <state>0</state>
+  </action>
+  <action>
+    <name>clock</name>
+    <acl>any</acl>
+    <state>0</state>
+  </action>
+  <action>
+    <name>custom</name>
+    <acl>any</acl>
+    <state>0</state>
+  </action>
+  <action>
+    <name>documentation</name>
+    <acl>any</acl>
+    <quick_link>4</quick_link>
+    <state>0</state>
+  </action>
+  <action>
+    <name>module_docs</name>
+    <acl>any</acl>
+    <state>1</state>
+  </action>
+  <action>
+    <name>modules</name>
+    <acl>any</acl>
+    <state>0</state>
+  </action>
+  <action>
+    <name>reception</name>
+    <acl>any</acl>
+  </action>
+  <action>
+    <name>register</name>
+    <acl>any</acl>
+    <pwidth>20</pwidth>
+  </action>
+  <action>
+    <name>sampler</name>
+    <acl>any</acl>
+    <pwidth>32</pwidth>
+    <state>0</state>
+  </action>
+  <action>
+    <name>sitemap</name>
+    <acl>any</acl>
+    <quick_link>2</quick_link>
+    <state>0</state>
+  </action>
+  <action>
+    <name>test_card</name>
+    <acl>any</acl>
+    <state>1</state>
+  </action>
+  <action>
+    <name>tutorial</name>
+    <acl>any</acl>
+    <state>0</state>
+  </action>
+  <action>
+    <name>wikipedia</name>
+    <acl>any</acl>
+    <state>0</state>
+  </action>
+  <buttons>
+    <name>sampler.markup</name>
+    <class>vertical markup_button fade submit</class>
+    <prompt>Are you sure?</prompt>
+    <type>vertical</type>
+  </buttons>
+  <buttons>
+    <name>sampler.text</name>
+    <class>submit_button fade submit</class>
+    <type>text</type>
+  </buttons>
+  <constraints>
+    <name>change_password.newPass1</name>
+    <other_field>newPass2</other_field>
+  </constraints>
   <fields>
     <name>authentication.login_text</name>
-    <class>centre clearLeft fullWidth</class>
-    <type>label</type>
+    <container>1</container>
+    <container_class>banner</container_class>
+    <frame_class>prominent</frame_class>
+    <type>template</type>
   </fields>
   <fields>
     <name>authentication.passwd</name>
-    <class>centre</class>
+    <frame_class>banner</frame_class>
     <max_length>10</max_length>
-    <onkeypress>behaviour.submit.submitOnReturn(event, 'Login')</onkeypress>
+    <onkeypress>behaviour.submit.submitOnReturn( 'Login' )</onkeypress>
     <type>password</type>
     <width>10</width>
   </fields>
   <fields>
     <name>authentication.user</name>
-    <class>centre</class>
+    <frame_class>banner</frame_class>
     <max_length>10</max_length>
-    <onkeypress>behaviour.submit.submitOnReturn(event, 'Login')</onkeypress>
+    <onkeypress>behaviour.submit.submitOnReturn( 'Login' )</onkeypress>
     <validate>isValidIdentifier</validate>
     <width>10</width>
-  </fields>
-  <fields>
-    <name>authentication_reminder.login_now_text</name>
-    <class>narrow</class>
-    <type>label</type>
   </fields>
   <fields>
     <name>change_password.newPass1</name>
     <clear>left</clear>
     <max_length>10</max_length>
     <required>1</required>
+    <stepno>-1</stepno>
     <subtype>verify</subtype>
     <type>password</type>
-    <validate>isValidPassword</validate>
+    <validate>isMandatory isValidPassword compare</validate>
     <width>10</width>
   </fields>
   <fields>
     <name>change_password.oldPass</name>
     <clear>left</clear>
     <max_length>10</max_length>
+    <stepno>-1</stepno>
     <type>password</type>
     <width>10</width>
   </fields>
   <fields>
     <name>change_password.realm</name>
     <onchange>submit()</onchange>
+    <stepno>0</stepno>
     <type>popupMenu</type>
   </fields>
   <fields>
@@ -64,7 +157,8 @@
     <clear>left</clear>
     <max_length>10</max_length>
     <required>1</required>
-    <validate>isValidIdentifier</validate>
+    <stepno>-1</stepno>
+    <validate>isMandatory isValidIdentifier</validate>
     <width>10</width>
   </fields>
   <fields>
@@ -76,6 +170,7 @@
   <fields>
     <name>register.captcha</name>
     <clear>left</clear>
+    <stepno>0</stepno>
     <type>image</type>
   </fields>
   <fields>
@@ -83,13 +178,15 @@
     <clear>left</clear>
     <max_length>64</max_length>
     <required>1</required>
-    <validate>isValidEmail</validate>
+    <stepno>-1</stepno>
+    <validate>isMandatory isValidEmail</validate>
     <width>32</width>
   </fields>
   <fields>
     <name>register.first_name</name>
     <max_length>32</max_length>
     <required>1</required>
+    <stepno>-1</stepno>
     <validate>isMandatory</validate>
     <width>32</width>
   </fields>
@@ -97,6 +194,7 @@
     <name>register.home_phone</name>
     <clear>left</clear>
     <max_length>32</max_length>
+    <stepno>-1</stepno>
     <width>16</width>
   </fields>
   <fields>
@@ -104,6 +202,7 @@
     <clear>left</clear>
     <max_length>32</max_length>
     <required>1</required>
+    <stepno>-1</stepno>
     <validate>isMandatory</validate>
     <width>32</width>
   </fields>
@@ -111,6 +210,7 @@
     <name>register.location</name>
     <clear>left</clear>
     <max_length>32</max_length>
+    <stepno>-1</stepno>
     <width>32</width>
   </fields>
   <fields>
@@ -118,15 +218,17 @@
     <clear>left</clear>
     <max_length>10</max_length>
     <required>1</required>
+    <stepno>-1</stepno>
     <subtype>verify</subtype>
     <type>password</type>
-    <validate>isValidPassword</validate>
+    <validate>isMandatory isValidPassword</validate>
     <width>10</width>
   </fields>
   <fields>
     <name>register.project</name>
     <clear>left</clear>
     <max_length>32</max_length>
+    <stepno>-1</stepno>
     <width>32</width>
   </fields>
   <fields>
@@ -134,6 +236,7 @@
     <clear>left</clear>
     <max_length>10</max_length>
     <required>1</required>
+    <stepno>-1</stepno>
     <validate>isMandatory</validate>
     <width>10</width>
   </fields>
@@ -141,100 +244,34 @@
     <name>register.work_phone</name>
     <clear>left</clear>
     <max_length>32</max_length>
+    <stepno>-1</stepno>
     <width>16</width>
   </fields>
+  <fields>
+    <name>sitemap</name>
+    <frame_class>prominent</frame_class>
+    <type>tabSwapper</type>
+  </fields>
+  <keys>
+    <name>authentication</name>
+    <vals>
+      <name>realm</name>
+      <key>R01-Localhost</key>
+    </vals>
+    <vals>
+      <name>userid</name>
+      <order>0</order>
+    </vals>
+  </keys>
   <keys>
     <name>change_password</name>
     <vals>
       <name>realm</name>
-      <key>0</key>
+      <key>R01-Localhost</key>
+    </vals>
+    <vals>
+      <name>userid</name>
+      <order>0</order>
     </vals>
   </keys>
-  <pages>
-    <name>reception</name>
-    <class>left</class>
-    <columns>1</columns>
-  </pages>
-  <pages>
-    <name>tutorial</name>
-    <class>centre</class>
-    <columns>2</columns>
-  </pages>
-  <rooms>
-    <name>activate_account</name>
-    <acl>any</acl>
-    <state>1</state>
-  </rooms>
-  <rooms>
-    <name>authentication</name>
-    <acl>any</acl>
-    <quick_link>3</quick_link>
-    <state>0</state>
-  </rooms>
-  <rooms>
-    <name>change_password</name>
-    <acl>any</acl>
-    <state>0</state>
-  </rooms>
-  <rooms>
-    <name>clock</name>
-    <acl>any</acl>
-    <state>0</state>
-  </rooms>
-  <rooms>
-    <name>custom</name>
-    <acl>any</acl>
-    <state>0</state>
-  </rooms>
-  <rooms>
-    <name>documentation</name>
-    <acl>any</acl>
-    <quick_link>4</quick_link>
-    <state>0</state>
-  </rooms>
-  <rooms>
-    <name>module_docs</name>
-    <acl>any</acl>
-    <state>0</state>
-  </rooms>
-  <rooms>
-    <name>modules</name>
-    <acl>any</acl>
-    <state>0</state>
-  </rooms>
-  <rooms>
-    <name>reception</name>
-    <acl>any</acl>
-    <state>0</state>
-  </rooms>
-  <rooms>
-    <name>register</name>
-    <acl>any</acl>
-  </rooms>
-  <rooms>
-    <name>sampler</name>
-    <acl>any</acl>
-    <state>0</state>
-  </rooms>
-  <rooms>
-    <name>sitemap</name>
-    <acl>any</acl>
-    <quick_link>2</quick_link>
-    <state>0</state>
-  </rooms>
-  <rooms>
-    <name>test_card</name>
-    <acl>any</acl>
-    <state>2</state>
-  </rooms>
-  <rooms>
-    <name>tutorial</name>
-    <acl>any</acl>
-    <state>0</state>
-  </rooms>
-  <rooms>
-    <name>wikipedia</name>
-    <acl>any</acl>
-    <state>0</state>
-  </rooms>
 </config>

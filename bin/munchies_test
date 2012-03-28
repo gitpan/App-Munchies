@@ -1,0 +1,66 @@
+#!/usr/bin/env perl
+# @(#)$Id: munchies_test 1206 2011-06-19 22:13:44Z pjf $
+
+use strict;
+use warnings;
+
+use English qw(-no_match_vars);
+use File::Spec::Functions;
+use FindBin qw( $Bin );
+
+BEGIN {
+   my $path = catfile( $Bin, q(munchies_localenv) );
+
+   do $path or die $EVAL_ERROR || "Path $path not done\n";
+}
+
+use version; our $VERSION = qv( sprintf '0.5.%d', q$Rev: 1206 $ =~ /\d+/gmx );
+
+use Catalyst::ScriptRunner;
+
+Catalyst::ScriptRunner->run( 'App::Munchies', 'Test' );
+
+1;
+
+__END__
+
+=pod
+
+=head1 NAME
+
+munchies_test - Catalyst Test
+
+=head1 SYNOPSIS
+
+ munchies_test [options] uri
+
+ Options:
+   --help    display this help and exits
+
+ Examples:
+   munchies_test http://localhost/some_action
+   munchies_test /some_action
+
+ See also:
+   perldoc Catalyst::Manual
+   perldoc Catalyst::Manual::Intro
+
+=head1 DESCRIPTION
+
+Run a Catalyst action from the command line.
+
+=head1 AUTHORS
+
+Catalyst Contributors, see Catalyst.pm
+
+=head1 COPYRIGHT
+
+This library is free software. You can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=cut
+
+# Local Variables:
+# mode: perl
+# tab-width: 3
+# End:

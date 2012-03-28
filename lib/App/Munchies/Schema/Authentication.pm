@@ -1,11 +1,11 @@
 # Created by DBIx::Class::Schema::Loader v0.03009 @ 2007-03-04 02:50:46
-# @(#)$Id: Authentication.pm 790 2009-06-30 02:51:12Z pjf $
+# @(#)$Id: Authentication.pm 1172 2011-05-23 16:33:26Z pjf $
 
 package App::Munchies::Schema::Authentication;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.4.%d', q$Rev: 790 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.5.%d', q$Rev: 1172 $ =~ /\d+/gmx );
 use parent qw(DBIx::Class::Schema);
 
 use File::Spec;
@@ -19,6 +19,7 @@ sub ddl_filename {
 
     (my $filename = (ref $self || $self)) =~ s{ :: }{-}gmx;
     $version = join q(.), (split m{ [.] }mx, $version)[ 0, 1 ];
+    $preversion and $version = $preversion.q(-).$version;
     return File::Spec->catfile( $dir, "$filename-$version-$type.sql" );
 }
 
@@ -34,7 +35,7 @@ App::Munchies::Schema::Authentication - Schema base class
 
 =head1 Version
 
-0.4.$Revision: 790 $
+0.5.$Revision: 1172 $
 
 =head1 Synopsis
 

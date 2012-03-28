@@ -1,16 +1,30 @@
 <!ELEMENT acl         (ARRAY)*>
+<!ELEMENT action      (ARRAY)*>
 <!ELEMENT buttons     (ARRAY)*>
 <!ELEMENT credentials (ARRAY)*>
 <!ELEMENT fields      (ARRAY)*>
 <!ELEMENT globals     (ARRAY)*>
 <!ELEMENT keys        (ARRAY)*>
-<!ELEMENT levels      (ARRAY)*>
 <!ELEMENT messages    (ARRAY)*>
-<!ELEMENT pages       (ARRAY)*>
-<!ELEMENT rooms       (ARRAY)*>
+<!ELEMENT namespace   (ARRAY)*>
 <!ELEMENT vals        (ARRAY)*>
 <config>
-  <_cvs_default>@(#)$Id: default.xml 474 2008-09-01 22:48:04Z pjf$</_cvs_default>
+  <_vcs_default>@(#)$Id: default.xml 474 2008-09-01 22:48:04Z pjf$</_vcs_default>
+  <action>
+    <name>feedback</name>
+    <acl>@users</acl>
+    <state>1</state>
+  </action>
+  <action>
+    <name>lock_display</name>
+    <acl>@support</acl>
+    <state>1</state>
+  </action>
+  <action>
+    <name>select_language</name>
+    <acl>@any</acl>
+    <state>1</state>
+  </action>
   <fields>
     <name>app_closed.passwd</name>
     <type>password</type>
@@ -21,11 +35,23 @@
   </fields>
   <fields>
     <name>feedback.body</name>
-    <height>24</height>
-    <palign>left</palign>
-    <sep>&amp;nbsp;&amp;nbsp;&amp;nbsp;</sep>
+    <container_class>container stack</container_class>
+    <pclass>prompt_compact</pclass>
+    <sep>&amp;#160;</sep>
     <type>textarea</type>
-    <width>72</width>
+    <width>20</width>
+  </fields>
+  <fields>
+    <name>footer.select_language</name>
+    <container>0</container>
+    <onchange>document.forms[ 'select_language' ].submit()</onchange>
+    <pwidth>7em</pwidth>
+    <sep>0</sep>
+    <type>popupMenu</type>
+  </fields>
+  <fields>
+    <name>overview</name>
+    <type>template</type>
   </fields>
   <globals>
     <name>addtag</name>
@@ -33,6 +59,7 @@
   </globals>
   <globals>
     <name>app_closed</name>
+    <value></value>
   </globals>
   <globals>
     <name>application</name>
@@ -44,7 +71,7 @@
   </globals>
   <globals>
     <name>copyright</name>
-    <value>Copyright (c) 2009 Peter Flanigan</value>
+    <value>Copyright (c) 2011 Peter Flanigan</value>
   </globals>
   <globals>
     <name>feedback_email</name>
@@ -78,71 +105,19 @@
     <name>ssh_id</name>
     <value>/opt/app-munchies/.ssh/id_rsa</value>
   </globals>
-  <globals>
-    <name>weblang</name>
-    <value>en-gb</value>
-  </globals>
-  <levels>
+  <namespace>
     <name>admin</name>
     <acl>@support</acl>
     <state>0</state>
-  </levels>
-  <levels>
+  </namespace>
+  <namespace>
     <name>entrance</name>
     <acl>any</acl>
     <state>0</state>
-  </levels>
-  <levels>
+  </namespace>
+  <namespace>
     <name>library</name>
     <acl>any</acl>
     <state>0</state>
-  </levels>
-  <messages>
-    <name>eNotImplemented</name>
-  </messages>
-  <pages>
-    <name>about</name>
-    <class>centre</class>
-    <columns>1</columns>
-  </pages>
-  <pages>
-    <name>app_closed</name>
-    <class>centre</class>
-    <columns>1</columns>
-  </pages>
-  <pages>
-    <name>closed</name>
-    <class>centre</class>
-    <columns>1</columns>
-  </pages>
-  <pages>
-    <name>company</name>
-    <class>centre</class>
-    <columns>1</columns>
-  </pages>
-  <pages>
-    <name>cracker</name>
-    <class>centre</class>
-    <columns>1</columns>
-  </pages>
-  <pages>
-    <name>default</name>
-    <class>centre</class>
-    <columns>1</columns>
-  </pages>
-  <pages>
-    <name>error</name>
-    <class>centre</class>
-    <columns>1</columns>
-  </pages>
-  <rooms>
-    <name>feedback</name>
-    <acl>@users</acl>
-    <state>1</state>
-  </rooms>
-  <rooms>
-    <name>lock_display</name>
-    <acl>@support</acl>
-    <state>1</state>
-  </rooms>
+  </namespace>
 </config>

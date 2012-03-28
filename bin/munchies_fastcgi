@@ -1,0 +1,73 @@
+#!/usr/bin/env perl
+# @(#)$Id: munchies_fastcgi 1206 2011-06-19 22:13:44Z pjf $
+
+use strict;
+use warnings;
+
+use English qw(-no_match_vars);
+use File::Spec::Functions;
+use FindBin qw( $Bin );
+
+BEGIN {
+   my $path = catfile( $Bin, q(munchies_localenv) );
+
+   do $path or die $EVAL_ERROR || "Path $path not done\n";
+}
+
+use version; our $VERSION = qv( sprintf '0.5.%d', q$Rev: 1206 $ =~ /\d+/gmx );
+
+use Catalyst::ScriptRunner;
+
+Catalyst::ScriptRunner->run( 'App::Munchies', 'FastCGI' );
+
+1;
+
+__END__
+
+=pod
+
+=head1 NAME
+
+munchies_fastcgi - Catalyst FastCGI
+
+=head1 SYNOPSIS
+
+ munchies_fastcgi [options]
+
+ Options:
+   -? -help      display this help and exits
+   -l --listen   Socket path to listen on
+                 (defaults to standard input)
+                 can be HOST:PORT, :PORT or a
+                 filesystem path
+   -n --nproc    specify number of processes to keep
+                 to serve requests (defaults to 1,
+                 requires -listen)
+   -p --pidfile  specify filename for pid file
+                 (requires -listen)
+   -d --daemon   daemonize (requires -listen)
+   -M --manager  specify alternate process manager
+                 (FCGI::ProcManager sub-class)
+                 or empty string to disable
+   -e --keeperr  send error messages to STDOUT, not
+                 to the webserver
+
+=head1 DESCRIPTION
+
+Run a Catalyst application as fastcgi.
+
+=head1 AUTHORS
+
+Catalyst Contributors, see Catalyst.pm
+
+=head1 COPYRIGHT
+
+This library is free software. You can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=cut
+
+# Local Variables:
+# mode: perl
+# tab-width: 3
+# End:

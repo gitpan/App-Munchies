@@ -1,104 +1,262 @@
 <!ELEMENT acl         (ARRAY)*>
+<!ELEMENT action      (ARRAY)*>
 <!ELEMENT buttons     (ARRAY)*>
 <!ELEMENT credentials (ARRAY)*>
 <!ELEMENT fields      (ARRAY)*>
 <!ELEMENT globals     (ARRAY)*>
 <!ELEMENT keys        (ARRAY)*>
-<!ELEMENT levels      (ARRAY)*>
 <!ELEMENT messages    (ARRAY)*>
-<!ELEMENT pages       (ARRAY)*>
-<!ELEMENT rooms       (ARRAY)*>
+<!ELEMENT namespace   (ARRAY)*>
 <!ELEMENT vals        (ARRAY)*>
 <config>
-  <_cvs_level>@(#)$Id: admin.xml 728 2009-06-09 00:06:48Z pjf $</_cvs_level>
+  <_vcs_level>@(#)$Id: admin.xml 1267 2011-12-30 00:24:16Z pjf $</_vcs_level>
+  <action>
+    <name>access_control</name>
+    <acl>@support</acl>
+    <pwidth>25</pwidth>
+  </action>
+  <action>
+    <name>backup</name>
+    <acl>@support</acl>
+    <pwidth>30</pwidth>
+    <state>0</state>
+  </action>
+  <action>
+    <name>backup_logfile</name>
+    <acl>@support</acl>
+    <state>0</state>
+  </action>
+  <action>
+    <name>buttons_view</name>
+    <acl>@support</acl>
+    <pwidth>30</pwidth>
+    <state>0</state>
+  </action>
+  <action>
+    <name>configuration</name>
+    <acl>any</acl>
+    <pwidth>30</pwidth>
+  </action>
+  <action>
+    <name>credentials</name>
+    <acl>@support</acl>
+    <pwidth>30</pwidth>
+    <state>0</state>
+  </action>
+  <action>
+    <name>fields_view</name>
+    <acl>@support</acl>
+    <pwidth>30</pwidth>
+    <state>0</state>
+  </action>
+  <action>
+    <name>globals</name>
+    <acl>@support</acl>
+    <pwidth>30</pwidth>
+  </action>
+  <action>
+    <name>keys_view</name>
+    <acl>@support</acl>
+    <pwidth>30</pwidth>
+    <state>0</state>
+  </action>
+  <action>
+    <name>lock_table</name>
+    <acl>@support</acl>
+    <state>0</state>
+  </action>
+  <action>
+    <name>mail_aliases</name>
+    <acl>@support</acl>
+    <state>0</state>
+  </action>
+  <action>
+    <name>messages_view</name>
+    <acl>@support</acl>
+    <pwidth>20</pwidth>
+    <state>0</state>
+  </action>
+  <action>
+    <name>proc_table</name>
+    <acl>@support</acl>
+    <state>0</state>
+  </action>
+  <action>
+    <name>reception</name>
+    <acl>@support</acl>
+  </action>
+  <action>
+    <name>role_manager</name>
+    <acl>@support</acl>
+    <state>0</state>
+  </action>
+  <action>
+    <name>room_manager</name>
+    <acl>@support</acl>
+    <pwidth>25</pwidth>
+  </action>
+  <action>
+    <name>templates_view</name>
+    <acl>@support</acl>
+    <pwidth>20</pwidth>
+    <state>0</state>
+  </action>
+  <action>
+    <name>user_admin</name>
+    <acl>@support</acl>
+    <pwidth>30</pwidth>
+    <state>0</state>
+  </action>
+  <action>
+    <name>user_manager</name>
+    <acl>@support</acl>
+    <pwidth>30</pwidth>
+    <state>0</state>
+  </action>
+  <action>
+    <name>user_profiles</name>
+    <acl>@support</acl>
+    <pwidth>30</pwidth>
+    <state>0</state>
+  </action>
+  <action>
+    <name>user_report</name>
+    <acl>@support</acl>
+    <state>0</state>
+  </action>
+  <action>
+    <name>user_security</name>
+    <acl>@support</acl>
+    <pwidth>30</pwidth>
+    <state>0</state>
+  </action>
+  <action>
+    <name>user_sessions</name>
+    <acl>@support</acl>
+    <state>0</state>
+  </action>
+  <action>
+    <name>view_logfile</name>
+    <acl>@support</acl>
+    <state>0</state>
+  </action>
+  <action>
+    <name>view_security_log</name>
+    <acl>@support</acl>
+    <state>0</state>
+  </action>
+  <buttons>
+    <name>access_control.set</name>
+    <type>image</type>
+  </buttons>
   <fields>
-    <name>access_control.room</name>
+    <name>access_control.action</name>
     <clear>left</clear>
     <onchange>submit()</onchange>
+    <stepno>0</stepno>
     <type>popupMenu</type>
   </fields>
   <fields>
     <name>access_control.state</name>
+    <stepno>0</stepno>
     <type>radioGroup</type>
   </fields>
   <fields>
     <name>access_control.user_groups</name>
-    <palign>left</palign>
     <sep>[% nbsp %][% nbsp %][% nbsp %]</sep>
+    <stepno>0</stepno>
     <type>groupMembership</type>
   </fields>
   <fields>
     <name>backup.device</name>
     <clear>left</clear>
     <onchange>submit()</onchange>
+    <stepno>0</stepno>
     <type>popupMenu</type>
+  </fields>
+  <fields>
+    <name>backup.except_inodes</name>
+    <clear>left</clear>
+    <stepno>0</stepno>
   </fields>
   <fields>
     <name>backup.format</name>
     <onchange>submit()</onchange>
+    <stepno>0</stepno>
     <type>popupMenu</type>
   </fields>
   <fields>
     <name>backup.next_level</name>
     <clear>left</clear>
     <onchange>submit()</onchange>
+    <stepno>0</stepno>
     <type>popupMenu</type>
   </fields>
   <fields>
     <name>backup.operation</name>
     <clear>left</clear>
+    <stepno>0</stepno>
     <type>radioGroup</type>
   </fields>
   <fields>
     <name>backup.pathsDump</name>
     <clear>left</clear>
     <onchange>submit()</onchange>
+    <stepno>0</stepno>
     <type>popupMenu</type>
   </fields>
   <fields>
     <name>backup.pathsTar</name>
     <clear>left</clear>
     <required>1</required>
+    <stepno>0</stepno>
     <width>60</width>
   </fields>
   <fields>
     <name>backup.position</name>
     <clear>left</clear>
+    <stepno>0</stepno>
     <type>radioGroup</type>
   </fields>
   <fields>
     <name>backup.type</name>
     <clear>left</clear>
     <onchange>submit()</onchange>
+    <stepno>0</stepno>
     <type>popupMenu</type>
   </fields>
   <fields>
     <name>config.attr</name>
     <clear>left</clear>
     <onchange>submit()</onchange>
-    <type>popupMenu</type>
-  </fields>
-  <fields>
-    <name>config.level</name>
-    <onchange>submit()</onchange>
+    <stepno>0</stepno>
     <type>popupMenu</type>
   </fields>
   <fields>
     <name>config.name</name>
     <clear>left</clear>
     <required>1</required>
+    <stepno>0</stepno>
     <width>32</width>
   </fields>
   <fields>
-    <name>credentials.acct</name>
+    <name>config.namespace</name>
+    <onchange>submit()</onchange>
+    <stepno>0</stepno>
+    <type>popupMenu</type>
+  </fields>
+  <fields>
+    <name>credentials.credentials</name>
     <clear>left</clear>
     <onchange>submit()</onchange>
+    <stepno>0</stepno>
     <type>popupMenu</type>
   </fields>
   <fields>
     <name>credentials.driver</name>
     <clear>left</clear>
     <required>1</required>
+    <stepno>-1</stepno>
     <validate>isValidIdentifier</validate>
     <width>40</width>
   </fields>
@@ -106,6 +264,7 @@
     <name>credentials.host</name>
     <clear>left</clear>
     <required>1</required>
+    <stepno>-1</stepno>
     <validate>isValidHostname</validate>
     <width>40</width>
   </fields>
@@ -113,6 +272,7 @@
     <name>credentials.name</name>
     <clear>left</clear>
     <required>1</required>
+    <stepno>-1</stepno>
     <validate>isValidIdentifier</validate>
     <width>40</width>
   </fields>
@@ -120,12 +280,14 @@
     <name>credentials.nameNew</name>
     <clear>left</clear>
     <required>1</required>
+    <stepno>-1</stepno>
     <validate>isValidIdentifier</validate>
     <width>40</width>
   </fields>
   <fields>
     <name>credentials.password</name>
     <clear>left</clear>
+    <stepno>-1</stepno>
     <validate>isValidPassword</validate>
     <width>40</width>
   </fields>
@@ -135,12 +297,14 @@
     <max_value>65536</max_value>
     <min_value>1</min_value>
     <required>1</required>
+    <stepno>-1</stepno>
     <validate>isValidInteger isBetweenValues</validate>
     <width>40</width>
   </fields>
   <fields>
     <name>credentials.user</name>
     <clear>left</clear>
+    <stepno>-1</stepno>
     <validate>isValidIdentifier</validate>
     <width>40</width>
   </fields>
@@ -149,7 +313,7 @@
   </fields>
   <fields>
     <name>keys_view.vals</name>
-    <edit>1</edit>
+    <edit>right</edit>
     <select>right</select>
     <type>table</type>
   </fields>
@@ -163,6 +327,7 @@
     <name>mail_aliases.alias_name</name>
     <max_length>255</max_length>
     <required>1</required>
+    <stepno>-1</stepno>
     <validate>isValidIdentifier</validate>
     <width>30</width>
   </fields>
@@ -170,6 +335,7 @@
     <name>mail_aliases.comment</name>
     <clear>left</clear>
     <max_length>255</max_length>
+    <stepno>-1</stepno>
     <width>60</width>
   </fields>
   <fields>
@@ -184,43 +350,28 @@
     <name>mail_aliases.recipients</name>
     <clear>left</clear>
     <height>10</height>
+    <stepno>-1</stepno>
     <type>textarea</type>
     <width>60</width>
+  </fields>
+  <fields>
+    <name>messages_view.msgstr</name>
+    <clear>left</clear>
+    <edit>right</edit>
+    <select>right</select>
   </fields>
   <fields>
     <name>messages_view.name</name>
     <clear>left</clear>
     <max_length>64</max_length>
     <required>1</required>
-    <validate>isValidIdentifier</validate>
     <width>40</width>
-  </fields>
-  <fields>
-    <name>pages_view.vals</name>
-    <edit>1</edit>
-    <select>right</select>
-    <type>table</type>
-  </fields>
-  <fields>
-    <name>release_view.info</name>
-    <clear>left</clear>
-    <type>note</type>
-    <width>100%</width>
-  </fields>
-  <fields>
-    <name>release_view.release_table</name>
-    <select>left</select>
-    <type>table</type>
-  </fields>
-  <fields>
-    <name>release_view.src_phase</name>
-    <onchange>submit()</onchange>
-    <type>popupMenu</type>
   </fields>
   <fields>
     <name>role_manager.name</name>
     <max_length>8</max_length>
     <required>1</required>
+    <stepno>-1</stepno>
     <validate>isValidIdentifier</validate>
     <width>10</width>
   </fields>
@@ -237,29 +388,34 @@
   </fields>
   <fields>
     <name>role_manager.users</name>
-    <palign>left</palign>
     <sep>[% nbsp %][% nbsp %][% nbsp %]</sep>
     <type>groupMembership</type>
   </fields>
   <fields>
-    <name>room_manager.keywords</name>
+    <name>room_manager.action</name>
     <clear>left</clear>
-  </fields>
-  <fields>
-    <name>room_manager.level</name>
     <onchange>submit()</onchange>
+    <stepno>0</stepno>
     <type>popupMenu</type>
   </fields>
   <fields>
+    <name>room_manager.keywords</name>
+    <clear>left</clear>
+    <stepno>-1</stepno>
+  </fields>
+  <fields>
     <name>room_manager.name</name>
+    <clear>left</clear>
     <required>1</required>
+    <stepno>-1</stepno>
     <validate>isValidPath</validate>
     <width>40</width>
   </fields>
   <fields>
-    <name>room_manager.nameNew</name>
-    <required>1</required>
-    <width>40</width>
+    <name>room_manager.namespace</name>
+    <onchange>submit()</onchange>
+    <stepno>0</stepno>
+    <type>popupMenu</type>
   </fields>
   <fields>
     <name>room_manager.path</name>
@@ -268,51 +424,95 @@
     <width>40</width>
   </fields>
   <fields>
-    <name>room_manager.room</name>
+    <name>room_manager.pwidth</name>
     <clear>left</clear>
-    <onchange>submit()</onchange>
-    <type>popupMenu</type>
+    <stepno>-1</stepno>
+    <validate>isValidInteger</validate>
+    <width>3</width>
+  </fields>
+  <fields>
+    <name>room_manager.quick_link</name>
+    <clear>left</clear>
+    <stepno>-1</stepno>
+    <validate>isValidInteger</validate>
+    <width>3</width>
   </fields>
   <fields>
     <name>room_manager.text</name>
     <clear>left</clear>
+    <stepno>-1</stepno>
     <validate>isSimpleText</validate>
     <width>40</width>
   </fields>
   <fields>
     <name>room_manager.tip</name>
     <clear>left</clear>
+    <stepno>-1</stepno>
+    <validate>isSimpleText</validate>
     <width>40</width>
+  </fields>
+  <fields>
+    <name>room_manager.uri</name>
+    <class>note</class>
+    <stepno>0</stepno>
+    <type>label</type>
+  </fields>
+  <fields>
+    <name>templates_view.content</name>
+    <class>ifield wysiwyg</class>
+    <type>textarea</type>
+    <width>80</width>
+  </fields>
+  <fields>
+    <name>templates_view.name</name>
+    <clear>left</clear>
+    <required>1</required>
+  </fields>
+  <fields>
+    <name>templates_view.namespace</name>
+    <onchange>submit()</onchange>
+    <type>popupMenu</type>
+  </fields>
+  <fields>
+    <name>templates_view.template</name>
+    <clear>left</clear>
+    <onchange>submit()</onchange>
+    <type>popupMenu</type>
   </fields>
   <fields>
     <name>user_manager.afill</name>
     <align>left</align>
     <clear>left</clear>
+    <stepno>0</stepno>
     <type>note</type>
-    <width>100%</width>
+    <width>80%</width>
   </fields>
   <fields>
     <name>user_manager.email_address</name>
     <clear>left</clear>
     <max_length>80</max_length>
+    <stepno>-1</stepno>
     <width>40</width>
   </fields>
   <fields>
     <name>user_manager.first_name</name>
     <max_length>40</max_length>
     <required>1</required>
+    <stepno>-1</stepno>
     <width>20</width>
   </fields>
   <fields>
     <name>user_manager.home_phone</name>
     <clear>left</clear>
     <max_length>20</max_length>
+    <stepno>-1</stepno>
     <width>20</width>
   </fields>
   <fields>
     <name>user_manager.homedir</name>
     <clear>left</clear>
     <max_length>255</max_length>
+    <stepno>-1</stepno>
     <width>40</width>
   </fields>
   <fields>
@@ -320,18 +520,21 @@
     <clear>left</clear>
     <max_length>40</max_length>
     <required>1</required>
+    <stepno>-1</stepno>
     <width>20</width>
   </fields>
   <fields>
     <name>user_manager.location</name>
     <clear>left</clear>
     <max_length>20</max_length>
+    <stepno>-1</stepno>
     <width>20</width>
   </fields>
   <fields>
     <name>user_manager.pgroup</name>
     <align>right</align>
     <clear>left</clear>
+    <stepno>0</stepno>
     <type>note</type>
     <width>40%</width>
   </fields>
@@ -339,34 +542,40 @@
     <name>user_manager.populate</name>
     <checked>1</checked>
     <clear>left</clear>
+    <stepno>-1</stepno>
     <type>checkbox</type>
   </fields>
   <fields>
     <name>user_manager.profile</name>
     <clear>left</clear>
     <onchange>submit()</onchange>
+    <stepno>0</stepno>
     <type>popupMenu</type>
   </fields>
   <fields>
     <name>user_manager.project</name>
     <clear>left</clear>
     <max_length>80</max_length>
+    <stepno>-1</stepno>
     <width>40</width>
   </fields>
   <fields>
     <name>user_manager.realm</name>
     <onchange>submit()</onchange>
+    <stepno>0</stepno>
     <type>popupMenu</type>
   </fields>
   <fields>
     <name>user_manager.shell</name>
     <clear>left</clear>
+    <stepno>-1</stepno>
     <type>popupMenu</type>
   </fields>
   <fields>
     <name>user_manager.user</name>
     <clear>left</clear>
     <onchange>submit()</onchange>
+    <stepno>0</stepno>
     <type>popupMenu</type>
   </fields>
   <fields>
@@ -374,24 +583,28 @@
     <clear>left</clear>
     <max_length>32</max_length>
     <required>1</required>
+    <stepno>-1</stepno>
     <width>8</width>
   </fields>
   <fields>
     <name>user_manager.work_phone</name>
     <clear>left</clear>
     <max_length>20</max_length>
+    <stepno>-1</stepno>
     <width>20</width>
   </fields>
   <fields>
     <name>user_profiles.baseid</name>
     <clear>left</clear>
     <max_length>8</max_length>
+    <stepno>-1</stepno>
     <width>8</width>
   </fields>
   <fields>
     <name>user_profiles.desc</name>
     <max_length>60</max_length>
     <required>1</required>
+    <stepno>-1</stepno>
     <validate>isMandatory</validate>
     <width>40</width>
   </fields>
@@ -399,6 +612,7 @@
     <name>user_profiles.group_name</name>
     <align>right</align>
     <clear>left</clear>
+    <stepno>0</stepno>
     <type>note</type>
     <width>40%</width>
   </fields>
@@ -406,77 +620,96 @@
     <name>user_profiles.homedir</name>
     <clear>left</clear>
     <max_length>255</max_length>
+    <stepno>-1</stepno>
     <width>40</width>
   </fields>
   <fields>
     <name>user_profiles.increment</name>
     <clear>left</clear>
     <max_length>8</max_length>
+    <stepno>-1</stepno>
     <width>8</width>
   </fields>
   <fields>
     <name>user_profiles.name</name>
     <clear>left</clear>
     <onchange>submit()</onchange>
+    <stepno>0</stepno>
     <type>popupMenu</type>
   </fields>
   <fields>
     <name>user_profiles.passwd</name>
     <clear>left</clear>
     <max_length>32</max_length>
+    <stepno>-1</stepno>
     <width>8</width>
   </fields>
   <fields>
     <name>user_profiles.pattern</name>
     <clear>left</clear>
     <max_length>20</max_length>
+    <stepno>-1</stepno>
     <width>20</width>
   </fields>
   <fields>
     <name>user_profiles.permissions</name>
     <clear>left</clear>
     <max_length>3</max_length>
+    <stepno>-1</stepno>
     <width>8</width>
   </fields>
   <fields>
     <name>user_profiles.prefix</name>
     <clear>left</clear>
     <max_length>8</max_length>
+    <stepno>-1</stepno>
     <width>8</width>
   </fields>
   <fields>
     <name>user_profiles.printer</name>
     <clear>left</clear>
     <max_length>20</max_length>
+    <stepno>-1</stepno>
     <width>20</width>
   </fields>
   <fields>
     <name>user_profiles.profile</name>
     <onchange>submit()</onchange>
+    <stepno>0</stepno>
     <type>popupMenu</type>
   </fields>
   <fields>
     <name>user_profiles.project</name>
     <clear>left</clear>
     <max_length>40</max_length>
+    <stepno>-1</stepno>
     <width>40</width>
   </fields>
   <fields>
     <name>user_profiles.roles</name>
     <clear>left</clear>
     <max_length>255</max_length>
+    <stepno>-1</stepno>
     <width>40</width>
   </fields>
   <fields>
     <name>user_profiles.server</name>
     <clear>left</clear>
     <max_length>20</max_length>
+    <stepno>-1</stepno>
     <width>20</width>
   </fields>
   <fields>
     <name>user_profiles.shell</name>
     <clear>left</clear>
+    <stepno>-1</stepno>
     <type>popupMenu</type>
+  </fields>
+  <fields>
+    <name>user_report.file</name>
+    <select>1</select>
+    <subtype>csv</subtype>
+    <type>file</type>
   </fields>
   <fields>
     <name>user_report.keynote</name>
@@ -487,36 +720,38 @@
   <fields>
     <name>user_report.realm</name>
     <onchange>submit()</onchange>
+    <stepno>0</stepno>
     <type>popupMenu</type>
   </fields>
   <fields>
     <name>user_security.groups</name>
-    <palign>left</palign>
-    <sep>space</sep>
+    <stepno>0</stepno>
     <type>groupMembership</type>
   </fields>
   <fields>
     <name>user_security.p_default</name>
-    <palign>left</palign>
+    <class>label_text</class>
+    <pclass>prompt_compact</pclass>
     <type>label</type>
   </fields>
   <fields>
     <name>user_security.p_generated</name>
+    <class>label_text</class>
     <clear>left</clear>
-    <palign>left</palign>
+    <pclass>prompt_compact</pclass>
     <type>label</type>
   </fields>
   <fields>
     <name>user_security.p_value</name>
     <clear>left</clear>
-    <palign>left</palign>
+    <pclass>prompt_compact</pclass>
     <type>popupMenu</type>
   </fields>
   <fields>
     <name>user_security.p_word1</name>
     <clear>left</clear>
     <max_length>16</max_length>
-    <palign>left</palign>
+    <pclass>prompt_compact</pclass>
     <subtype>verify</subtype>
     <type>password</type>
     <width>8</width>
@@ -524,84 +759,110 @@
   <fields>
     <name>user_security.realm</name>
     <onchange>submit()</onchange>
-    <palign>left</palign>
+    <pclass>prompt_compact</pclass>
+    <stepno>0</stepno>
     <type>popupMenu</type>
   </fields>
   <fields>
     <name>user_security.user</name>
     <clear>left</clear>
     <onchange>submit()</onchange>
-    <palign>left</palign>
+    <pclass>prompt_compact</pclass>
+    <stepno>0</stepno>
     <type>popupMenu</type>
   </fields>
   <keys>
     <name>access_control</name>
     <vals>
-      <name>level</name>
-      <key>entrance</key>
+      <name>action</name>
+      <key>..Level..</key>
+      <order>1</order>
     </vals>
     <vals>
-      <name>room</name>
-      <key>..Level..</key>
+      <name>namespace</name>
+      <key>entrance</key>
+      <order>0</order>
     </vals>
   </keys>
   <keys>
     <name>backup</name>
     <vals>
       <name>device</name>
-      <key>[% os.defaultTape %]</key>
+    </vals>
+    <vals>
+      <name>except_inodes</name>
     </vals>
     <vals>
       <name>format</name>
-      <key>dump</key>
+    </vals>
+    <vals>
+      <name>next_level</name>
+    </vals>
+    <vals>
+      <name>operation</name>
     </vals>
     <vals>
       <name>paths</name>
       <key>/</key>
+      <order>0</order>
+    </vals>
+    <vals>
+      <name>position</name>
+    </vals>
+    <vals>
+      <name>type</name>
     </vals>
   </keys>
   <keys>
     <name>buttons_view</name>
     <vals>
-      <name>button</name>
+      <name>buttons</name>
       <key>[% newtag %]</key>
+      <order>1</order>
     </vals>
     <vals>
-      <name>level</name>
+      <name>namespace</name>
       <key>entrance</key>
+      <order>0</order>
     </vals>
   </keys>
   <keys>
     <name>credentials</name>
     <vals>
-      <name>acct</name>
+      <name>credentials</name>
       <key>[% newtag %]</key>
+      <order>1</order>
     </vals>
     <vals>
-      <name>level</name>
+      <name>namespace</name>
       <key>entrance</key>
+      <order>0</order>
     </vals>
   </keys>
   <keys>
     <name>fields_view</name>
     <vals>
-      <name>field</name>
+      <name>fields</name>
       <key>[% newtag %]</key>
+      <order>1</order>
     </vals>
     <vals>
-      <name>level</name>
+      <name>namespace</name>
       <key>entrance</key>
+      <order>0</order>
     </vals>
   </keys>
   <keys>
     <name>keys_view</name>
     <vals>
-      <name>key</name>
+      <name>keys</name>
       <key>[% newtag %]</key>
+      <order>1</order>
     </vals>
     <vals>
-      <name>level</name>
+      <name>namespace</name>
       <key>entrance</key>
+      <order>0</order>
     </vals>
   </keys>
   <keys>
@@ -609,28 +870,20 @@
     <vals>
       <name>alias</name>
       <key>[% newtag %]</key>
+      <order>0</order>
     </vals>
   </keys>
   <keys>
     <name>messages_view</name>
     <vals>
-      <name>level</name>
-      <key>entrance</key>
-    </vals>
-    <vals>
-      <name>message</name>
+      <name>msgid</name>
       <key>[% newtag %]</key>
+      <order>1</order>
     </vals>
-  </keys>
-  <keys>
-    <name>pages_view</name>
     <vals>
-      <name>level</name>
+      <name>namespace</name>
       <key>entrance</key>
-    </vals>
-    <vals>
-      <name>page</name>
-      <key>[% newtag %]</key>
+      <order>0</order>
     </vals>
   </keys>
   <keys>
@@ -642,6 +895,7 @@
     <vals>
       <name>ptype</name>
       <key>1</key>
+      <order>0</order>
     </vals>
     <vals>
       <name>signals</name>
@@ -653,46 +907,40 @@
     </vals>
   </keys>
   <keys>
-    <name>release_diff</name>
-    <vals>
-      <name>srcPhase</name>
-      <key>0</key>
-    </vals>
-  </keys>
-  <keys>
-    <name>release_log</name>
-    <vals>
-      <name>src_phase</name>
-      <key>0</key>
-    </vals>
-  </keys>
-  <keys>
-    <name>release_view</name>
-    <vals>
-      <name>src_phase</name>
-      <key>0</key>
-    </vals>
-  </keys>
-  <keys>
     <name>role_manager</name>
     <vals>
       <name>realm</name>
-      <key>R01-Localhost</key>
     </vals>
     <vals>
       <name>role</name>
       <key>0</key>
+      <order>0</order>
     </vals>
   </keys>
   <keys>
     <name>room_manager</name>
     <vals>
-      <name>level</name>
-      <key>[% newtag %]</key>
+      <name>action</name>
+      <key>..Level..</key>
+      <order>1</order>
     </vals>
     <vals>
-      <name>room</name>
-      <key>..Level..</key>
+      <name>namespace</name>
+      <key>[% newtag %]</key>
+      <order>0</order>
+    </vals>
+  </keys>
+  <keys>
+    <name>templates_view</name>
+    <vals>
+      <name>namespace</name>
+      <key>none</key>
+      <order>0</order>
+    </vals>
+    <vals>
+      <name>template</name>
+      <key>[% newtag %]</key>
+      <order>1</order>
     </vals>
   </keys>
   <keys>
@@ -703,11 +951,11 @@
     </vals>
     <vals>
       <name>realm</name>
-      <key>IdentityUnix</key>
     </vals>
     <vals>
       <name>user</name>
       <key>[% newtag %]</key>
+      <order>0</order>
     </vals>
   </keys>
   <keys>
@@ -715,160 +963,29 @@
     <vals>
       <name>profile</name>
       <key>[% newtag %]</key>
+      <order>0</order>
     </vals>
   </keys>
   <keys>
     <name>user_report</name>
     <vals>
       <name>realm</name>
-      <key>IdentityUnix</key>
     </vals>
     <vals>
       <name>user_report</name>
       <key>0</key>
+      <order>0</order>
     </vals>
   </keys>
   <keys>
     <name>user_security</name>
     <vals>
       <name>realm</name>
-      <key>IdentityUnix</key>
     </vals>
     <vals>
       <name>user</name>
       <key>0</key>
+      <order>0</order>
     </vals>
   </keys>
-  <messages>
-    <name>room_manager.select</name>
-  </messages>
-  <pages>
-    <name>reception</name>
-    <class>centre</class>
-    <columns>1</columns>
-  </pages>
-  <rooms>
-    <name>access_control</name>
-    <acl>@support</acl>
-    <state>0</state>
-  </rooms>
-  <rooms>
-    <name>backup</name>
-    <acl>@support</acl>
-    <state>0</state>
-  </rooms>
-  <rooms>
-    <name>backup_logfile</name>
-    <acl>@support</acl>
-    <state>0</state>
-  </rooms>
-  <rooms>
-    <name>buttons_view</name>
-    <acl>@support</acl>
-    <state>0</state>
-  </rooms>
-  <rooms>
-    <name>configuration</name>
-    <acl>any</acl>
-    <state>0</state>
-  </rooms>
-  <rooms>
-    <name>credentials</name>
-    <acl>@support</acl>
-    <state>0</state>
-  </rooms>
-  <rooms>
-    <name>fields_view</name>
-    <acl>@support</acl>
-    <state>0</state>
-  </rooms>
-  <rooms>
-    <name>globals</name>
-    <acl>@support</acl>
-    <state>0</state>
-  </rooms>
-  <rooms>
-    <name>keys_view</name>
-    <acl>@support</acl>
-    <state>0</state>
-  </rooms>
-  <rooms>
-    <name>lock_table</name>
-    <acl>@support</acl>
-    <state>0</state>
-  </rooms>
-  <rooms>
-    <name>mail_aliases</name>
-    <acl>@support</acl>
-    <state>0</state>
-  </rooms>
-  <rooms>
-    <name>messages_view</name>
-    <acl>@support</acl>
-    <state>0</state>
-  </rooms>
-  <rooms>
-    <name>pages_view</name>
-    <acl>@support</acl>
-  </rooms>
-  <rooms>
-    <name>proc_table</name>
-    <acl>@support</acl>
-    <state>0</state>
-  </rooms>
-  <rooms>
-    <name>reception</name>
-    <acl>@support</acl>
-    <state>0</state>
-  </rooms>
-  <rooms>
-    <name>role_manager</name>
-    <acl>@support</acl>
-    <state>0</state>
-  </rooms>
-  <rooms>
-    <name>room_manager</name>
-    <acl>@support</acl>
-    <state>0</state>
-  </rooms>
-  <rooms>
-    <name>user_manager</name>
-    <acl>@support</acl>
-    <state>0</state>
-  </rooms>
-  <rooms>
-    <name>user_profiles</name>
-    <acl>@support</acl>
-    <state>0</state>
-  </rooms>
-  <rooms>
-    <name>user_report</name>
-    <acl>@support</acl>
-    <state>0</state>
-  </rooms>
-  <rooms>
-    <name>user_security</name>
-    <acl>@support</acl>
-    <state>0</state>
-  </rooms>
-  <rooms>
-    <name>user_sessions</name>
-    <acl>@support</acl>
-    <state>0</state>
-  </rooms>
-  <rooms>
-    <name>users</name>
-    <acl>@support</acl>
-    <state>0</state>
-  </rooms>
-  <rooms>
-    <name>view_logfile</name>
-    <acl>@support</acl>
-    <state>0</state>
-  </rooms>
-  <rooms>
-    <name>view_security_log</name>
-    <acl>@support</acl>
-    <state>0</state>
-  </rooms>
 </config>

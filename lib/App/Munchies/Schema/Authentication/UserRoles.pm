@@ -1,20 +1,27 @@
 # Created by DBIx::Class::Schema::Loader v0.03009 @ 2007-03-04 02:50:46
-# @(#)$Id: UserRoles.pm 790 2009-06-30 02:51:12Z pjf $
+# @(#)$Id: UserRoles.pm 1178 2011-05-25 00:43:17Z pjf $
 
 package App::Munchies::Schema::Authentication::UserRoles;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.4.%d', q$Rev: 790 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.5.%d', q$Rev: 1178 $ =~ /\d+/gmx );
 use parent qw(App::Munchies::Schema::Base);
 
 __PACKAGE__->table( 'user_roles' );
-__PACKAGE__->add_columns( qw(user_id role_id) );
+__PACKAGE__->add_columns( 'user_id', { data_type         => 'MEDIUMINT',
+                                       default_value     => undef,
+                                       is_nullable       => 0,
+                                       size              => 8, },
+                          'role_id', { data_type         => 'MEDIUMINT',
+                                       default_value     => undef,
+                                       is_nullable       => 0,
+                                       size              => 8, } );
 __PACKAGE__->set_primary_key( qw(user_id role_id) );
 __PACKAGE__->belongs_to(
-   user => 'App::Munchies::Schema::Authentication::Users', 'user_id' );
+   user_rel => 'App::Munchies::Schema::Authentication::Users', 'user_id' );
 __PACKAGE__->belongs_to(
-   role => 'App::Munchies::Schema::Authentication::Roles', 'role_id' );
+   role_rel => 'App::Munchies::Schema::Authentication::Roles', 'role_id' );
 
 1;
 
@@ -28,7 +35,7 @@ App::Munchies::Schema::Authentication::UserRoles - Class definition for the user
 
 =head1 Version
 
-0.4.$Revision: 790 $
+0.5.$Revision: 1178 $
 
 =head1 Synopsis
 

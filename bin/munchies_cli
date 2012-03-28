@@ -1,17 +1,24 @@
 #!/usr/bin/env perl
-
-# @(#)$Id: munchies_cli 790 2009-06-30 02:51:12Z pjf $
+# @(#)$Id: munchies_cli 1267 2011-12-30 00:24:16Z pjf $
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.4.%d', q$Rev: 790 $ =~ /\d+/gmx );
+
+use English qw(-no_match_vars);
 use File::Spec::Functions;
-use FindBin  qw( $Bin );
-use lib catfile( $Bin, updir, q(lib) );
+use FindBin qw( $Bin );
+
+BEGIN {
+   my $path = catfile( $Bin, q(munchies_localenv) );
+
+   do $path or die $EVAL_ERROR || "Path $path not done\n";
+}
+
+use version; our $VERSION = qv( sprintf '0.5.%d', q$Rev: 1267 $ =~ /\d+/gmx );
 
 use App::Munchies::CLI;
 
-exit App::Munchies::CLI->new( appclass => q(App::Munchies) )->dispatch;
+exit App::Munchies::CLI->new( appclass => q(App::Munchies) )->run;
 
 __END__
 
@@ -37,7 +44,7 @@ Display man page/usage string
 
 =head1 VERSION
 
-0.4.$Rev: 790 $
+0.5.$Rev: 1267 $
 
 =head1 DESCRIPTION
 
@@ -58,10 +65,6 @@ This program exposes the subroutines in the L<App::Munchies::CLI> module
 =item B<-D>
 
 Turn debugging on
-
-=item B<-m> I<path>
-
-Append to logfile on completion
 
 =item B<-n>
 

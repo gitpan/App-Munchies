@@ -1,0 +1,46 @@
+#!/usr/bin/env perl
+# @(#)$Id: munchies_psgi 1275 2012-02-22 13:35:53Z pjf $
+# Use: plackup -p 3000 -r -R lib -s Starman --access-log \
+#         var/logs/starman_server.log bin/munchies_psgi
+
+use strict;
+use warnings;
+
+use English qw(-no_match_vars);
+use File::Spec::Functions;
+use FindBin qw( $Bin );
+use File::Basename;
+
+BEGIN {
+   my $bindir = caller() ? dirname( (caller())[1] ) : $Bin;
+   my $path   = catfile( $bindir, q(munchies_localenv) );
+
+   do $path or die $EVAL_ERROR || "Path ${path} not done\n";
+}
+
+use version; our $VERSION = qv( sprintf '0.5.%d', q$Rev: 1275 $ =~ /\d+/gmx );
+
+use App::Munchies;
+use Plack::Builder;
+
+my $debug = $ENV{PLACK_ENV} eq q(development) ? 1 : 0;
+
+$debug and $ENV{CATALYST_DEBUG} = 1;
+
+my $conf = App::Munchies->config;
+my $path = catfile( $conf->{tempdir}, q(file-dataclass-schema.dat) );
+
+-f $path and unlink $path;
+
+builder {
+   enable_if { $debug } q(Debug),
+      panels => [ qw(DBITrace Memory Timer Environment) ];
+   enable q(Plack::Middleware::Static),
+      path => qr{^/(html|reports|skins|static)}, root => $conf->{root};
+   App::Munchies->psgi_app( @_ );
+};
+
+# Local Variables:
+# mode: perl
+# tab-width: 3
+# End:

@@ -1,0 +1,298 @@
+# @(#)$Id: default.po 1278 2012-03-11 23:23:04Z pjf $
+# GNU Gettext Portable Object.
+# Copyright (C) 2011 RoxSoft.
+# Lazarus Long <Support@RoxSoft.co.uk>, 2011.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: App::Munchies 0.5.1252\n"
+"PO-Revision-Date: 2011-11-23 01:31 +GMT\n"
+"Last-Translator: Lazarus Long <Support@RoxSoft.co.uk>\n"
+"Language-Team: English <Support@RoxSoft.co.uk>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Action [_1]/[_2] access denied"
+msgstr "You do not have access to the [_2] action on the [_1] controller"
+
+msgid "Action [_1]/[_2] closed"
+msgstr "The [_2] action on the [_1] controller is closed for redecorating"
+
+msgid "Add_table_row"
+msgstr "Enter a new item into the adjacent text fields and then click this button to add it to the list"
+
+msgid "Application [_1] closed"
+msgstr "The [_1] application is closed for redecorating"
+
+msgid "Authenticate to reopen"
+msgstr "Authenticate as an administration user to reopen the application"
+
+msgid "Error 403"
+msgstr "You've been awarded error number 403 - Access Denied"
+
+msgid "Error 404"
+msgstr "You've been awarded error number 404 - Page not found"
+
+msgid "Error 423"
+msgstr "You've been awarded error number 423 - Action closed"
+
+msgid "Error apology"
+msgstr "I'm sorry [_1], I can't do that!"
+
+msgid "Invalid token"
+msgstr "The CSRF form token does not match the one that was expected"
+
+msgid "Remove_table_row"
+msgstr "Select one or more items from the above list and then click this button to remove them"
+
+msgid "Sort_table_rows"
+msgstr "Click to sort the table rows by this column"
+
+msgid "Use feedback option"
+msgstr "Use the Feedback option on the help menu to report any problems you are having to the support team"
+
+msgid "aboutCompanyTip"
+msgstr "About this company"
+
+msgid "aboutOptionText"
+msgstr "About"
+
+msgid "aboutOptionTip"
+msgstr "Copyright and author information"
+
+msgid "accountVerification"
+msgstr "[_1] account verification required"
+
+msgctxt "buttons.error"
+msgid "app_closed.login"
+msgstr "Failed to login to the application because"
+
+msgctxt "buttons.error"
+msgid "feedback.send"
+msgstr "Failed to send the message because"
+
+msgctxt "buttons.help"
+msgid "app_closed.login"
+msgstr "Reopen the application"
+
+msgctxt "buttons.help"
+msgid "feedback.send"
+msgstr "Send this email to the site administrators"
+
+msgid "changeSkinAltText"
+msgstr "Skin"
+
+msgid "changeSkinAltTip"
+msgstr "Change the current skin to this alternative"
+
+msgid "changeSkinDefaultText"
+msgstr "Default Skin"
+
+msgid "changeSkinDefaultTip"
+msgstr "Change the current skin back to the system default"
+
+msgid "contextHelpText"
+msgstr "Context Help"
+
+msgid "contextHelpTip"
+msgstr "Provides help text on this page"
+
+msgid "dateWidgetTip"
+msgstr "Click the calendar icon to open a date selection window"
+
+msgid "debugOffText"
+msgstr "Debug Off"
+
+msgid "debugOnText"
+msgstr "Debug On"
+
+msgid "debugToggleTip"
+msgstr "Debug mode generates more output in the log files"
+
+msgid "defTextPrompt"
+msgstr "Enter value for "
+
+msgid "displayOptionsTip"
+msgstr "Display options"
+
+msgid "eMandatory"
+msgstr "Required field ([_1]) has no value"
+
+msgid "eNotImplemented"
+msgstr "Method not implemented"
+
+msgid "eValidEmail"
+msgstr "Not a valid email address"
+
+msgid "eValidIdentifier"
+msgstr "Not a valid identifier"
+
+msgid "eValidPassword"
+msgstr "Not a valid password"
+
+msgid "elapsedTime"
+msgstr "Elapsed time since previous update"
+
+msgid "exitTip"
+msgstr "Exit the application and reset your identity to unknown"
+
+msgid "feedback.subject"
+msgstr "[_1] feedback for [_2]"
+
+msgid "feedback.title"
+msgstr "Email Feedback"
+
+msgid "feedbackOptionText"
+msgstr "Feedback"
+
+msgid "feedbackOptionTip"
+msgstr "Share your experiences of this site with its administrators"
+
+msgid "feedbackTip"
+msgstr "Share your surfing experience of this web site with its developers and administrators"
+
+msgid "fieldPromptWidthTip"
+msgstr "Decrease/Increase the size of the field prompts on forms"
+
+msgctxt "fields.prompt"
+msgid "app_closed.passwd"
+msgstr "Password"
+
+msgctxt "fields.prompt"
+msgid "app_closed.user"
+msgstr "Login id"
+
+msgctxt "fields.prompt"
+msgid "feedback.body"
+msgstr "Subject:[% nbsp %]<b>[% html_subject %]</b>"
+
+msgctxt "fields.prompt"
+msgid "footer.select_language"
+msgstr "Language "
+
+msgid "first_page_anchor"
+msgstr "First"
+
+msgid "footerOffText"
+msgstr "Footer Off"
+
+msgid "footerOnText"
+msgstr "Footer On"
+
+msgid "footerToggleTip"
+msgstr "Toggle the display state of the footer bar"
+
+msgid "form_hint_title"
+msgstr "Hint"
+
+msgid "freelistAddTip"
+msgstr "Enter a new item into the adjacent text field and then click this button to add it to the list"
+
+msgid "freelistRemoveTip"
+msgstr "Select one or more items from the adjacent list and then click this button to remove them"
+
+msgid "groupMembershipAddTip"
+msgstr "Select one or more entries from the list on the left and then click this button to add them to the list on the right"
+
+msgid "groupMembershipRemoveTip"
+msgstr "Select one or more entries from the list on the right and then click this button to remove them"
+
+msgid "helpOptionTip"
+msgstr "Help options"
+
+msgid "isMandatory"
+msgstr "Mandatory field is null"
+
+msgid "isValidEmail"
+msgstr "Not a valid email address"
+
+msgid "isValidIdentifier"
+msgstr "Field value contains illegal characters or is null"
+
+msgid "isValidInteger"
+msgstr "Field value is not a valid integer or is not in the required range"
+
+msgid "isValidPassword"
+msgstr "Field value is not a valid password"
+
+msgid "lang_de"
+msgstr "Deutsch"
+
+msgid "lang_en"
+msgstr "English"
+
+msgid "lang_sp"
+msgstr "Espanol"
+
+msgid "lang_sw"
+msgstr "Swedish"
+
+msgid "last_page_anchor"
+msgstr "Last"
+
+msgid "levelVersion"
+msgstr "The version number of the [% ns %] controller"
+
+msgid "logoTip"
+msgstr "Go to this servers home page"
+
+msgid "moduleVersion"
+msgstr "The version number of the [% application %] application"
+
+msgctxt "namespace.text"
+msgid "admin"
+msgstr "Admin"
+
+msgctxt "namespace.text"
+msgid "entrance"
+msgstr "Home"
+
+msgctxt "namespace.text"
+msgid "library"
+msgstr "Library"
+
+msgctxt "namespace.tip"
+msgid "admin"
+msgstr "Command and control centre"
+
+msgctxt "namespace.tip"
+msgid "entrance"
+msgstr "Start here if you are new to this site"
+
+msgctxt "namespace.tip"
+msgid "library"
+msgstr "Documentation and Content Management"
+
+msgid "next_page_anchor"
+msgstr "Next"
+
+msgid "pageGenerated"
+msgstr "Date and time this page was generated"
+
+msgid "page_prompt"
+msgstr "Page"
+
+msgid "previous_page_anchor"
+msgstr "Previous"
+
+msgid "search_results"
+msgstr "Displaying page [_1] of [_2] containing [_3] of [_4] total hits. "
+
+msgid "sidebarBlankContent"
+msgstr "This panel intentionally left blank"
+
+msgid "sidebarBlankHeader"
+msgstr "Empty"
+
+msgid "sidebarTip"
+msgstr "Menu Bar ~ Navigate around the actions in this controller using the links on this menu bar. Clicking this bullet expands/collapses the side bar display panel"
+
+msgid "vPasswordPrompt"
+msgstr " and again "
+
+msgid "yourIdentity"
+msgstr "Your current identity"

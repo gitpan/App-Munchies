@@ -1,0 +1,8 @@
+<!-- @(#)$Id: action_closed.tt 1135 2011-04-13 00:21:38Z pjf $ -->
+<div class="banner">
+  <h1>[% Loc( 'Error apology', firstName ) %]</h1>
+  <h4>[% Loc( 'Action [_1]/[_2] closed', [ closed_namespace, closed_action ] ) %]</h4>
+  <p><img src="[% assets %]construct.gif"[% EOT %]</p>
+  <p>[% Loc( 'Error 423' ) %]</p>
+  <p>[% Loc( 'Use feedback option' ) %]</p>
+</div>

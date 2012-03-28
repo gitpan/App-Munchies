@@ -1,0 +1,38 @@
+--- PodParser.pm	2011-05-31 03:34:42.000000000 +0100
++++ PodParser.pm	2011-06-06 06:17:38.000000000 +0100
+@@ -44,7 +44,7 @@
+   while (<$fh>) {
+     next unless /^=head1\s+AUTHORS?/i ... /^=/;
+     next if /^=/;
+-    push @author, $_ if /\@/;
++    push @author, $_;
+   }
+   return unless @author;
+   s/^\s+|\s+$//g foreach @author;
+@@ -72,6 +72,15 @@
+   return $self->{author} || [];
+ }
+ 
++sub get_description {
++  my $self = shift;
++  return $self->{description} if defined $self->{description};
++
++  $self->parse_from_filehandle($self->{fh});
++
++  return $self->{description};
++}
++
+ ################## Pod::Parser overrides ###########
+ sub initialize {
+   my $self = shift;
+@@ -96,7 +105,9 @@
+     my ($name, $abstract) = split( /\s+-\s+/, $text, 2 );
+     $self->{abstract} = $abstract;
+   } elsif ($self->{_head} =~ /^AUTHORS?$/i) {
+-    push @{$self->{author}}, $text if $text =~ /\@/;
++    push @{$self->{author}}, $text;
++  } elsif ($self->{_head} =~ /^DESCRIPTION$/i) {
++    push @{$self->{description}}, $text;
+   }
+ }
+ 

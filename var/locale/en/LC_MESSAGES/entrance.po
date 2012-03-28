@@ -1,0 +1,270 @@
+# @(#)$Id: entrance.po 1265 2011-12-03 02:11:43Z pjf $
+# GNU Gettext Portable Object.
+# Copyright (C) 2011 RoxSoft.
+# Lazarus Long <Support@RoxSoft.co.uk>, 2011.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: App::Munchies 0.5.1252\n"
+"PO-Revision-Date: 2011-12-01 07:05+0000\n"
+"Last-Translator: Lazarus Long <Support@RoxSoft.co.uk>\n"
+"Language-Team: English <Support@RoxSoft.co.uk>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Account [_1] activated"
+msgstr "Account for user [_1] activated. Click on the Login link to authenticate"
+
+msgid "Security code [_1] incorrect"
+msgstr "The entered security code [_1] was not the same as the one that was displayed"
+
+msgctxt "action.text"
+msgid "activate_account"
+msgstr "Activate Account"
+
+msgctxt "action.text"
+msgid "authentication"
+msgstr "Login"
+
+msgctxt "action.text"
+msgid "change_password"
+msgstr "Change Password"
+
+msgctxt "action.text"
+msgid "clock"
+msgstr "Clock"
+
+msgctxt "action.text"
+msgid "custom"
+msgstr "Custom"
+
+msgctxt "action.text"
+msgid "documentation"
+msgstr "Documentation"
+
+msgctxt "action.text"
+msgid "module_docs"
+msgstr "POD"
+
+msgctxt "action.text"
+msgid "modules"
+msgstr "Modules"
+
+msgctxt "action.text"
+msgid "reception"
+msgstr "Index"
+
+msgctxt "action.text"
+msgid "register"
+msgstr "Site Registration"
+
+msgctxt "action.text"
+msgid "sampler"
+msgstr "Sampler"
+
+msgctxt "action.text"
+msgid "sitemap"
+msgstr "Site Map"
+
+msgctxt "action.text"
+msgid "test_card"
+msgstr "Test Card"
+
+msgctxt "action.text"
+msgid "tutorial"
+msgstr "Tutorial"
+
+msgctxt "action.text"
+msgid "wikipedia"
+msgstr "Wikipedia"
+
+msgctxt "action.tip"
+msgid "activate_account"
+msgstr "Activate a newly created account"
+
+msgctxt "action.tip"
+msgid "authentication"
+msgstr "Identify yourself to the site"
+
+msgctxt "action.tip"
+msgid "change_password"
+msgstr "Change your site password"
+
+msgctxt "action.tip"
+msgid "clock"
+msgstr "SVG Animated system clock"
+
+msgctxt "action.tip"
+msgid "custom"
+msgstr "An example of a custom template"
+
+msgctxt "action.tip"
+msgid "documentation"
+msgstr "HTML formatted from POD"
+
+msgctxt "action.tip"
+msgid "module_docs"
+msgstr "Displays the POD for the selected module"
+
+msgctxt "action.tip"
+msgid "modules"
+msgstr "List the modules and versions loaded by this application"
+
+msgctxt "action.tip"
+msgid "reception"
+msgstr "Welcome to this site"
+
+msgctxt "action.tip"
+msgid "register"
+msgstr "Create an account on this site"
+
+msgctxt "action.tip"
+msgid "sampler"
+msgstr "Displays the list of available form widgets"
+
+msgctxt "action.tip"
+msgid "sitemap"
+msgstr "View links to all the pages within this application"
+
+msgctxt "action.tip"
+msgid "test_card"
+msgstr "Apologise to the BBC"
+
+msgctxt "action.tip"
+msgid "tutorial"
+msgstr "More help in getting started"
+
+msgctxt "action.tip"
+msgid "wikipedia"
+msgstr "Lookup the Wikipedia entry for the supplied argument"
+
+msgid "authentication.header"
+msgstr "Stop! You have your papers?"
+
+msgctxt "buttons.error"
+msgid "authentication.login"
+msgstr "Failed to authenticate with the system because"
+
+msgctxt "buttons.error"
+msgid "change_password.set"
+msgstr "Failed to change the password because"
+
+msgctxt "buttons.error"
+msgid "register.insert"
+msgstr "Failed to create the account because"
+
+msgctxt "buttons.help"
+msgid "authentication.login"
+msgstr "Unauthorized access is an offence for which you may be prosecuted"
+
+msgctxt "buttons.help"
+msgid "change_password.set"
+msgstr "Replace the tired old password with a shiney new one"
+
+msgctxt "buttons.help"
+msgid "register.insert"
+msgstr "Create this account"
+
+msgctxt "buttons.help"
+msgid "sampler.markup"
+msgstr "Vertical text button replacement"
+
+msgid "change_password.select"
+msgstr "Change the login password for [% name %] ([% user %])"
+
+msgid "change_password.selectUnknown"
+msgstr "Change your password on this server"
+
+msgctxt "fields.fhelp"
+msgid "register.captcha"
+msgstr "Captcha Image"
+
+msgctxt "fields.fhelp"
+msgid "register.newPass1"
+msgstr "password"
+
+msgctxt "fields.prompt"
+msgid "authentication.passwd"
+msgstr "Password"
+
+msgctxt "fields.prompt"
+msgid "authentication.user"
+msgstr "Login id"
+
+msgctxt "fields.prompt"
+msgid "change_password.newPass1"
+msgstr "Enter your <b>new</b> password"
+
+msgctxt "fields.prompt"
+msgid "change_password.oldPass"
+msgstr "Enter your <b>old</b> password"
+
+msgctxt "fields.prompt"
+msgid "change_password.realm"
+msgstr "Authentication realm"
+
+msgctxt "fields.prompt"
+msgid "change_password.user"
+msgstr "Login id"
+
+msgctxt "fields.prompt"
+msgid "register.captcha"
+msgstr "Your security code is"
+
+msgctxt "fields.prompt"
+msgid "register.email_address"
+msgstr "Email address"
+
+msgctxt "fields.prompt"
+msgid "register.first_name"
+msgstr "First name"
+
+msgctxt "fields.prompt"
+msgid "register.home_phone"
+msgstr "Home telephone number"
+
+msgctxt "fields.prompt"
+msgid "register.last_name"
+msgstr "Last name"
+
+msgctxt "fields.prompt"
+msgid "register.location"
+msgstr "Usual desk location"
+
+msgctxt "fields.prompt"
+msgid "register.newPass1"
+msgstr "Password"
+
+msgctxt "fields.prompt"
+msgid "register.project"
+msgstr "Project/job title"
+
+msgctxt "fields.prompt"
+msgid "register.security"
+msgstr "Enter security code"
+
+msgctxt "fields.prompt"
+msgid "register.work_phone"
+msgstr "Work telephone number"
+
+msgid "module_list.select"
+msgstr "Modules loaded by the [% application %] application"
+
+msgid "passwordChanged"
+msgstr "Password for [% user %] changed"
+
+msgid "register.legend"
+msgstr "Create an account on this site"
+
+msgid "sitemap_heading"
+msgstr "Site Map of [% application %]&#160;[% platform %]"
+
+msgid "sitemap_subheading"
+msgstr "Mouse over the links in the table and select a destination"
+
+msgid "test_card"
+msgstr "<img alt=\"Test Card\" src=\"[% assets %]construct.gif\" />"

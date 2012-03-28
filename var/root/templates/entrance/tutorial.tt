@@ -1,0 +1,59 @@
+<!-- @(#)$Id: tutorial.tt 1267 2011-12-30 00:24:16Z pjf $ -->
+<div class="sdata_panel">
+  <h1>Introductory Tutorial for [% application %]</h1>
+  <div class="paragraphs">
+    <div class="[% n_columns %]">
+
+      <p><span class="dropcap">E</span>very page of this system has a
+        navigation bar in the header that provides links to all
+        controllers within the system. Each controller contains one or
+        more actions (pages). The index page on each controller
+        contains more information about that controller </p>
+
+      <p>At the top of each page is a header bar. Beneath that there
+        is the navigation bar. When you click the <span title="Pin"
+        class="pushpin_icon"></span> icon on the navigation bar it
+        toggles the side panel. Mousing over a link in the first
+        column of links on the navigation bar will display more information
+        about that controller after a short delay. Clicking on a link
+        will take you to that controller's index page </p>
+
+      <p>The second and subsequent columns of links on the navigation
+        bar allow you to reach the different pages on the current
+        controller. Some pages do not appear until you have logged
+        in to the system</p>
+
+      <p>If you try to access a page not open to anonymous access you will
+        be redirected to the login page on the Home (entrance) controller. There
+        you will be forced to prove your identity by entering your login
+        id and password. Controllers requiring authentication will not appear
+        on the navigation bar if user identity is unknown. Your current
+        identity is shown in bottom right corner of the footer bar
+        followed by some useful numbers </p>
+
+      <p>Near the top right corner of the page are some clickable
+        icons. The <span title="Tools" class="tools_icon"></span> icon
+        is a drop menu containing options that affect the way the user
+        interface works. The Turn Footer On/Off option toggles the
+        footer display.  The Feedback option creates a mail message
+        with a context sensitive subject string. This message allows
+        you to share your experience of [% application %]&nbsp;
+        [% platform %] with it's administrators.  The Feedback option
+        only appears if your identity is known. The <span title="Help"
+        class="help_icon"></span> icon will display the relevant help
+        text for the current action in another browser window.  The
+        <span title="Exit" class="exit_icon"></span> icon will reset
+        your identity to unknown, exit the building and return you to
+        the index page of the Home (entrance) controller </p>
+
+    </div>
+  </div>
+[% IF user == 'unknown' %]
+
+  <p>As your current identity is unknown to the site, select
+    User Authentication from the navigation bar now and
+    identify yourself with your login id and password.
+  </p>
+
+[% END %]
+</div>

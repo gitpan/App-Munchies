@@ -1,26 +1,37 @@
-# @(#)$Id: Munchies.pm 794 2009-06-30 16:49:49Z pjf $
+# @(#)$Id: Munchies.pm 1285 2012-03-28 10:58:59Z pjf $
 
 package App::Munchies;
 
 use 5.008;
 use strict;
-use warnings;
-use version; our $VERSION = qv( sprintf '0.4.%d', q$Rev: 794 $ =~ /\d+/gmx );
+use namespace::autoclean;
+use version; our $VERSION = qv( sprintf '0.5.%d', q$Rev: 1285 $ =~ /\d+/gmx );
 
+use Moose;
 use File::Spec;
-use Catalyst::Runtime q(5.70);
-use Catalyst qw(ConfigComponents InflateMore ConfigLoader
-                Log::Handler Authentication Captcha FillInForm Session
-                Session::State::Cookie Session::Store::FastMmap
-                Static::Simple);
+use Catalyst::Runtime q(5.90010);
+use CatalystX::RoleApplicator;
 
-# Work around C::Utils::home. Stop home directory from changing
+use Catalyst qw(ConfigComponents InflateMore ConfigLoader Log::Handler
+                Authentication Session Session::State::Cookie
+                Session::Store::FastMmap Static::Simple);
+
+# Add a method to list FastMmap sessions
+with qw(CatalystX::Usul::TraitFor::ListSessions);
+# Suppress printing of passwords in debug output
+with qw(CatalystX::Usul::TraitFor::LogRequest);
+
 my $class = __PACKAGE__;
 my $home  = $class->config->{home};
-my $dir   = File::Spec->catfile( split m{ :: }mx, $class );
 my $file  = Catalyst::Utils::appprefix( $class );
+my $dir   = File::Spec->catdir( split m{ :: }mx, $class );
 
-$home = File::Spec->catdir( $home, q(lib), $dir ) if ($home !~ m{ $dir \z }mx);
+# Work around C::Utils::home. Stop home directory from changing
+$home !~ m{ $dir \z }mx and $home = File::Spec->catdir( $home, q(lib), $dir );
+
+# Prefer Data::Dumper for debug information
+$class->apply_engine_class_roles
+   ( qw(CatalystX::Usul::TraitFor::Engine::DumpInfo) );
 
 # Configure application
 $class->config
@@ -36,31 +47,13 @@ $class->config
         'text/x-data-dumper'       => q(Serializer),
         'text/x-json'              => q(JSON),
         'text/x-php-serialization' => q(Serializer),
+        'text/x-xml'               => q(XML),
         'text/xml'                 => q(XML) },
      home                       => $home,
      name                       => $class,
      version                    => $VERSION,
-     captcha                    => {
-        create                  => [ q(ttf), q(ec) ],
-        new                     => {
-           font                 => q(StayPuft.ttf),
-           frame                => 1,
-           height               => 90,
-           lines                => 10,
-           ptsize               => 24,
-           scramble             => 1,
-           width                => 340, },
-        out                     => { force => q(jpeg) },
-        particle                => [ 900, 5 ],
-        session_name            => q(captcha_string), },
-     session                    => {
-        expires                 => 7776000,
-        storage                 => q(__appldir(var/tmp/session_data)__),
-        verify_address          => 1, },
-     setup_components           => { except => qr(:: \. \#)mx },
      static                     => {
-        dirs                    =>
-           [ q(static), qr/^(css|html|images|jscript|reports|skins|svg)/ ],
+        dirs                    => [ qr/^(html|reports|skins|static)/ ],
         ignore_extensions       => [ q(tmpl), q(tt), q(tt2) ],
         include_path            => [ q(__appldir(var/root)__), q(.) ],
         mime_types              => { svg => q(image/svg+xml) }, },
@@ -71,14 +64,24 @@ $class->config
         actions                 => { base => { PathPart => q(entrance) } },
         namespace               => q(entrance), },
      'Controller::Library'      => {
+        actions                 => { base => { PathPart => q(library) } }, },
+     'Controller::Library::Admin' => {
+        actions                 => { base => { PathPart => q(library) } },
+        namespace               => q(library) },
+     'Controller::Library::Catalog' => {
+        actions                 => { base => { PathPart => q(library) } },
+        namespace               => q(library), },
+     'Controller::Library::Recipes' => {
         actions                 => { base => { PathPart => q(library) } },
         namespace               => q(library), },
      'Controller::Root'         => {
         parent_classes          => q(CatalystX::Usul::Controller::Root),
+        default_namespace       => q(entrance),
         namespace               => q() },
      'Debug'                    => {
+        skip_dump_elements      => q(__InstancePerContext | nav_model | _log),
         skip_dump_parameters    =>
-           q(p_word[12] | password | passwd | newPass[12] | oldPass) },
+     q(p_word[12] | password | password[12] | passwd | newPass[12] | oldPass) },
      'Log::Handler'             => {
         filename                => q(__appldir(var/logs/server.log)__),
         fileopen                => 1,
@@ -107,8 +110,6 @@ $class->config
      'Model::Config::Messages'  => {
         parent_classes          =>
            q(CatalystX::Usul::Model::Config::Messages) },
-     'Model::Config::Pages'     => {
-        parent_classes          => q(CatalystX::Usul::Model::Config::Pages) },
      'Model::Config::Rooms'     => {
         parent_classes          => q(CatalystX::Usul::Model::Config::Rooms) },
      'Model::FileSystem'        => {
@@ -120,6 +121,11 @@ $class->config
         auth_comp               => q(Plugin::Authentication),
         role_class              => q(RolesDBIC),
         user_class              => q(UsersDBIC), },
+     'Model::IdentitySimple'    => {
+        parent_classes          => q(CatalystX::Usul::Model::Identity),
+        auth_comp               => q(Plugin::Authentication),
+        role_class              => q(RolesSimple),
+        user_class              => q(UsersSimple), },
      'Model::IdentityUnix'      => {
         parent_classes          => q(CatalystX::Usul::Model::Identity),
         auth_comp               => q(Plugin::Authentication),
@@ -129,10 +135,11 @@ $class->config
         parent_classes          => q(CatalystX::Usul::Model::Imager),
         scale                   => { scalefactor => 0.5 } },
      'Model::MailAliases'       => {
-        parent_classes          => q(CatalystX::Usul::Model::MailAliases) },
+        parent_classes          => q(CatalystX::Usul::Model::MailAliases),
+        domain_attributes       => {
+           root_update_cmd      => q(__binsdir(munchies_admin)__), }, },
      'Model::MealMaster'        => {
-        COMPILE_DIR             => q(__appldir(var/tmp)__),
-        INCLUDE_PATH            => q(__appldir(var/root/static/templates)__) },
+        template_dir            => q(__appldir(var/root/templates)__) },
      'Model::Navigation'        => {
         parent_classes          => q(CatalystX::Usul::Model::Navigation) },
      'Model::Process'           => {
@@ -143,42 +150,52 @@ $class->config
            dbic_role_class      => q(Authentication::Roles),
            dbic_user_roles_class => q(Authentication::UserRoles), },
         domain_class            => q(CatalystX::Usul::Roles::DBIC) },
+     'Model::RolesSimple'       => {
+        parent_classes          => q(CatalystX::Usul::Model::Roles),
+        domain_class            => q(CatalystX::Usul::Roles::Simple) },
      'Model::RolesUnix'         => {
         parent_classes          => q(CatalystX::Usul::Model::Roles),
         domain_class            => q(CatalystX::Usul::Roles::Unix) },
      'Model::Session'           => {
         parent_classes          => q(CatalystX::Usul::Model::Session) },
-     'Model::Tapes'             => {
-        parent_classes          => q(CatalystX::Usul::Model::Tapes) },
+     'Model::TapeBackup'        => {
+        parent_classes          => q(CatalystX::Usul::Model::TapeBackup) },
+     'Model::Templates'         => {
+        parent_classes          => q(CatalystX::Usul::Model::Templates), },
      'Model::UserProfiles'      => {
-        parent_classes          => q(CatalystX::Usul::Model::UserProfiles) },
+        parent_classes          => q(CatalystX::Usul::Model::UserProfiles), },
      'Model::UsersDBIC'         => {
         parent_classes          => q(CatalystX::Usul::Model::Users),
-        COMPILE_DIR             => q(__appldir(var/tmp)__),
-        INCLUDE_PATH            => q(__appldir(var/root/static/templates)__),
         domain_attributes       => {
            dbic_user_class      => q(Authentication::Users), },
-        domain_class            => q(CatalystX::Usul::Users::DBIC) },
+        domain_class            => q(CatalystX::Usul::Users::DBIC),
+        template_attributes     => {
+           COMPILE_DIR          => q(__appldir(var/tmp)__),
+           INCLUDE_PATH         => q(__appldir(var/root/templates)__), }, },
+     'Model::UsersSimple'       => {
+        parent_classes          => q(CatalystX::Usul::Model::Users),
+        domain_class            => q(CatalystX::Usul::Users::Simple) },
      'Model::UsersUnix'         => {
         parent_classes          => q(CatalystX::Usul::Model::Users),
-        COMPILE_DIR             => q(__appldir(var/tmp)__),
-        INCLUDE_PATH            => q(__appldir(var/root/static/templates)__),
         domain_attributes       => {
            common_home          => q(/home/common), },
-        domain_class            => q(CatalystX::Usul::Users::Unix) },
+        domain_class            => q(CatalystX::Usul::Users::Unix),
+        template_attributes     => {
+           COMPILE_DIR          => q(__appldir(var/tmp)__),
+           INCLUDE_PATH         => q(__appldir(var/root/templates)__), }, },
      'Plugin::Authentication'   => {
-        default_realm           => q(R01-Localhost),
+        default_realm           => q(R00-Internal),
         realms                  => {
-           'R01-Localhost'      => {
+           'R00-Internal'       => {
               credential        => {
                  class          => q(Password),
                  password_field => q(password),
                  password_type  => q(self_check), },
               store             => {
                  class          => q(+CatalystX::Usul::Authentication),
-                 model_class    => q(IdentityUnix),
+                 model_class    => q(IdentitySimple),
                  user_field     => q(username), }, },
-           'R02-Database'       => {
+           'R01-Database'       => {
               credential        => {
                  class          => q(Password),
                  password_field => q(password),
@@ -187,41 +204,48 @@ $class->config
                  class          => q(+CatalystX::Usul::Authentication),
                  model_class    => q(IdentityDBIC),
                  user_field     => q(username), }, }, }, },
+     'Plugin::Captcha'          => {
+        create                  => [ q(ttf), q(ec) ],
+        new                     => {
+           font                 => q(StayPuft.ttf),
+           frame                => 1,
+           height               => 90,
+           lines                => 10,
+           ptsize               => 24,
+           scramble             => 1,
+           width                => 340, },
+        out                     => { force => q(jpeg) },
+        particle                => [ 900, 5 ],
+        session_name            => q(captcha_string), },
      'Plugin::ConfigLoader'     => {
         file                    => File::Spec->catfile( $home, $file ) },
      'Plugin::InflateMore'      => q(CatalystX::Usul::InflateSymbols),
+     'Plugin::Session'          => {
+        cookie_httponly         => 0,
+        expires                 => 7776000,
+        storage                 => q(__appldir(var/tmp/session_data)__),
+        verify_address          => 1, },
      'View::HTML'               => {
         parent_classes          => q(CatalystX::Usul::View::HTML),
         COMPILE_DIR             => q(__appldir(var/tmp)__),
         INCLUDE_PATH            => q(__appldir(var/root/skins)__),
-        dynamic_templates       => q(__appldir(var/root/dynamic/templates)__),
         jscript_dir             => q(__appldir(var/root/static/jscript)__),
-        lang_dep_jsprefixs      => [ qw(calendar) ], },
+        lang_dep_jsprefixs      => [ qw(calendar) ],
+        render_die              => 0,
+        template_dir            => q(__appldir(var/root/templates)__), },
      'View::JSON'               => {
-        parent_classes          => q(CatalystX::Usul::View::JSON),
-        dynamic_templates       =>
-           q(__appldir(var/root/dynamic/templates)__), },
+        parent_classes          => q(CatalystX::Usul::View::JSON), },
      'View::Serializer'         => {
         parent_classes          => q(CatalystX::Usul::View::Serializer), },
      'View::XML'                => {
         parent_classes          => q(CatalystX::Usul::View::XML),
-        dynamic_templates       =>
-           q(__appldir(var/root/dynamic/templates)__), },
+        template_dir            => q(__appldir(var/root/templates)__), },
      );
 
 # Initialise application
 $class->setup;
 
-# TODO: Temporarily put the no strict no warnings in Class:Data::Inheritable
-# to suppress the config redefined warnings
-Class::C3::initialize();
-
-# Methods in the Catalyst objects namespace
-
-sub list_sessions {
-   # TODO: Move this method to the C::P::Session::Store::FastMmap
-   return shift->_session_fastmmap_storage->get_keys( 2 );
-}
+no Moose;
 
 1;
 
@@ -235,17 +259,23 @@ App::Munchies - Catalyst example application using food recipes as a data set
 
 =head1 Version
 
-0.4.$Revision: 794 $
+0.5.$Revision: 1285 $
 
 =head1 Synopsis
 
-Start the development mini server with
+   # Start the development server with
 
-   bin/munchies_server.pl
+   bin/munchies_server -d -r -rd 1 -rr "\\.xml\$|\\.pm\$" \
+      --restart_directory lib
+
+   # Start the production server with
+
+   plackup -s Starman --access-log var/logs/starman_server.log \
+      bin/munchies_psgi
 
 =head1 Description
 
-This is an example application for the L<CatalystX::Usul> base classes
+This is an example application for the L<CatalystX::Usul> base class
 
 Some web applications require common controllers and data
 models. For example; welcome mat, authentication, password changing,
@@ -268,7 +298,19 @@ skin. These ideas and techniques have been aquired from
 L<http://www.csszengarden.com/> and L<http://www.cssplay.co.uk/>
 
 Don't even think about using anything other than a modern version of
-Firefox to display these pages
+Chrome / Firefox / Opera to display these pages
+
+=head1 Dependencies
+
+Either Apache/mod_perl or Plack/Starman is required to serve HTTP (the
+other Catalyst engines are also supported). Requires either PostgreSQL
+or MySQL to be installed. The XML parser requires C<libxml2> and
+C<libxml2-dev> otherwise a slow pure Perl implementation will be
+used. Installing Perl module dependencies from CPAN will require
+C<make>, C<gcc> and C<g++> (or equivalents) to be
+installed. L<GD::SecurityImage> (used to generate Captchas) depends on
+C<libgd2-noxpm> and C<libgd2-noxpm-dev>. It also requires the
+C<StayPuft.ttf> font to be installed
 
 =head1 Installation
 
@@ -283,23 +325,11 @@ It defaults to installing all files (including the F<var> data) under
 F</opt/app-munchies> (which is easy to remove if this is not a
 permanent installation)
 
-If you want to customise the installation then instead of
-C<install.sh> run
-
-   ./Build.PL
-   ./Build --ask
-   ./Build distclean
-   cd ..
-   tar -czf App-Munchies-local.tar.gz App-Munchies-?.?.?
-
-which will create a local tarball. Install from this and you will not
-be prompted to answer any more questions
-
 Once the schema has been deployed and populated the following
 (optional) commands will be run:
 
-   bin/munchies_cli    -n -c pod2html    -o uid=[% uid %] -o gid=[% gid %]
-   bin/munchies_schema -n -c catalog_mmf -o uid=[% uid %] -o gid=[% gid %]
+   bin/munchies_cli    -nc pod2html
+   bin/munchies_schema -nc catalog_mmf
 
 as the I<munchies> user. They may take some time to finish. When
 complete the F<var> area of the application is about 60Mb in size
@@ -311,77 +341,32 @@ enabled.  It is not enabled by default
 
 B<N.B.> Remove I<user_root> from F<var/secure/support.sub> if it exists
 
-B<N.B.> Change the password for the admin account in the R02-Database realm
-
-=head1 Subroutines/Methods
-
-=head2 list_sessions
-
-Lists the users session data stored in
-L<Catalyst::Plugin::Session::Store::FastMmap>
-
-This method should be implemented on each of the C::P::S::Store::* backends
-
-=head1 Diagnostics
-
-Append C<-d> to F<bin/munchies_server.pl> to start the mini server in
-debug mode
-
-Replace the prepare body method in I<Catalyst.pm> with this one
-
-   sub prepare_body {
-      my $c = shift;
-
-      # Do we run for the first time?
-      return if defined $c->request->{_body};
-
-      # Initialize on-demand data
-      $c->engine->prepare_body( $c, @_ );
-      $c->prepare_parameters;
-      $c->prepare_uploads;
-
-      if ( $c->debug && keys %{ $c->req->body_parameters } ) {
-         my $params = $c->req->body_parameters;
-         my $re = $c->config->{Debug}->{skip_dump_parameters};
-         my $t = Text::SimpleTable->new( [ 35, 'Parameter' ], [ 36, 'Value' ] );
-
-         for my $key ( sort keys %{ $params } ) {
-            my $param = exists $params->{ $key } ? $params->{ $key } : q();
-            my $value = ref $param eq q(ARRAY)
-                      ? (join q(, ), @{ $param }) : $param;
-
-            $value = q(*) x length $value if ($re && $key =~ m{ \A $re \z }mx);
-
-            $t->row( $key, $value );
-         }
-
-         $c->log->debug( "Body Parameters are:\n" . $t->draw );
-      }
-   }
+B<N.B.> Change the password for the admin account in the R00-Internal realm
 
 =head1 Configuration and Environment
 
 Application configuration is in the file
-F<lib/app_munchies/app_munchies.xml>
+F<lib/App/Munchies/app_munchies.xml>
 
-=head1 Dependencies
+=head1 Diagnostics
 
-=over 3
+The C<-d> option on the F<bin/munchies_server.pl> command line starts the
+development server server in debug mode
 
-=item L<Catalyst>
+=head1 Subroutines/Methods
 
-=item L<Catalyst::Plugin::ConfigComponents>
-
-=item L<Catalyst::Plugin::InflateMore>
-
-=item L<CatalystX::Usul>
-
-=back
+None
 
 =head1 Incompatibilities
 
 Cygwin - Has a wierd gecos field in the passwd file that is a problem
 for the identity model.
+
+The L<Pod::ProjectDocs> module will not install without
+forcing. L<CatalystX::Usul::ProjectDocs> monkey patches
+L<Pod::ProjectDocs> with a different syntax highlighter so that the post
+install commands can generate the HTML version the application
+documentation
 
 =head1 Bugs and Limitations
 
@@ -399,7 +384,7 @@ Larry Wall - For the Perl programming language
 
 =head1 License and Copyright
 
-Copyright (c) 2009 Peter Flanigan. All rights reserved
+Copyright (c) 2012 Peter Flanigan. All rights reserved
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself. See L<perlartistic>
@@ -414,4 +399,3 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE
 # mode: perl
 # tab-width: 3
 # End:
-

@@ -1,0 +1,8 @@
+<!-- @(#)$Id: cracker.tt 1135 2011-04-13 00:21:38Z pjf $ -->
+<div class="banner">
+  <h1>[% Loc( 'Error apology', firstName ) %]</h1>
+  <h4>[% Loc( 'Action [_1]/[_2] access denied', [ denied_namespace, denied_action ] ) %]</h4>
+  <p><img alt="Error" src="[% assets %]pc.gif"[% EOT %]</p>
+  <p>[% Loc( 'Error 403' ) %]</p>
+  <p>[% Loc( 'Use feedback option' ) %]</p>
+</div>

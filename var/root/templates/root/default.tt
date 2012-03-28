@@ -1,0 +1,8 @@
+<!-- @(#)$Id: default.tt 1110 2011-01-30 23:43:36Z pjf $ -->
+<div class="banner">
+  <h1>[% Loc( 'Error apology', firstName ) %]</h1>
+  <h2>[% Loc( 'Page [_1] not found', request_path ) %]</h2>
+  <p><img alt="Error" src="[% assets %]pc.gif"[% EOT %]</p>
+  <p>[% Loc( 'Error 404' ) %]</p>
+  <p>[% Loc( 'Use feedback option' ) %]</p>
+</div>

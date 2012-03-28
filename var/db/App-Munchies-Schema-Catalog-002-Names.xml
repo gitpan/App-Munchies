@@ -1,3 +1,4 @@
+<!ELEMENT rows (ARRAY)*>
 <config>
  <fields>text</fields>
  <rows>NULL</rows>

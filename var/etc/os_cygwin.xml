@@ -1,12 +1,8 @@
 <!ELEMENT os (ARRAY)*>
 <config>
-  <_cvs_os>@(#)$Id: os_cygwin.xml 572 2008-12-15 21:51:26Z pjf $</_cvs_os>
+  <_vcs_os>@(#)$Id: os_cygwin.xml 946 2010-01-05 01:17:52Z pjf $</_vcs_os>
    <os>
      <name>fs_type</name>
      <value>0</value>
-   </os>
-   <os>
-     <name>lock_type</name>
-     <value>fcntl</value>
    </os>
 </config>

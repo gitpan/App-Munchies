@@ -1,0 +1,466 @@
+# @(#)$Id: library.po 1260 2011-11-29 03:51:45Z pjf $
+# GNU Gettext Portable Object.
+# Copyright (C) 2011 RoxSoft.
+# Lazarus Long <Support@RoxSoft.co.uk>, 2011.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: App::Munchies 0.5.1252\n"
+"PO-Revision-Date: 2011-11-23 01:31 +GMT\n"
+"Last-Translator: Lazarus Long <Support@RoxSoft.co.uk>\n"
+"Language-Team: English <Support@RoxSoft.co.uk>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgctxt "action.text"
+msgid "admin"
+msgstr "Admin"
+
+msgctxt "action.text"
+msgid "catalog"
+msgstr "Catalog"
+
+msgctxt "action.text"
+msgid "collection_view"
+msgstr "Collection"
+
+msgctxt "action.text"
+msgid "ingredients"
+msgstr "Ingredients"
+
+msgctxt "action.text"
+msgid "links_view"
+msgstr "Links"
+
+msgctxt "action.text"
+msgid "nodes_view"
+msgstr "Nodes"
+
+msgctxt "action.text"
+msgid "recatalog_view"
+msgstr "Recatalog"
+
+msgctxt "action.text"
+msgid "reception"
+msgstr "Index"
+
+msgctxt "action.text"
+msgid "recipes_edit"
+msgstr "Recipes"
+
+msgctxt "action.tip"
+msgid "admin"
+msgstr "Maintain the catalog"
+
+msgctxt "action.tip"
+msgid "catalog"
+msgstr "Browse the links in a given catalog"
+
+msgctxt "action.tip"
+msgid "collection_view"
+msgstr "Maintain the links available to a given collection"
+
+msgctxt "action.tip"
+msgid "ingredients"
+msgstr "Search for recipes by ingredients"
+
+msgctxt "action.tip"
+msgid "links_view"
+msgstr "Maintain the the list of links"
+
+msgctxt "action.tip"
+msgid "nodes_view"
+msgstr "Maintain the the catalogs/subjects"
+
+msgctxt "action.tip"
+msgid "recatalog_view"
+msgstr "Recatalog the complete recipe database"
+
+msgctxt "action.tip"
+msgid "reception"
+msgstr "Welcome to this level"
+
+msgctxt "action.tip"
+msgid "recipes_edit"
+msgstr "Create and edit recipes"
+
+msgctxt "buttons.error"
+msgid "collection_view.add"
+msgstr "Failed to add the link(s) because"
+
+msgctxt "buttons.error"
+msgid "collection_view.remove"
+msgstr "Failed to remove the link(s) because"
+
+msgctxt "buttons.error"
+msgid "links_view.delete"
+msgstr "Failed to delete the link because"
+
+msgctxt "buttons.error"
+msgid "links_view.insert"
+msgstr "Failed to insert the link because"
+
+msgctxt "buttons.error"
+msgid "links_view.save"
+msgstr "Failed to save the link because"
+
+msgctxt "buttons.error"
+msgid "nodes_view.delete"
+msgstr "Failed to delete the subject definition because"
+
+msgctxt "buttons.error"
+msgid "nodes_view.insert"
+msgstr "Failed to insert the subject definition because"
+
+msgctxt "buttons.error"
+msgid "nodes_view.save"
+msgstr "Failed to save the subject definition because"
+
+msgctxt "buttons.error"
+msgid "recatalog_view.execute"
+msgstr "Failed to recatalog the database because"
+
+msgctxt "buttons.error"
+msgid "recipes_edit.delete"
+msgstr "Failed to delete the recipe because"
+
+msgctxt "buttons.error"
+msgid "recipes_edit.index"
+msgstr "Failed to index the file because"
+
+msgctxt "buttons.error"
+msgid "recipes_edit.insert"
+msgstr "Failed to insert the recipe because"
+
+msgctxt "buttons.error"
+msgid "recipes_edit.save"
+msgstr "Failed to save the recipe because"
+
+msgctxt "buttons.help"
+msgid "collection_view.add"
+msgstr "Add the selected links to the selected subject"
+
+msgctxt "buttons.help"
+msgid "collection_view.remove"
+msgstr "Remove the selected links from the selected subject"
+
+msgctxt "buttons.help"
+msgid "links_view.delete"
+msgstr "Delete the [% link %] link"
+
+msgctxt "buttons.help"
+msgid "links_view.insert"
+msgstr "Insert the new link record into the database"
+
+msgctxt "buttons.help"
+msgid "links_view.save"
+msgstr "Update the database with your changes to this link record"
+
+msgctxt "buttons.help"
+msgid "nodes_view.delete"
+msgstr "Remove the selected catalog subject definition and its associated collection"
+
+msgctxt "buttons.help"
+msgid "nodes_view.insert"
+msgstr "Create a new catalog subject definition"
+
+msgctxt "buttons.help"
+msgid "nodes_view.save"
+msgstr "Save changes to the this catalog subject definition"
+
+msgctxt "buttons.help"
+msgid "recatalog_view.execute"
+msgstr "Recatalog the complete recipe database"
+
+msgctxt "buttons.help"
+msgid "recipes_edit.delete"
+msgstr "Delete the selected recipe from this file"
+
+msgctxt "buttons.help"
+msgid "recipes_edit.index"
+msgstr "Index this file in the recipe catalog"
+
+msgctxt "buttons.help"
+msgid "recipes_edit.insert"
+msgstr "Insert the recipe into the file"
+
+msgctxt "buttons.help"
+msgid "recipes_edit.save"
+msgstr "Update the file with your changes to this recipe"
+
+msgctxt "buttons.prompt"
+msgid "links_view.delete"
+msgstr "Are you sure you want to delete the [% link %] link ?"
+
+msgctxt "buttons.prompt"
+msgid "nodes_view.delete"
+msgstr "Are you sure you want to delete the [% uri_attrs_cache.nodes_view.values.subject %] subject from the [% uri_attrs_cache.nodes_view.values.catalog %] catalog ?"
+
+msgctxt "buttons.prompt"
+msgid "recipes_edit.delete"
+msgstr "Delete the [% uri_attrs_cache.recipes_edit.values.recipe %] recipe from the [% uri_attrs_cache.recipes_edit.values.file %] file ?"
+
+msgctxt "buttons.prompt"
+msgid "recipes_edit.index"
+msgstr "Are you sure you want to reindex this file?"
+
+msgid "catalog_search_heading"
+msgstr "Catalog search results for \"[_1]\".[% nbsp %]"
+
+msgid "collection_view.edit"
+msgstr "Maintain the links in this collection"
+
+msgid "conversion"
+msgstr ""
+"<div class=\"info\">\n"
+"      <span class=\"heading\">Temperatures</span>\n"
+"      <br><br>\n"
+"      Gas mark 1 = 140C / 275F<br>\n"
+"      Gas mark 2 = 150C / 300F<br>\n"
+"      Gas mark 3 = 170C / 325F<br>\n"
+"      Gas mark 4 = 180C / 350F<br>\n"
+"      Gas mark 5 = 190C / 375F<br>\n"
+"      Gas mark 6 = 200C / 400F<br>\n"
+"      Gas mark 7 = 220C / 425F<br>\n"
+"      Gas mark 8 = 240C / 475F<br>\n"
+"      Gas mark 9 = 270C / 525F<br>\n"
+"      <br>\n"
+"      <span class=\"heading\">Weights and Measures</span>\n"
+"      <br><br>\n"
+"      1/4 cup = 60ml = 2oz = 56 grams<br>\n"
+"      1/3 cup = 80ml = 2 3/4oz = 70 grams<br>\n"
+"      1/2 cup = 120ml = 4oz = 112 grams<br>\n"
+"      1   cup = 240ml = 8oz = 224 grams</div>"
+
+msgctxt "fields.atitle"
+msgid "collection_view.links"
+msgstr "All Links"
+
+msgctxt "fields.ctitle"
+msgid "collection_view.links"
+msgstr "Current Links"
+
+msgctxt "fields.fhelp"
+msgid "collection_view.links"
+msgstr "<p>Select from the All Links list to include that link in the [% subject %] subject and then click[% nbsp %]add[% nbsp %](+)</p><p><b>OR</b></p><p>Select from the Current Links list to exclude that link from the [% subject %] subject and then click[% nbsp %]remove[% nbsp %](-)</p>"
+
+msgctxt "fields.prompt"
+msgid "catalog.catalog"
+msgstr "Catalog"
+
+msgctxt "fields.prompt"
+msgid "catalog.catalog_type"
+msgstr "Display[% nbsp %]type"
+
+msgctxt "fields.prompt"
+msgid "catalog.colour_type"
+msgstr "Colour[% nbsp %]type"
+
+msgctxt "fields.prompt"
+msgid "catalog.file"
+msgstr "File"
+
+msgctxt "fields.prompt"
+msgid "catalog.key"
+msgstr "Key"
+
+msgctxt "fields.prompt"
+msgid "catalog.min_count"
+msgstr "Min.[% nbsp %]count"
+
+msgctxt "fields.prompt"
+msgid "catalog.score"
+msgstr "Score"
+
+msgctxt "fields.prompt"
+msgid "catalog.search_expression"
+msgstr "Title search expression"
+
+msgctxt "fields.prompt"
+msgid "catalog.sort_field"
+msgstr "Sort[% nbsp %]field"
+
+msgctxt "fields.prompt"
+msgid "collection_view.catalog"
+msgstr "Select a catalog"
+
+msgctxt "fields.prompt"
+msgid "collection_view.subject"
+msgstr "Select a subject"
+
+msgctxt "fields.prompt"
+msgid "ingredients.file"
+msgstr "File"
+
+msgctxt "fields.prompt"
+msgid "ingredients.key"
+msgstr "Key"
+
+msgctxt "fields.prompt"
+msgid "ingredients.score"
+msgstr "Score"
+
+msgctxt "fields.prompt"
+msgid "ingredients.search_expression"
+msgstr "Ingredients search expression"
+
+msgctxt "fields.prompt"
+msgid "links_view.catalog"
+msgstr "Select catalog"
+
+msgctxt "fields.prompt"
+msgid "links_view.desc"
+msgstr "Enter a helpful description for the fly over tool tip"
+
+msgctxt "fields.prompt"
+msgid "links_view.link"
+msgstr "Select a link"
+
+msgctxt "fields.prompt"
+msgid "links_view.linkName"
+msgstr "Enter link name"
+
+msgctxt "fields.prompt"
+msgid "links_view.linkURL"
+msgstr "Enter the URL"
+
+msgctxt "fields.prompt"
+msgid "links_view.nid"
+msgstr "Select the associated catalog"
+
+msgctxt "fields.prompt"
+msgid "links_view.title"
+msgstr "Enter the display text"
+
+msgctxt "fields.prompt"
+msgid "nodes_view.catalog"
+msgstr "Select a catalog to edit"
+
+msgctxt "fields.prompt"
+msgid "nodes_view.catalogDesc"
+msgstr "Enter the catalog description"
+
+msgctxt "fields.prompt"
+msgid "nodes_view.subject"
+msgstr "Select a subject"
+
+msgctxt "fields.prompt"
+msgid "nodes_view.subjectDesc"
+msgstr "Enter the subject description"
+
+msgctxt "fields.prompt"
+msgid "recipes_edit.categories"
+msgstr "Enter categories for this recipe"
+
+msgctxt "fields.prompt"
+msgid "recipes_edit.directions"
+msgstr "Enter the recipe directions"
+
+msgctxt "fields.prompt"
+msgid "recipes_edit.file"
+msgstr "Select a file"
+
+msgctxt "fields.prompt"
+msgid "recipes_edit.ingredients"
+msgstr "Enter the ingredients"
+
+msgctxt "fields.prompt"
+msgid "recipes_edit.name"
+msgstr "Enter the file name"
+
+msgctxt "fields.prompt"
+msgid "recipes_edit.recipe"
+msgstr "Select a recipe"
+
+msgctxt "fields.prompt"
+msgid "recipes_edit.title"
+msgstr "Enter the recipe title"
+
+msgctxt "fields.prompt"
+msgid "recipes_edit.yield"
+msgstr "How much does the recipe yield ?"
+
+msgctxt "fields.tip"
+msgid "catalog.clear"
+msgstr "Clear the search expression"
+
+msgctxt "fields.tip"
+msgid "catalog.search"
+msgstr "Search for recipe titles containing this expression"
+
+msgctxt "fields.tip"
+msgid "ingredients.clear"
+msgstr "Clear the search expression"
+
+msgctxt "fields.tip"
+msgid "ingredients.search"
+msgstr "Search for these ingredients"
+
+msgctxt "fields.tip"
+msgid "links_view.link"
+msgstr "Select [% newtag %] to create one"
+
+msgctxt "fields.tip"
+msgid "links_view.linkName"
+msgstr "Link names must be unique and can only contain the valid identifier characters a-z, A-Z, 0-9 and _"
+
+msgctxt "fields.tip"
+msgid "links_view.nid"
+msgstr "Select the Root catalog to share the link"
+
+msgctxt "fields.tip"
+msgid "nodes_view.catalog"
+msgstr "Select [% newtag %] to create one"
+
+msgctxt "fields.tip"
+msgid "nodes_view.catalogDesc"
+msgstr "Catalog names must be unique"
+
+msgctxt "fields.tip"
+msgid "nodes_view.subject"
+msgstr "Select [% newtag %] to create one"
+
+msgctxt "fields.tip"
+msgid "nodes_view.subjectDesc"
+msgstr "Subject names must be unique"
+
+msgctxt "fields.tip"
+msgid "recipes_edit.file"
+msgstr "Select [% newtag %] to create one"
+
+msgctxt "fields.tip"
+msgid "recipes_edit.name"
+msgstr "File names must be unique and can only contain the valid identifier characters a-z, A-Z, 0-9 and _"
+
+msgctxt "fields.tip"
+msgid "recipes_edit.recipe"
+msgstr "Select [% newtag %] to create one"
+
+msgctxt "fields.tip"
+msgid "recipes_edit.title"
+msgstr "Recipe names must be unique and can only contain the valid simple string characters a-z, A-Z, 0-9, _ and space"
+
+msgid "ingredients_instructions"
+msgstr "Search the recipes database ingredients lists"
+
+msgid "ingredients_search_heading"
+msgstr "Ingredients search results for \"[_1]\".[% nbsp %]"
+
+msgid "links_view.edit"
+msgstr "Edit the fields of the selected link"
+
+msgid "links_view.select"
+msgstr "Maintain the links available to the [% catalog %] catalog"
+
+msgid "nodes_view.select"
+msgstr "Maintain the subject definitions for the this catalog"
+
+msgid "recipes_edit.edit"
+msgstr "Edit the fields of the selected recipe"
+
+msgid "recipes_edit.select"
+msgstr "Maintain recipes on this server"

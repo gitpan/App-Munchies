@@ -3,15 +3,21 @@ Name
     data set
 
 Version
-    0.4.$Revision: 794 $
+    0.5.$Revision: 1285 $
 
 Synopsis
-    Start the development mini server with
+       # Start the development server with
 
-       bin/munchies_server.pl
+       bin/munchies_server -d -r -rd 1 -rr "\\.xml\$|\\.pm\$" \
+          --restart_directory lib
+
+       # Start the production server with
+
+       plackup -s Starman --access-log var/logs/starman_server.log \
+          bin/munchies_psgi
 
 Description
-    This is an example application for the CatalystX::Usul base classes
+    This is an example application for the CatalystX::Usul base class
 
     Some web applications require common controllers and data models. For
     example; welcome mat, authentication, password changing, navigation
@@ -33,7 +39,17 @@ Description
     <http://www.cssplay.co.uk/>
 
     Don't even think about using anything other than a modern version of
-    Firefox to display these pages
+    Chrome / Firefox / Opera to display these pages
+
+Dependencies
+    Either Apache/mod_perl or Plack/Starman is required to serve HTTP (the
+    other Catalyst engines are also supported). Requires either PostgreSQL
+    or MySQL to be installed. The XML parser requires "libxml2" and
+    "libxml2-dev" otherwise a slow pure Perl implementation will be used.
+    Installing Perl module dependencies from CPAN will require "make", "gcc"
+    and "g++" (or equivalents) to be installed. GD::SecurityImage (used to
+    generate Captchas) depends on "libgd2-noxpm" and "libgd2-noxpm-dev". It
+    also requires the "StayPuft.ttf" font to be installed
 
 Installation
     Run these commands as root to install this application from a
@@ -47,23 +63,11 @@ Installation
     /opt/app-munchies (which is easy to remove if this is not a permanent
     installation)
 
-    If you want to customise the installation then instead of "install.sh"
-    run
-
-       ./Build.PL
-       ./Build --ask
-       ./Build distclean
-       cd ..
-       tar -czf App-Munchies-local.tar.gz App-Munchies-?.?.?
-
-    which will create a local tarball. Install from this and you will not be
-    prompted to answer any more questions
-
     Once the schema has been deployed and populated the following (optional)
     commands will be run:
 
-       bin/munchies_cli    -n -c pod2html    -o uid=[% uid %] -o gid=[% gid %]
-       bin/munchies_schema -n -c catalog_mmf -o uid=[% uid %] -o gid=[% gid %]
+       bin/munchies_cli    -nc pod2html
+       bin/munchies_schema -nc catalog_mmf
 
     as the *munchies* user. They may take some time to finish. When complete
     the var area of the application is about 60Mb in size
@@ -75,65 +79,27 @@ Installation
 
     N.B. Remove *user_root* from var/secure/support.sub if it exists
 
-    N.B. Change the password for the admin account in the R02-Database realm
-
-Subroutines/Methods
-  list_sessions
-    Lists the users session data stored in
-    Catalyst::Plugin::Session::Store::FastMmap
-
-    This method should be implemented on each of the C::P::S::Store::*
-    backends
-
-Diagnostics
-    Append "-d" to bin/munchies_server.pl to start the mini server in debug
-    mode
-
-    Replace the prepare body method in *Catalyst.pm* with this one
-
-       sub prepare_body {
-          my $c = shift;
-
-          # Do we run for the first time?
-          return if defined $c->request->{_body};
-
-          # Initialize on-demand data
-          $c->engine->prepare_body( $c, @_ );
-          $c->prepare_parameters;
-          $c->prepare_uploads;
-
-          if ( $c->debug && keys %{ $c->req->body_parameters } ) {
-             my $params = $c->req->body_parameters;
-             my $re = $c->config->{Debug}->{skip_dump_parameters};
-             my $t = Text::SimpleTable->new( [ 35, 'Parameter' ], [ 36, 'Value' ] );
-
-             for my $key ( sort keys %{ $params } ) {
-                my $param = exists $params->{ $key } ? $params->{ $key } : q();
-                my $value = ref $param eq q(ARRAY)
-                          ? (join q(, ), @{ $param }) : $param;
-
-                $value = q(*) x length $value if ($re && $key =~ m{ \A $re \z }mx);
-
-                $t->row( $key, $value );
-             }
-
-             $c->log->debug( "Body Parameters are:\n" . $t->draw );
-          }
-       }
+    N.B. Change the password for the admin account in the R00-Internal realm
 
 Configuration and Environment
     Application configuration is in the file
-    lib/app_munchies/app_munchies.xml
+    lib/App/Munchies/app_munchies.xml
 
-Dependencies
-    Catalyst
-    Catalyst::Plugin::ConfigComponents
-    Catalyst::Plugin::InflateMore
-    CatalystX::Usul
+Diagnostics
+    The "-d" option on the bin/munchies_server.pl command line starts the
+    development server server in debug mode
+
+Subroutines/Methods
+    None
 
 Incompatibilities
     Cygwin - Has a wierd gecos field in the passwd file that is a problem
     for the identity model.
+
+    The Pod::ProjectDocs module will not install without forcing.
+    CatalystX::Usul::ProjectDocs monkey patches Pod::ProjectDocs with a
+    different syntax highlighter so that the post install commands can
+    generate the HTML version the application documentation
 
 Bugs and Limitations
     There are no known bugs in this module. Please report problems to the
@@ -146,7 +112,7 @@ Acknowledgements
     Larry Wall - For the Perl programming language
 
 License and Copyright
-    Copyright (c) 2009 Peter Flanigan. All rights reserved
+    Copyright (c) 2012 Peter Flanigan. All rights reserved
 
     This program is free software; you can redistribute it and/or modify it
     under the same terms as Perl itself. See perlartistic

@@ -1,0 +1,48 @@
+<!ELEMENT profile (ARRAY)*>
+<config>
+  <_vcs_model>@(#)$Id: user_profiles.xml 1129 2011-04-04 10:42:50Z pjf $</_vcs_model>
+  <profile>
+    <name>develop</name>
+    <baseid>1000</baseid>
+    <desc>The Meek</desc>
+    <homedir>/home</homedir>
+    <increment>1</increment>
+    <passwd>jahweh</passwd>
+    <pattern>[a-z]+</pattern>
+    <permissions>755</permissions>
+    <prefix>rox</prefix>
+    <project>Non quiche eaters</project>
+    <roles>users</roles>
+    <shell>/bin/ksh</shell>
+  </profile>
+  <profile>
+    <name>support</name>
+    <baseid>1000</baseid>
+    <desc>System Admins</desc>
+    <homedir>/home</homedir>
+    <increment>1</increment>
+    <passwd>jahweh</passwd>
+    <pattern>[a-z]+</pattern>
+    <permissions>755</permissions>
+    <prefix>rox</prefix>
+    <project>Born to be root</project>
+    <roles>users</roles>
+    <shell>/bin/pdksh</shell>
+  </profile>
+  <profile>
+    <name>users</name>
+    <baseid>1000</baseid>
+    <desc>Little People</desc>
+    <homedir>/home/common</homedir>
+    <increment>1</increment>
+    <passwd>welcome</passwd>
+    <pattern>[a-zA-Z]+</pattern>
+    <permissions>755</permissions>
+    <prefix>rox</prefix>
+    <printer></printer>
+    <project>Application User</project>
+    <roles></roles>
+    <server></server>
+    <shell>/bin/pdksh</shell>
+  </profile>
+</config>

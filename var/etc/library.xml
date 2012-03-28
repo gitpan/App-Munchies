@@ -1,23 +1,71 @@
 <!ELEMENT acl         (ARRAY)*>
+<!ELEMENT action      (ARRAY)*>
 <!ELEMENT buttons     (ARRAY)*>
 <!ELEMENT credentials (ARRAY)*>
 <!ELEMENT fields      (ARRAY)*>
 <!ELEMENT globals     (ARRAY)*>
 <!ELEMENT keys        (ARRAY)*>
-<!ELEMENT levels      (ARRAY)*>
 <!ELEMENT messages    (ARRAY)*>
-<!ELEMENT pages       (ARRAY)*>
-<!ELEMENT rooms       (ARRAY)*>
+<!ELEMENT namespace   (ARRAY)*>
 <!ELEMENT vals        (ARRAY)*>
 <config>
-  <_cvs_level>@(#)$Id: library.xml 793 2009-06-30 16:48:31Z pjf $</_cvs_level>
+  <_vcs_level>@(#)$Id: library.xml 1267 2011-12-30 00:24:16Z pjf $</_vcs_level>
+  <action>
+    <name>admin</name>
+    <acl>@support</acl>
+    <state>0</state>
+  </action>
+  <action>
+    <name>catalog</name>
+    <acl>any</acl>
+    <quick_link>1</quick_link>
+    <state>0</state>
+  </action>
+  <action>
+    <name>collection_view</name>
+    <acl>@support</acl>
+    <state>0</state>
+  </action>
+  <action>
+    <name>ingredients</name>
+    <acl>any</acl>
+    <state>0</state>
+  </action>
+  <action>
+    <name>links_view</name>
+    <acl>@support</acl>
+    <state>0</state>
+  </action>
+  <action>
+    <name>nodes_view</name>
+    <acl>@support</acl>
+    <state>0</state>
+  </action>
+  <action>
+    <name>recatalog_view</name>
+    <acl>@support</acl>
+    <state>0</state>
+  </action>
+  <action>
+    <name>reception</name>
+    <acl>any</acl>
+  </action>
+  <action>
+    <name>recipes_edit</name>
+    <acl>@users</acl>
+    <state>0</state>
+  </action>
+  <buttons>
+    <name>recipes_edit.index</name>
+    <type>image</type>
+  </buttons>
   <credentials>
     <name>library</name>
     <driver>mysql</driver>
     <host>localhost</host>
-    <password>encrypt=U2FsdGVkX18KpaNpV1opboIcpxUeXvBDK0ubAxxwOYg=</password>
+    <password>encrypt=U2FsdGVkX18PlM4/DhC3OeqfQ/h98/yIOQZCd3lel6k=</password>
     <port>3306</port>
-    <user>root</user>
+    <user>munchies</user>
   </credentials>
   <fields>
     <name>catalog.catalog</name>
@@ -26,10 +74,22 @@
     <type>popupMenu</type>
   </fields>
   <fields>
+    <name>catalog.catalog_instructions</name>
+    <container_class>instructions</container_class>
+    <type>template</type>
+  </fields>
+  <fields>
     <name>catalog.catalog_type</name>
     <onchange>submit()</onchange>
     <pwidth>8em</pwidth>
     <type>popupMenu</type>
+  </fields>
+  <fields>
+    <name>catalog.clear</name>
+    <container>1</container>
+    <src>Clear.png</src>
+    <tiptype>normal</tiptype>
+    <type>button</type>
   </fields>
   <fields>
     <name>catalog.colour_type</name>
@@ -38,10 +98,56 @@
     <type>popupMenu</type>
   </fields>
   <fields>
+    <name>catalog.excerpt</name>
+    <frame_class>clearLeft</frame_class>
+    <type>label</type>
+  </fields>
+  <fields>
+    <name>catalog.file</name>
+    <class>info</class>
+    <container>1</container>
+    <container_class>label_text</container_class>
+    <pwidth>0</pwidth>
+    <stepno>0</stepno>
+    <type>label</type>
+  </fields>
+  <fields>
+    <name>catalog.key</name>
+    <class>info</class>
+    <container>1</container>
+    <container_class>label_text</container_class>
+    <pwidth>0</pwidth>
+    <stepno>0</stepno>
+    <type>label</type>
+  </fields>
+  <fields>
     <name>catalog.min_count</name>
     <onchange>submit()</onchange>
     <pwidth>7em</pwidth>
     <type>popupMenu</type>
+  </fields>
+  <fields>
+    <name>catalog.score</name>
+    <class>info</class>
+    <container>1</container>
+    <container_class>label_text</container_class>
+    <frame_class>clearLeft</frame_class>
+    <pwidth>0</pwidth>
+    <type>label</type>
+  </fields>
+  <fields>
+    <name>catalog.search</name>
+    <container>1</container>
+    <src>Search.png</src>
+    <tiptype>normal</tiptype>
+    <type>button</type>
+  </fields>
+  <fields>
+    <name>catalog.search_expression</name>
+    <pclass>prompt_compact</pclass>
+    <pwidth>0</pwidth>
+    <sep>0</sep>
+    <width>18</width>
   </fields>
   <fields>
     <name>catalog.sort_field</name>
@@ -50,9 +156,13 @@
     <type>popupMenu</type>
   </fields>
   <fields>
+    <name>catalog.title</name>
+    <frame_class>clearLeft</frame_class>
+    <type>anchor</type>
+  </fields>
+  <fields>
     <name>collection_view.catalog</name>
     <onchange>submit()</onchange>
-    <palign>right</palign>
     <type>popupMenu</type>
   </fields>
   <fields>
@@ -65,60 +175,83 @@
     <name>collection_view.subject</name>
     <clear>left</clear>
     <onchange>submit()</onchange>
-    <palign>right</palign>
     <type>popupMenu</type>
   </fields>
   <fields>
+    <name>ingredients.clear</name>
+    <container>1</container>
+    <src>Clear.png</src>
+    <tiptype>normal</tiptype>
+    <type>button</type>
+  </fields>
+  <fields>
     <name>ingredients.excerpt</name>
-    <class>clearLeft</class>
+    <container>1</container>
+    <container_class>narrow</container_class>
+    <frame_class>clearLeft</frame_class>
     <type>label</type>
   </fields>
   <fields>
     <name>ingredients.file</name>
     <class>info</class>
     <container>1</container>
+    <container_class>label_text</container_class>
     <pwidth>0</pwidth>
     <stepno>0</stepno>
+    <type>label</type>
+  </fields>
+  <fields>
+    <name>ingredients.ingredients_instructions</name>
+    <container_class>instructions</container_class>
     <type>label</type>
   </fields>
   <fields>
     <name>ingredients.key</name>
     <class>info</class>
     <container>1</container>
+    <container_class>label_text</container_class>
     <pwidth>0</pwidth>
     <stepno>0</stepno>
     <type>label</type>
   </fields>
   <fields>
     <name>ingredients.score</name>
-    <class>info clearLeft</class>
+    <class>info</class>
     <container>1</container>
+    <container_class>label_text</container_class>
+    <frame_class>clearLeft</frame_class>
     <pwidth>0</pwidth>
     <type>label</type>
   </fields>
   <fields>
-    <name>ingredients.search_expression</name>
-    <class>heading</class>
-    <type>label</type>
+    <name>ingredients.search</name>
+    <container>1</container>
+    <src>Search.png</src>
+    <tiptype>normal</tiptype>
+    <type>button</type>
   </fields>
   <fields>
-    <name>ingredients.search_results</name>
-    <class>heading clearLeft</class>
-    <type>label</type>
+    <name>ingredients.search_expression</name>
+    <pclass>prompt_compact</pclass>
+    <pwidth>0</pwidth>
+    <sep>0</sep>
+    <width>18</width>
   </fields>
   <fields>
     <name>ingredients.title</name>
-    <class>searchFade clearLeft</class>
+    <frame_class>clearLeft</frame_class>
     <type>anchor</type>
   </fields>
   <fields>
     <name>links_view.catalog</name>
     <onchange>submit()</onchange>
+    <stepno>0</stepno>
     <type>popupMenu</type>
   </fields>
   <fields>
     <name>links_view.desc</name>
     <clear>left</clear>
+    <stepno>-1</stepno>
     <type>textarea</type>
     <width>60</width>
   </fields>
@@ -126,12 +259,14 @@
     <name>links_view.link</name>
     <clear>left</clear>
     <onchange>submit()</onchange>
+    <stepno>0</stepno>
     <type>popupMenu</type>
   </fields>
   <fields>
     <name>links_view.linkName</name>
     <max_length>40</max_length>
     <required>1</required>
+    <stepno>-1</stepno>
     <validate>isValidIdentifier</validate>
     <width>40</width>
   </fields>
@@ -139,12 +274,14 @@
     <name>links_view.linkURL</name>
     <clear>left</clear>
     <max_length>255</max_length>
+    <stepno>-1</stepno>
     <validate>isValidURL</validate>
     <width>60</width>
   </fields>
   <fields>
     <name>links_view.nid</name>
     <clear>left</clear>
+    <stepno>-1</stepno>
     <type>popupMenu</type>
   </fields>
   <fields>
@@ -152,12 +289,14 @@
     <clear>left</clear>
     <max_length>40</max_length>
     <required>1</required>
+    <stepno>-1</stepno>
     <type>textfield</type>
     <width>40</width>
   </fields>
   <fields>
     <name>nodes_view.catalog</name>
     <onchange>submit()</onchange>
+    <stepno>0</stepno>
     <type>popupMenu</type>
   </fields>
   <fields>
@@ -165,6 +304,7 @@
     <clear>left</clear>
     <max_length>40</max_length>
     <required>1</required>
+    <stepno>-1</stepno>
     <type>textfield</type>
     <width>40</width>
   </fields>
@@ -172,6 +312,7 @@
     <name>nodes_view.subject</name>
     <clear>left</clear>
     <onchange>submit()</onchange>
+    <stepno>0</stepno>
     <type>popupMenu</type>
   </fields>
   <fields>
@@ -179,39 +320,43 @@
     <clear>left</clear>
     <max_length>40</max_length>
     <required>1</required>
+    <stepno>-1</stepno>
     <validate>isMandatory</validate>
     <width>40</width>
   </fields>
   <fields>
-    <name>recipes_view.categories</name>
+    <name>recipes_edit.categories</name>
     <clear>left</clear>
     <max_length>40</max_length>
+    <stepno>-1</stepno>
     <type>freelist</type>
     <width>20</width>
   </fields>
   <fields>
-    <name>recipes_view.directions</name>
-    <align>right</align>
+    <name>recipes_edit.directions</name>
+    <class>ifield autosize</class>
     <clear>left</clear>
     <height>10</height>
+    <stepno>-1</stepno>
     <type>textarea</type>
     <width>60</width>
   </fields>
   <fields>
-    <name>recipes_view.file</name>
+    <name>recipes_edit.file</name>
     <onchange>submit()</onchange>
     <stepno>0</stepno>
     <type>popupMenu</type>
   </fields>
   <fields>
-    <name>recipes_view.ingredients</name>
+    <name>recipes_edit.ingredients</name>
     <clear>left</clear>
-    <edit>1</edit>
+    <edit>right</edit>
     <select>right</select>
+    <stepno>-1</stepno>
     <type>table</type>
   </fields>
   <fields>
-    <name>recipes_view.name</name>
+    <name>recipes_edit.name</name>
     <clear>left</clear>
     <max_length>255</max_length>
     <required>1</required>
@@ -220,37 +365,26 @@
     <width>40</width>
   </fields>
   <fields>
-    <name>recipes_view.recipe</name>
+    <name>recipes_edit.recipe</name>
     <clear>left</clear>
     <onchange>submit()</onchange>
     <stepno>0</stepno>
     <type>popupMenu</type>
   </fields>
   <fields>
-    <name>recipes_view.title</name>
+    <name>recipes_edit.title</name>
     <max_length>128</max_length>
     <required>1</required>
+    <stepno>-1</stepno>
     <validate>isMandatory</validate>
     <width>40</width>
   </fields>
   <fields>
-    <name>recipes_view.yield</name>
+    <name>recipes_edit.yield</name>
     <clear>left</clear>
     <max_length>40</max_length>
+    <stepno>-1</stepno>
     <width>20</width>
-  </fields>
-  <fields>
-    <name>search.expression</name>
-    <palign>left</palign>
-    <pwidth>0</pwidth>
-    <sep>0</sep>
-    <width>18</width>
-  </fields>
-  <fields>
-    <name>search.search</name>
-    <src>search.png</src>
-    <tiptype>normal</tiptype>
-    <type>button</type>
   </fields>
   <globals>
     <name>columns</name>
@@ -271,8 +405,23 @@
       <key>pallet</key>
     </vals>
     <vals>
+      <name>hits_per</name>
+      <key>16</key>
+      <order>1</order>
+    </vals>
+    <vals>
       <name>min_count</name>
       <key>32</key>
+    </vals>
+    <vals>
+      <name>offset</name>
+      <key>1</key>
+      <order>2</order>
+    </vals>
+    <vals>
+      <name>search_expression</name>
+      <key>0</key>
+      <order>0</order>
     </vals>
     <vals>
       <name>sort_field</name>
@@ -284,27 +433,43 @@
     <vals>
       <name>catalog</name>
       <key>1</key>
+      <order>0</order>
     </vals>
     <vals>
       <name>subject</name>
       <key>0</key>
+      <order>1</order>
     </vals>
   </keys>
   <keys>
     <name>ingredients</name>
     <vals>
+      <name>hits_per</name>
+      <key>16</key>
+      <order>1</order>
+    </vals>
+    <vals>
+      <name>offset</name>
+      <key>1</key>
+      <order>2</order>
+    </vals>
+    <vals>
       <name>search_expression</name>
       <key>0</key>
+      <order>0</order>
     </vals>
   </keys>
   <keys>
     <name>links_view</name>
     <vals>
       <name>catalog</name>
+      <key>0</key>
+      <order>0</order>
     </vals>
     <vals>
       <name>link</name>
       <default>[% newtag %]</default>
+      <order>1</order>
     </vals>
   </keys>
   <keys>
@@ -312,86 +477,35 @@
     <vals>
       <name>catalog</name>
       <key>0</key>
-    </vals>
-    <vals>
-      <name>name</name>
-      <key>vals</key>
+      <order>0</order>
     </vals>
     <vals>
       <name>subject</name>
       <key>0</key>
+      <order>1</order>
+    </vals>
+  </keys>
+  <keys>
+    <name>recipes_edit</name>
+    <vals>
+      <name>file</name>
+      <order>1</order>
+    </vals>
+    <vals>
+      <name>recipe</name>
+      <key>[% newtag %]</key>
+      <order>0</order>
     </vals>
   </keys>
   <keys>
     <name>recipes_view</name>
     <vals>
       <name>file</name>
-      <key>0</key>
+      <order>1</order>
     </vals>
     <vals>
       <name>recipe</name>
-      <key>0</key>
+      <order>0</order>
     </vals>
   </keys>
-  <pages>
-    <name>ingredients</name>
-    <class>centre</class>
-    <columns>1</columns>
-  </pages>
-  <pages>
-    <name>recatalog</name>
-    <class>centre</class>
-    <columns>1</columns>
-  </pages>
-  <pages>
-    <name>reception</name>
-    <class>centre</class>
-    <columns>1</columns>
-  </pages>
-  <rooms>
-    <name>admin</name>
-    <acl>@support</acl>
-    <state>0</state>
-  </rooms>
-  <rooms>
-    <name>catalog</name>
-    <acl>any</acl>
-    <quick_link>1</quick_link>
-    <state>0</state>
-  </rooms>
-  <rooms>
-    <name>collection_view</name>
-    <acl>@support</acl>
-    <state>0</state>
-  </rooms>
-  <rooms>
-    <name>ingredients</name>
-    <acl>any</acl>
-    <state>0</state>
-  </rooms>
-  <rooms>
-    <name>links_view</name>
-    <acl>@support</acl>
-    <state>0</state>
-  </rooms>
-  <rooms>
-    <name>nodes_view</name>
-    <acl>@support</acl>
-    <state>0</state>
-  </rooms>
-  <rooms>
-    <name>recatalog_view</name>
-    <acl>@support</acl>
-    <state>0</state>
-  </rooms>
-  <rooms>
-    <name>reception</name>
-    <acl>any</acl>
-    <state>0</state>
-  </rooms>
-  <rooms>
-    <name>recipes_view</name>
-    <acl>@users</acl>
-    <state>0</state>
-  </rooms>
 </config>

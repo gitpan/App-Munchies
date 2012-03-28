@@ -1,12 +1,11 @@
-package App::Munchies::Schema::Catalog::ResultSet::Nodes;
+# @(#)$Id: Nodes.pm 1149 2011-04-23 13:27:51Z pjf $
 
-# @(#)$Id: Nodes.pm 790 2009-06-30 02:51:12Z pjf $
+package App::Munchies::Schema::Catalog::ResultSet::Nodes;
 
 use strict;
 use warnings;
-use base qw(DBIx::Class::ResultSet);
-
-use version; our $VERSION = qv( sprintf '0.4.%d', q$Rev: 790 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.5.%d', q$Rev: 1149 $ =~ /\d+/gmx );
+use parent qw(DBIx::Class::ResultSet);
 
 sub catalogs {
    my $self = shift;
@@ -58,7 +57,7 @@ App::Munchies::Schema::Catalog::ResultSet::Nodes - Canned queries against the no
 
 =head1 Version
 
-0.4.$Revision: 790 $
+0.5.$Revision: 1149 $
 
 =head1 Synopsis
 

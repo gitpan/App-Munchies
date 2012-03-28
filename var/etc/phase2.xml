@@ -1,6 +1,6 @@
 <!ELEMENT globals (ARRAY)*>
 <config>
-  <_cvs_phase>@(#)$Id: phase2.xml 572 2008-12-15 21:51:26Z pjf $</_cvs_phase>
+  <_vcs_phase>@(#)$Id: phase2.xml 843 2009-11-04 18:30:50Z pjf $</_vcs_phase>
   <globals>
     <name>platform</name>
     <value>Testing</value>

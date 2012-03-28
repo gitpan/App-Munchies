@@ -1,3 +1,4 @@
+<!ELEMENT rows (ARRAY)*>
 <config>
  <fields>nid name text url info</fields>
  <rows>1, NULL, NULL, NULL, NULL</rows>

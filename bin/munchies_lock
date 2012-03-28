@@ -1,23 +1,29 @@
 #!/usr/bin/env perl
-
-# @(#)$Id: munchies_lock 790 2009-06-30 02:51:12Z pjf $
+# @(#)$Id: munchies_lock 1267 2011-12-30 00:24:16Z pjf $
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.4.%d', q$Rev: 790 $ =~ /\d+/gmx );
+
+use English qw(-no_match_vars);
 use File::Spec::Functions;
-use FindBin  qw( $Bin );
-use lib catfile( $Bin, updir, q(lib) );
+use FindBin qw( $Bin );
+
+BEGIN {
+   my $path = catfile( $Bin, q(munchies_localenv) );
+
+   do $path or die $EVAL_ERROR || "Path $path not done\n";
+}
+
+use version; our $VERSION = qv( sprintf '0.5.%d', q$Rev: 1267 $ =~ /\d+/gmx );
 
 use App::Munchies::CLI;
 
 my $prog = App::Munchies::CLI->new( appclass => q(App::Munchies),
                                     arglist  => q(k=s p=s t=s) );
 
-$prog->method( q(lock_).$prog->method );
-$prog->silent( 1 );
+$prog->method( q(lock_).$prog->method ); $prog->quiet( 1 );
 
-exit $prog->dispatch;
+exit $prog->run;
 
 __END__
 
@@ -52,7 +58,7 @@ Display man page/usage string
 
 =head1 VERSION
 
-0.4.$Rev: 790 $
+0.4.$Rev: 1267 $
 
 =head1 DESCRIPTION
 

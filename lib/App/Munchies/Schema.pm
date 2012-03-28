@@ -1,124 +1,100 @@
-# @(#)$Id: Schema.pm 790 2009-06-30 02:51:12Z pjf $
+# @(#)$Id: Schema.pm 1224 2011-08-02 00:19:16Z pjf $
 
 package App::Munchies::Schema;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.4.%d', q$Rev: 790 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.5.%d', q$Rev: 1224 $ =~ /\d+/gmx );
 use parent qw(CatalystX::Usul::Programs CatalystX::Usul::Schema);
 
-use App::Munchies::Model::MealMaster;
+use App::Munchies::MealMaster;
 use App::Munchies::Schema::Authentication;
 use App::Munchies::Schema::Catalog;
-use DBI;
+use CatalystX::Usul::Constants;
+use CatalystX::Usul::Functions qw(arg_list);
 
-__PACKAGE__->mk_accessors( qw(auth_schema catalog_schema ctlfile
-                              database driver dsn host password
-                              recipe_model schema_version user unlink
-                              version) );
+my %CONFIG = ( auth_schema    => q(App::Munchies::Schema::Authentication),
+               catalog_schema => q(App::Munchies::Schema::Catalog),
+               database       => q(library),
+               preversion     => NUL,
+               rdbms          => [ qw(MySQL PostgreSQL) ],
+               recipe_class   => q(App::Munchies::MealMaster),
+               schema_version => q(0.1),
+               unlink         => FALSE, );
 
 sub new {
-   my ($class, @rest) = @_; my $dbs;
+   my ($self, @rest) = @_; my $attrs = arg_list @rest;
 
-   my $self = $class->next::method( @rest );
+   $attrs->{config} = { %CONFIG, %{ $attrs->{config} || {} } };
 
-   $self->attrs    ( { add_drop_table => 1, no_comments => 1 } );
-   $self->databases( [ qw(MySQL) ]                             );
+   my $new = $self->next::method( $attrs );
 
-   if ($dbs = $self->vars->{databases}) {
-      push @{ $self->databases }, ref $dbs eq q(ARRAY) ? @{ $dbs } : $dbs;
-   }
+   $new->schema_init( $new->config, $new->vars );
+   $new->version    ( $VERSION );
 
-   $self->auth_schema   ( q(App::Munchies::Schema::Authentication) );
-   $self->catalog_schema( q(App::Munchies::Schema::Catalog)        );
-   $self->database      ( $self->vars->{dbname } || q(library)     );
-   $self->recipe_model  ( q(App::Munchies::Model::MealMaster)      );
-   $self->schema_version( $self->vars->{version} || q(0.1)         );
-   $self->unlink        ( $self->vars->{unlink } || 0              );
-   $self->version       ( $VERSION                                 );
-
-   $self->ctlfile( $self->catfile( $self->ctrldir, $self->database.'.xml' ) );
-
-   my $info = $self->connect_info( $self->ctlfile,
-                                   $self->database, $self->secret );
-   my $dsn  = $self->vars->{dsn     } || $info->[0];
-   my $user = $self->vars->{user    } || $info->[1];
-   my $pass = $self->vars->{password} || $info->[2];
-   my $host = (split q(=), grep { m{ \A host= }mx } split q(;), $dsn)[1];
-
-   $self->driver  ( (split q(:), $dsn)[1] );
-   $self->dsn     ( $dsn  );
-   $self->host    ( $host );
-   $self->password( $pass );
-   $self->user    ( $user );
-
-   return $self;
+   return $new;
 }
 
-sub catalog_mmf {
-   my $self  = shift;
-   my $dir   = $self->catdir( $self->root, 'recipes' );
-   my $gid   = $self->vars->{gid};
-   my $model = $self->recipe_model->new
-      ( $self, { catalog_schema => $self->catalog_schema,
-                 database       => $self->database } );
-   my $path  = $self->catfile( $self->dbasedir, 'recipes.tgz' );
-   my $uid   = $self->vars->{uid};
+sub catalog_mmf : method {
+   my $self   = shift;
+   my $cfg    = $self->config;
+   my $dir    = $self->catdir( $cfg->{root}, q(recipes) );
+   my $path   = $self->catfile( $cfg->{dbasedir}, q(recipes.tgz) );
+   my $domain = $cfg->{recipe_class}->new
+      ( $self, { catalog_schema => $cfg->{catalog_schema},
+                 database       => $self->database,
+                 rootdir        => $cfg->{root},
+                 template_dir   => $cfg->{template_dir} } );
 
    umask 007;
 
-   if (-f $path && -d $dir && ! -f $self->catfile( $dir, 'replace' )) {
-      $self->run_cmd( 'cd '.$self->root.'; tar -xzf '.$path );
+   if (-f $path and -d $dir and not -f $self->catfile( $dir, q(replace) )) {
+      $self->run_cmd( q(cd ).$cfg->{root}.q(; tar -xzf ).$path );
    }
 
-   $self->output( 'Cataloging started' );
-   $self->output( $model->catalog_mmf( @ARGV ) );
+   $self->info  ( 'Cataloging started...' );
+   $self->output( $domain->catalog_mmf( @ARGV ) );
+
+   my ($uid, $gid) = $self->get_owner( $self->read_post_install_config );
 
    if (defined $uid and defined $gid) {
-      $self->run_cmd( q(chown -R ).$uid.q(:).$gid.q( ).$dir );
+      $self->run_cmd( q(chown -R ).$uid.q(:).$gid.SPC.$dir );
       $self->run_cmd( q(chmod -R g+rw ).$dir );
       $self->run_cmd( q(chmod g+s ).$dir );
       chown $uid, $gid, $dir;
    }
 
-   return 0;
+   return OK;
 }
 
-sub create_database {
-   my $self = shift; my ($drh, $res);
-
-   if ($self->driver eq q(mysql)) {
-      $self->output( 'Creating database '.$self->database );
-      $drh = DBI->install_driver( $self->driver );
-      $res = $drh->func( q(createdb), $self->database, $self->host,
-                         $self->user, $self->password, q(admin) );
-   }
-
-   return 0;
-}
-
-sub create_ddl {
-   my $self = shift;
+sub create_ddl : method {
+   my $self = shift; my $cfg = $self->config;
 
    $self->output( 'Creating DDL for '.$self->dsn );
-   my $dbh = $self->catalog_schema->connect( $self->dsn, $self->user,
-                                             $self->password, $self->attrs );
-   $self->next::method( $dbh, $self->schema_version,
-                        $self->dbasedir, $self->unlink );
-   return;
+
+   for my $schema (map { $cfg->{ $_ } } qw(auth_schema catalog_schema)) {
+      my $dbh = $schema->connect( $self->dsn, $self->user,
+                                  $self->password, $self->attrs );
+
+      $self->next::method( $dbh, $self->config->{dbasedir} );
+   }
+
+   return OK;
 }
 
-sub deploy_and_populate {
-   my $self = shift; my $dbh;
+sub deploy_and_populate : method {
+   my $self = shift; my $cfg = $self->config;
 
-   $self->output( 'Connecting to '.$self->dsn );
-   $dbh = $self->catalog_schema->connect( $self->dsn, $self->user,
-                                          $self->password, $self->attrs );
-   $self->next::method( $dbh, $self->dbasedir, $self->catalog_schema );
-   $dbh = $self->auth_schema->connect( $self->dsn, $self->user,
-                                       $self->password, $self->attrs );
-   $self->next::method( $dbh, $self->dbasedir, $self->auth_schema );
-   return 0;
+   $self->output( 'Deploy and populate for '.$self->dsn );
+
+   for my $schema (map { $cfg->{ $_ } } qw(auth_schema catalog_schema)) {
+      my $dbh = $schema->connect( $self->dsn, $self->user,
+                                  $self->password, $self->attrs );
+
+      $self->next::method( $dbh, $self->config->{dbasedir}, $schema );
+   }
+
+   return OK;
 }
 
 1;
@@ -133,7 +109,7 @@ App::Munchies::Schema - Command line database utility methods
 
 =head1 Version
 
-0.4.$Revision: 790 $
+0.5.$Revision: 1224 $
 
 =head1 Synopsis
 
@@ -143,6 +119,8 @@ App::Munchies::Schema - Command line database utility methods
 =head1 Description
 
 =head2 new
+
+=head2 BUILD
 
 =head2 catalog_mmf
 
@@ -162,7 +140,17 @@ App::Munchies::Schema - Command line database utility methods
 
 =over 3
 
-=item L<Class::Accessor::Fast>
+=item L<App::Munchies::MealMaster>
+
+=item L<App::Munchies::Schema::Authentication>
+
+=item L<App::Munchies::Schema::Catalog>
+
+=item L<CatalystX::Usul::Constants>
+
+=item L<CatalystX::Usul::Programs>
+
+=item L<CatalystX::Usul::Schema>
 
 =back
 
@@ -182,7 +170,7 @@ Peter Flanigan, C<< <Support at RoxSoft.co.uk> >>
 
 =head1 License and Copyright
 
-Copyright (c) 2008 Peter Flanigan. All rights reserved
+Copyright (c) 2011 Peter Flanigan. All rights reserved
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself. See L<perlartistic>

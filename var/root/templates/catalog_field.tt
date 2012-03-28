@@ -1,0 +1,21 @@
+<!-- @(#)$Id: catalog_field.tt 1146 2011-04-21 07:27:26Z pjf $ -->
+<div class="[% ref.namespace %]_header" style="width: [% ref.width %]px;">
+  <a class="[% ref.namespace %]_header fade live_grid"
+      href="javascript:Expand_Collapse()"
+        id="[% ref.name %]_[% ref.value %]">
+    <span class="[% ref.namespace %]_header">
+      [% value = ref.value; ref.labels.$value %]</span>
+    <span class="down_point_icon" id="[% ref.name %]_[% ref.value %]Icon"
+          title="Down Arrow"></span>
+  </a>
+</div>
+<div class="[% ref.namespace %]Panel" id="[% ref.name %]_[% ref.value %]Disp"
+     style="clear: left; display: none; width: [% ref.width %]px;">
+  Loading...
+</div>
+[%#
+# Local Variables:
+# mode: tt-mode
+# tab-width: 3
+# End:
+%]

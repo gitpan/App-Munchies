@@ -1,0 +1,100 @@
+#!/usr/bin/env perl
+# @(#)$Id: munchies_server 1238 2011-10-26 13:22:38Z pjf $
+
+use strict;
+use warnings;
+
+use English qw(-no_match_vars);
+use File::Spec::Functions;
+use FindBin qw( $Bin );
+
+BEGIN {
+   my $path = catfile( $Bin, q(munchies_localenv) );
+
+   do $path or die $EVAL_ERROR || "Path $path not done\n";
+
+   $ENV{CATALYST_SCRIPT_GEN} = 40;
+}
+
+use version; our $VERSION = qv( sprintf '0.5.%d', q$Rev: 1238 $ =~ /\d+/gmx );
+
+use Catalyst::ScriptRunner;
+use CatalystX::Usul::Constants ();
+
+CatalystX::Usul::Constants->set_inherited( q(Assert), sub {
+   my ($self, $test, $msg) = @_; $test->() and return;
+
+   my @caller = caller( 1 );
+   my $text   = 'Assertion: '.$msg.' in call to '.$caller[ 3 ];
+      $text  .= ' from class '.$caller[ 0 ].' line '.$caller[ 2 ];
+
+   $self->log->warn( $text );
+   return;
+} );
+
+my $path = catfile( qw(var tmp file-dataclass-schema.dat) );
+
+-f $path and unlink $path;
+
+Catalyst::ScriptRunner->run( 'App::Munchies', 'Server' );
+
+1;
+
+__END__
+
+=pod
+
+=head1 NAME
+
+munchies_server - Catalyst Development Server
+
+=head1 SYNOPSIS
+
+ munchies_server [options]
+
+ Options:
+   -d --debug           force debug mode
+   -f --fork            handle each request in a new process
+                        (defaults to false)
+   -? --help            display this help and exits
+   -h --host            host (defaults to all)
+   -p --port            port (defaults to 3000)
+   -k --keepalive       enable keep-alive connections
+   -r --restart         restart when files get modified
+                        (defaults to false)
+   -rd --restart_delay  delay between file checks
+                        (ignored if you have Linux::Inotify2 installed)
+   -rr --restart_regex  regex match files that trigger
+                        a restart when modified
+                        (defaults to '\.yml$|\.yaml$|\.conf|\.pm$')
+   --restart_directory  the directory to search for
+                        modified files, can be set mulitple times
+                        (defaults to '[SCRIPT_DIR]/..')
+   --follow_symlinks    follow symlinks in search directories
+                        (defaults to false. this is a no-op on Win32)
+   --background         run the process in the background
+   --pidfile            specify filename for pid file
+
+ See also:
+   perldoc Catalyst::Manual
+   perldoc Catalyst::Manual::Intro
+
+=head1 DESCRIPTION
+
+Run a Catalyst Development server for this application.
+
+=head1 AUTHORS
+
+Catalyst Contributors, see Catalyst.pm
+
+=head1 COPYRIGHT
+
+This library is free software. You can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=cut
+
+# Local Variables:
+# mode: perl
+# tab-width: 3
+# End:

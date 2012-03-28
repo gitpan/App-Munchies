@@ -1,18 +1,82 @@
 # Created by DBIx::Class::Schema::Loader v0.03009 @ 2007-03-04 02:50:46
-# @(#)$Id: Users.pm 790 2009-06-30 02:51:12Z pjf $
+# @(#)$Id: Users.pm 1173 2011-05-24 18:59:47Z pjf $
 
 package App::Munchies::Schema::Authentication::Users;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.4.%d', q$Rev: 790 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.5.%d', q$Rev: 1173 $ =~ /\d+/gmx );
 use parent qw(App::Munchies::Schema::Base);
 
 __PACKAGE__->table( 'users' );
-__PACKAGE__->add_columns( qw(id active username password email_address
-                             first_name last_name home_phone location
-                             project work_phone pwlast pwnext pwafter
-                             pwwarn pwexpires pwdisable) );
+__PACKAGE__->add_columns( 'id',            { data_type         => 'MEDIUMINT',
+                                             default_value     => undef,
+                                             is_auto_increment => 1,
+                                             is_nullable       => 0,
+                                             size              => 8, },
+                          'active',        { data_type         => 'BOOLEAN',
+                                             default_value     => 0,
+                                             is_nullable       => 0, },
+                          'username',      { data_type         => 'VARCHAR',
+                                             default_value     => '',
+                                             is_nullable       => 0,
+                                             size              => 64, },
+                          'password',      { data_type         => 'VARCHAR',
+                                             default_value     => '',
+                                             is_nullable       => 0,
+                                             size              => 64, },
+                          'email_address', { data_type         => 'VARCHAR',
+                                             default_value     => '',
+                                             is_nullable       => 0,
+                                             size              => 64, },
+                          'first_name',    { data_type         => 'VARCHAR',
+                                             default_value     => '',
+                                             is_nullable       => 0,
+                                             size              => 64, },
+                          'last_name',     { data_type         => 'VARCHAR',
+                                             default_value     => '',
+                                             is_nullable       => 0,
+                                             size              => 64, },
+                          'home_phone',    { data_type         => 'VARCHAR',
+                                             default_value     => '',
+                                             is_nullable       => 0,
+                                             size              => 64, },
+                          'location',      { data_type         => 'VARCHAR',
+                                             default_value     => '',
+                                             is_nullable       => 0,
+                                             size              => 64, },
+                          'project',       { data_type         => 'VARCHAR',
+                                             default_value     => '',
+                                             is_nullable       => 0,
+                                             size              => 64, },
+                          'work_phone',    { data_type         => 'VARCHAR',
+                                             default_value     => '',
+                                             is_nullable       => 0,
+                                             size              => 64, },
+                          'pwlast',        { data_type         => 'MEDIUMINT',
+                                             default_value     => undef,
+                                             is_nullable       => 1,
+                                             size              => 8, },
+                          'pwnext',        { data_type         => 'MEDIUMINT',
+                                             default_value     => undef,
+                                             is_nullable       => 1,
+                                             size              => 8, },
+                          'pwafter',       { data_type         => 'MEDIUMINT',
+                                             default_value     => undef,
+                                             is_nullable       => 1,
+                                             size              => 8, },
+                          'pwwarn',        { data_type         => 'MEDIUMINT',
+                                             default_value     => undef,
+                                             is_nullable       => 1,
+                                             size              => 8, },
+                          'pwexpires',     { data_type         => 'MEDIUMINT',
+                                             default_value     => undef,
+                                             is_nullable       => 1,
+                                             size              => 8, },
+                          'pwdisable',     { data_type         => 'MEDIUMINT',
+                                             default_value     => undef,
+                                             is_nullable       => 1,
+                                             size              => 8, }, );
 __PACKAGE__->set_primary_key( 'id' );
 __PACKAGE__->add_unique_constraint([ 'username' ]);
 __PACKAGE__->has_many(
@@ -30,7 +94,7 @@ App::Munchies::Schema::Authentication::Users - Class definitions for the users t
 
 =head1 Version
 
-0.4.$Revision: 790 $
+0.5.$Revision: 1173 $
 
 =head1 Synopsis
 

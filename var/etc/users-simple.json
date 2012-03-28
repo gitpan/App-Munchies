@@ -1,0 +1,17 @@
+{
+   "users" : {
+      "admin" : {
+         "active" : 1,
+         "email_address" : "admin@example.co.uk",
+         "first_name" : "Application",
+         "home_phone" : "",
+         "last_name" : "Administrator",
+         "location" : "",
+         "name" : "admin",
+         "password" : "$2a$08$SEviYTDyShjMTEbfb1nTPurlHk2sUgTPI29ZAnrPTuioCPrLwqEx2",
+         "project" : "Application Administrator",
+         "username" : "admin",
+         "work_phone" : ""
+      }
+   }
+}

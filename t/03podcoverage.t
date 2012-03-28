@@ -1,8 +1,8 @@
-# @(#)$Id: 03podcoverage.t 790 2009-06-30 02:51:12Z pjf $
+# @(#)$Id: 03podcoverage.t 1187 2011-06-04 03:19:20Z pjf $
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.4.%d', q$Rev: 790 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.5.%d', q$Rev: 1187 $ =~ /\d+/gmx );
 use File::Spec::Functions;
 use FindBin qw( $Bin );
 use lib catdir( $Bin, updir, q(lib) );
@@ -18,7 +18,9 @@ BEGIN {
 
 eval { use Test::Pod::Coverage 1.04; };
 
-plan skip_all => 'Test::Pod::Coverage 1.04 required' if ($EVAL_ERROR);
+$EVAL_ERROR and plan skip_all => 'Test::Pod::Coverage 1.04 required';
+
+$ENV{BUILDING_DEBIAN} and plan skip_all => 'POD coverage building debian';
 
 all_pod_coverage_ok();
 
