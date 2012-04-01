@@ -14,13 +14,13 @@ not run its Makefile.PL or Build.PL.
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA1
 
-SHA1 eb3a885a934093aae23a494b9fcc089236dfb03c Build.PL
-SHA1 26469503c13f36f4be4ed1df4ece0e5362fbc136 Changes
+SHA1 bdcf2556928cc61e03cc80c2f5832cf21e20e526 Build.PL
+SHA1 0a9bf09163dbc4a07ef60a51b082f37406ec4f7c Changes
 SHA1 0890c7d901c3958ec8476f1edc1c11ae676990fb LICENSE
 SHA1 433e77d81b024b59ab1ed0c9d1e83e89b75532f1 MANIFEST
-SHA1 c3db2a6fa80f2bc78f56a3a1bd321b2c75327fc8 META.json
-SHA1 b5d7c4a5716d4211537ad60e018c862cb7434931 META.yml
-SHA1 42db8915548ffeac22d527bdcc95551d0949e32d README
+SHA1 120b7419a1f0b08b4724bdf261b66e96e50626eb META.json
+SHA1 559258d3aa917a3543169bd4fe780593d001bec0 META.yml
+SHA1 d1dadc6e19a846987fc4bdac8e85d4f4a0ec180e README
 SHA1 37d6890ce59ae3a693eccab5e48fda2b8be85623 README.pod
 SHA1 c3b7fc8c4572379a5dbe1c92af4b2ec9dcaef98e bin/munchies_admin
 SHA1 0c05f0cae8eda5c7b3882016b4592f6a14204cf4 bin/munchies_cgi
@@ -34,44 +34,44 @@ SHA1 d775b566c14ca51dcbce48f940d14726916d243d bin/munchies_schema
 SHA1 ab64f148bbe5029287c2e7a7b30c3ce47732c3c6 bin/munchies_server
 SHA1 a3b27f2efe6097f0007e54d5976edf8b3cf3f555 bin/munchies_suenv
 SHA1 6655f8ac90dac49918944dd15d3a4907694c0868 bin/munchies_test
-SHA1 dd5761821dec2dbc7a336fe31d6e9626f340fb7d inc/Bob.pm
-SHA1 1315308f3d933a6d933678d721dd230c380e033a inc/CPANTesting.pm
+SHA1 79f5e357008121499f849f6c99bd66ed57ecec4d inc/Bob.pm
+SHA1 d23e04c06098a92fbc4fb39bfbca736251e42dfe inc/CPANTesting.pm
 SHA1 23a46818fae695ea8ad6392be52de7d408757bad inc/M_B_Base.patch
 SHA1 09d10d0436b28956a2968c71f26ebb010cc0bfc5 inc/M_B_PodParser.patch
 SHA1 6965a70d70bf4454546e143e9b29d59c01787a59 install.sh
-SHA1 3f5fd477e7eb157a093281712b4fa69eddbe861f lib/App/Munchies.pm
-SHA1 cd97d5109afbc97da5658ac21983933f39e80a97 lib/App/Munchies/Admin.pm
-SHA1 56063aa8d9bb7c87b3c8383b94fd12efea97da1f lib/App/Munchies/CLI.pm
-SHA1 57a1d5b64311e4366bd8ff9e6a543e7ee37aff0c lib/App/Munchies/Controller/Admin.pm
-SHA1 21d99f85b5bc431fce44b37c6ec33d529ed4669d lib/App/Munchies/Controller/Entrance.pm
-SHA1 fa2064dcdc525a3a252c931355175dfa93f6da11 lib/App/Munchies/Controller/Library.pm
-SHA1 a7d544c3fc197b7d3ad52da4add2226e57b39803 lib/App/Munchies/Controller/Library/Admin.pm
-SHA1 f5d2502eaa5fc736d40e9eae950e9b5112cc2a3f lib/App/Munchies/Controller/Library/Catalog.pm
-SHA1 d8a508a8b7337f404c522c991bf31b8208232d4d lib/App/Munchies/Controller/Library/Recipes.pm
-SHA1 c2afa3578cc7d8807e4f276f863154efe9dc1e61 lib/App/Munchies/MealMaster.pm
-SHA1 67e72d3168cc9474799ffc21e651b432bea361d9 lib/App/Munchies/MealMaster/KinoSearch.pm
-SHA1 1c5b9ce51a1e19279ab287088b1ac4bcd48b6227 lib/App/Munchies/Model/Authentication.pm
-SHA1 5153716ea68aa735f20e56f290365c135478ab3e lib/App/Munchies/Model/Catalog.pm
-SHA1 2122a388a000861002044a55cf649b8c6c39c83b lib/App/Munchies/Model/DemoText.pm
-SHA1 d770c1455a5859f8385f31053cb45c43de96289e lib/App/Munchies/Model/MealMaster.pm
-SHA1 d52c2106377db94e297fd53492d642e3d17ad4c8 lib/App/Munchies/Schema.pm
-SHA1 bb99142dffe8b210c6b2ff33760a406c0c2eb38d lib/App/Munchies/Schema/Authentication.pm
-SHA1 20a5a35c63a1dc75c2c160f4ad0bd540a5ea3691 lib/App/Munchies/Schema/Authentication/Roles.pm
-SHA1 f4ee82067fd1abd745e2be1260325ab0ceb293e2 lib/App/Munchies/Schema/Authentication/UserRoles.pm
-SHA1 4c05ca9725b7854ef4e6f26cb96f1e96724afc7e lib/App/Munchies/Schema/Authentication/Users.pm
-SHA1 52901186943403264cc9f9e119a9e31a8a25b156 lib/App/Munchies/Schema/Base.pm
-SHA1 b867bcafddf4d2f349084ce6fb8fa87e243bc332 lib/App/Munchies/Schema/Catalog.pm
-SHA1 78dedfdbe396bc414eba5d1a0dbf00c4f9d536f8 lib/App/Munchies/Schema/Catalog/Result/Links.pm
-SHA1 55be2c7d36211fff446b4f3d4bdc8ee68856199f lib/App/Munchies/Schema/Catalog/Result/Names.pm
-SHA1 6895e19bb9178395160cba24623e0b19ba492519 lib/App/Munchies/Schema/Catalog/Result/Nodes.pm
-SHA1 e95148f8cdc7d7ed71c21908dab730431b66576c lib/App/Munchies/Schema/Catalog/ResultSet/Links.pm
-SHA1 74a1004befb149efec4be9b9f7e204c6a75e20a1 lib/App/Munchies/Schema/Catalog/ResultSet/Nodes.pm
+SHA1 7b46c221fb9909db8f074fb51ff44004b7931722 lib/App/Munchies.pm
+SHA1 6786cc231a970a46811fd2a482f7f9685206a289 lib/App/Munchies/Admin.pm
+SHA1 db9a425dd580aa554c6043e8bd69734fcf41f339 lib/App/Munchies/CLI.pm
+SHA1 890da7a6a7c76d18eb8abed8954eaec11845b033 lib/App/Munchies/Controller/Admin.pm
+SHA1 16a85cea23858ed19a4f7bc3d5a7bf3c1595c33d lib/App/Munchies/Controller/Entrance.pm
+SHA1 b1830c9d6c62fae98ca00df21384f77e030a784c lib/App/Munchies/Controller/Library.pm
+SHA1 09e0e65a8f0ca942cc7225f1c2df65def39c2798 lib/App/Munchies/Controller/Library/Admin.pm
+SHA1 b848ddf8819d10ee4d48757e2e064d17f68c8c9c lib/App/Munchies/Controller/Library/Catalog.pm
+SHA1 69681d17fd897ee11ec63f41ab6677c29cdaea78 lib/App/Munchies/Controller/Library/Recipes.pm
+SHA1 fbe34eade900b9d086ee79cb8f29436db2486ff1 lib/App/Munchies/MealMaster.pm
+SHA1 13427b9a402198225347573a23f63f6209480129 lib/App/Munchies/MealMaster/KinoSearch.pm
+SHA1 0bd90a18fd620b6c0ad2a94eeecd854d846626ef lib/App/Munchies/Model/Authentication.pm
+SHA1 33f8c105c8220d91e95e8afd84ea71d871894e5f lib/App/Munchies/Model/Catalog.pm
+SHA1 e654ddb8ec1d8b40ce39cb837f7c3e8e6fb1f326 lib/App/Munchies/Model/DemoText.pm
+SHA1 8c2c10ca59ec03b7d874906cf28b7d337483d7f5 lib/App/Munchies/Model/MealMaster.pm
+SHA1 420fc54cdc3ca602bb482e6149ebbf607dae3d96 lib/App/Munchies/Schema.pm
+SHA1 3688458b7c70aff606e9ea6b24abf4d0f5bd443b lib/App/Munchies/Schema/Authentication.pm
+SHA1 a67b610828dbd47fddfc7e23bf6d3c4b7ba7e85a lib/App/Munchies/Schema/Authentication/Roles.pm
+SHA1 7fc80a0703d356243c776fc5c2f2ffe3e57e844e lib/App/Munchies/Schema/Authentication/UserRoles.pm
+SHA1 0ce73fec1266a920f0459cb707da51dbed5d7c06 lib/App/Munchies/Schema/Authentication/Users.pm
+SHA1 1b740adb02cf35b9111656917ce08c76fa299a38 lib/App/Munchies/Schema/Base.pm
+SHA1 2600a209abbcd69905ecec6a580d5ed1485d5e8f lib/App/Munchies/Schema/Catalog.pm
+SHA1 ef15f1bdd4f0415cfd861c26365608a693b62cb8 lib/App/Munchies/Schema/Catalog/Result/Links.pm
+SHA1 f26de4b21ffbed53d9db992bf1517db1a642d55a lib/App/Munchies/Schema/Catalog/Result/Names.pm
+SHA1 a5292046b6b7486e0ee7d84ea497033ef4edef72 lib/App/Munchies/Schema/Catalog/Result/Nodes.pm
+SHA1 c93d0b4f616c30004a26b285243aa9c4d7d19eba lib/App/Munchies/Schema/Catalog/ResultSet/Links.pm
+SHA1 ecfa743ab0c29862835a82292ae23baaf87f743b lib/App/Munchies/Schema/Catalog/ResultSet/Nodes.pm
 SHA1 2bdd5ae1685de73b8f24bab262b867185b34ef30 lib/App/Munchies/app_munchies.xml
 SHA1 6d7584a418621f4e64a065f53e399a4fdbb1f3f0 t/01always_pass.t
-SHA1 375450d96a4342009bac9347a8432b78a125a13e t/02pod.t
-SHA1 1bb6874875ea70057991e0341e14e0e8d4fc205f t/03podcoverage.t
-SHA1 cc8355bbcafbcf1db9985337b045675825ed5657 t/05kwalitee.t
-SHA1 4e3ef0bc2d15ccfadb4ea97c47e235cb4024eaa5 t/10base.t
+SHA1 eb8255d5361b7f568f7e4f2848641914b3e75c23 t/02pod.t
+SHA1 7564d370e59c88e07af70f999a0e06d0769e7a76 t/03podcoverage.t
+SHA1 2ddb37699a5d348673648640145d0870ff7e84e2 t/05kwalitee.t
+SHA1 ae644966ebc83acfd0e05dfe7ed740760f4e1128 t/10base.t
 SHA1 6d11095a93fc6d711703f981b716251f961a0466 t/flags.xcf
 SHA1 94ec8381d9edcabfa081cdcc9e607ea0c0308ae7 var/db/App-Munchies-Schema-Authentication-0.5-MySQL.sql
 SHA1 fec8131af3356f114ae98cd5a79240abeb42e6f0 var/db/App-Munchies-Schema-Authentication-0.5-PostgreSQL.sql
@@ -227,11 +227,11 @@ SHA1 2870e547d9c2267b30a29a8450faeed4bb8247b2 var/secure/support.sub
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1.4.10 (GNU/Linux)
 
-iQEcBAEBAgAGBQJPcvz0AAoJEK492j4Im1BpHNQIAI1cH8zpMDARmowR7+iZiilr
-4p1zLqBzNcbUsi2bx3EzZ6dp1fmNwc18RRjgx9tNmv4P2nCUUTRrdIuHuNIzuWOf
-dxj+fl/JFC4jjjJgrPBqi9brZ1lqDqcZpIKzqwfdRGkyy0/CiPnNahRAnhNKL2kR
-yGxgLjRE1m8CUt4ooLgHK0GQ3TA+zztRT4mxpWyRszaRG3xf+YNfNliJQlxFDS09
-b8Dj8ZI7W3nvAjXC98aIs3AZ30VVj/SNaA2ycYzIh2d7rfc+DmPsIBTp1DvSO0Nz
-cPxr4dkAY9bsSDKOJLXW++BW2e/18MKJ7Dx4OeaNMR91HEWaQUPT5RLCYuIns/U=
-=A+q+
+iQEcBAEBAgAGBQJPeOFlAAoJEK492j4Im1BpPRcH/ApygdEn3OYC3eJVX0kknTua
+YVpqG+ujDsOAphZf+jkDL5OSh1xb0KWb1rEYZupmsqkMviRmf7NueXqY7U4tAao+
+4dbHlPmnewLCOVCwGrNlg1G98w0XDnhMCzN7EzOYIG/+XiY63aqPL1eDRd/H3tWg
+ooYy4wFtce/E62Cw/IttKYCQXqCeEX+f+9MPPwL6JZKSBbGijDhmvThRLTDSCaIk
+4qC7HdfKHBs/s7UkqK17Te/Tog8kniprvptw8ZImKfssVzOd3KSGKIcA6s5CypRz
+MC2d+lgHqKrGM2wvEqKa3xICdCsqEGw4YRvfAglCbnDVJqdV9D0aM8z29Gcz6IQ=
+=dgA1
 -----END PGP SIGNATURE-----

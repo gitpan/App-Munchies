@@ -1,10 +1,10 @@
-# @(#)$Id: Roles.pm 1173 2011-05-24 18:59:47Z pjf $
+# @(#)$Id: Roles.pm 1288 2012-03-29 00:20:38Z pjf $
 
 package App::Munchies::Schema::Authentication::Roles;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.5.%d', q$Rev: 1173 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.6.%d', q$Rev: 1288 $ =~ /\d+/gmx );
 use parent qw(App::Munchies::Schema::Base);
 
 __PACKAGE__->table( 'roles' );
@@ -34,7 +34,7 @@ App::Munchies::Schema::Authentication::Roles - Class definition for the roles ta
 
 =head1 Version
 
-0.5.$Revision: 1173 $
+0.6.$Revision: 1288 $
 
 =head1 Synopsis
 

@@ -1,4 +1,4 @@
-# @(#)$Id: Bob.pm 1285 2012-03-28 10:58:59Z pjf $
+# @(#)$Id: Bob.pm 1289 2012-03-29 12:18:07Z pjf $
 
 package Bob;
 
@@ -10,31 +10,34 @@ use inc::CPANTesting;
 sub whimper { print {*STDOUT} $_[ 0 ]."\n"; exit 0 }
 
 BEGIN {
-   eval { require 5.008; }; $@ and whimper 'Perl minimum 5.8';
-   my $reason; $reason = CPANTesting::broken and whimper $reason;
+   my $reason; $reason = CPANTesting::broken_toolchain and whimper $reason;
 }
 
 # If we are using local::lib find and source the environment script
-use English qw( -no_match_vars );
 use File::Spec::Functions;
 use FindBin qw( $Bin );
 
 BEGIN {
    my $path = catfile( $Bin, qw(bin munchies_localenv) );
 
-   if (-f $path) { do $path or whimper $EVAL_ERROR }
+   if (-f $path) { do $path or whimper $@ }
 }
 
 # Back to the normal program declarations
-use version; our $VERSION = qv( sprintf '0.5.%d', q$Rev: 1285 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.6.%d', q$Rev: 1289 $ =~ /\d+/gmx );
 
+use English qw( -no_match_vars );
 use CatalystX::Usul::Build;
 use Config;
 
 sub new {
    # Instantiate and return an instance of an inline subclass of
    # CX::U::B an explicite subclass of Module::Build
-   my ($class, $params) = @_; $params ||= {};
+   my ($class, $params) = @_; $params ||= {}; $params->{requires} ||= {};
+
+   my $perl_ver    = $params->{requires}->{perl} || 5.008_008;
+
+   $] < $perl_ver and whimper "Perl minimum ${perl_ver}";
 
    my $module      = $params->{module} or whimper 'No module name';
    my $distname    = $module; $distname =~ s{ :: }{-}gmx;
@@ -113,7 +116,7 @@ sub new {
          my $self = shift; my $cli = $self->cli; my $pattern;
 
          for (qw(.git .svn hist html logs recipes reports tmp)) {
-            $pattern .= ($pattern ? ' | ' : q()).$cli->catdir( q(), $_ );
+            $pattern .= ($pattern ? q( | ) : q()).$cli->catdir( q(), $_ );
          }
 
          $self->skip_pattern( qr{ (?: $pattern ) }mx );
@@ -191,8 +194,7 @@ sub __get_notes {
    # Optionally create a README.pod file
    $notes->{create_readme_pod} = $params->{create_readme_pod} || 0;
    # Add a note to stop CPAN testing if requested in Build.PL
-   $notes->{stop_tests} = ($params->{stop_tests} || 0) && __cpan_testing()
-                        ? 'CPAN Testing stopped' : 0;
+   $notes->{stop_tests       } = __stop_tests( $params );
 
    return $notes;
 }
@@ -225,6 +227,14 @@ sub __get_resources {
       and $resources->{repository} = $repo;
 
    return { resources => $resources };
+}
+
+sub __stop_tests {
+   my $params = shift; __cpan_testing() or return 0;
+
+   $params->{stop_tests} and return 'CPAN Testing stopped';
+
+   return CPANTesting::exceptions;
 }
 
 1;

@@ -1,11 +1,11 @@
 # Created by DBIx::Class::Schema::Loader v0.03009 @ 2007-03-04 02:50:46
-# @(#)$Id: Names.pm 943 2010-01-02 22:28:18Z pjf $
+# @(#)$Id: Names.pm 1288 2012-03-29 00:20:38Z pjf $
 
 package App::Munchies::Schema::Catalog::Result::Names;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.5.%d', q$Rev: 943 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.6.%d', q$Rev: 1288 $ =~ /\d+/gmx );
 use parent qw(App::Munchies::Schema::Base);
 
 __PACKAGE__->table('names');
@@ -34,7 +34,7 @@ App::Munchies::Schema::Catalog::Result::Names - Class definition for the names t
 
 =head1 Version
 
-0.5.$Revision: 943 $
+0.6.$Revision: 1288 $
 
 =head1 Synopsis
 

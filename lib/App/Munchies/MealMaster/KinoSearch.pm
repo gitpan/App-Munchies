@@ -1,10 +1,10 @@
-# @(#)$Id: KinoSearch.pm 1037 2010-07-14 01:32:50Z pjf $
+# @(#)$Id: KinoSearch.pm 1288 2012-03-29 00:20:38Z pjf $
 
 package App::Munchies::MealMaster::KinoSearch;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.5.%d', q$Rev: 1037 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.6.%d', q$Rev: 1288 $ =~ /\d+/gmx );
 use parent qw(Class::Accessor::Fast);
 
 use KinoSearch::Analysis::PolyAnalyzer;
@@ -95,7 +95,7 @@ App::Munchies::MealMaster::KinoSearch - Text search model for food recipes in MM
 
 =head1 Version
 
-0.5.$Revision: 1037 $
+0.6.$Revision: 1288 $
 
 =head1 Synopsis
 

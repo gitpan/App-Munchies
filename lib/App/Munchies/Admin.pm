@@ -1,10 +1,10 @@
-# @(#)$Id: Admin.pm 1192 2011-06-16 16:01:54Z pjf $
+# @(#)$Id: Admin.pm 1288 2012-03-29 00:20:38Z pjf $
 
 package App::Munchies::Admin;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.5.%d', q$Rev: 1192 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.6.%d', q$Rev: 1288 $ =~ /\d+/gmx );
 use parent qw(CatalystX::Usul::Admin);
 
 1;
@@ -19,7 +19,7 @@ App::Munchies::Admin - Subroutines that run as the super user
 
 =head1 Version
 
-0.5.$Revision: 1192 $
+0.6.$Revision: 1288 $
 
 =head1 Synopsis
 

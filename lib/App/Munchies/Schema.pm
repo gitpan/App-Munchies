@@ -1,10 +1,10 @@
-# @(#)$Id: Schema.pm 1224 2011-08-02 00:19:16Z pjf $
+# @(#)$Id: Schema.pm 1288 2012-03-29 00:20:38Z pjf $
 
 package App::Munchies::Schema;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.5.%d', q$Rev: 1224 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.6.%d', q$Rev: 1288 $ =~ /\d+/gmx );
 use parent qw(CatalystX::Usul::Programs CatalystX::Usul::Schema);
 
 use App::Munchies::MealMaster;
@@ -109,7 +109,7 @@ App::Munchies::Schema - Command line database utility methods
 
 =head1 Version
 
-0.5.$Revision: 1224 $
+0.6.$Revision: 1288 $
 
 =head1 Synopsis
 

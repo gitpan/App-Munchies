@@ -1,10 +1,10 @@
-# @(#)$Id: Authentication.pm 1129 2011-04-04 10:42:50Z pjf $
+# @(#)$Id: Authentication.pm 1288 2012-03-29 00:20:38Z pjf $
 
 package App::Munchies::Model::Authentication;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.5.%d', q$Rev: 1129 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.6.%d', q$Rev: 1288 $ =~ /\d+/gmx );
 use parent qw(CatalystX::Usul::Model::Schema);
 
 use MRO::Compat;
@@ -35,7 +35,7 @@ App::Munchies::Model::Authentication - Database authentication class
 
 =head1 Version
 
-0.5.$Revision: 1129 $
+0.6.$Revision: 1288 $
 
 =head1 Synopsis
 

@@ -1,9 +1,9 @@
-# @(#)$Id: Build.PL 1280 2012-03-12 21:48:56Z pjf $
+# @(#)$Id: Build.PL 1291 2012-03-31 22:48:18Z pjf $
 
 use strict;
 use warnings;
 use inc::Bob; # Module::Build subclass
-use version; our $VERSION = qv( sprintf '0.5.%d', q$Rev: 1280 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.6.%d', q$Rev: 1291 $ =~ /\d+/gmx );
 
 use File::Spec::Functions;
 
@@ -11,13 +11,13 @@ Bob->new( {
    module    => q(App::Munchies),
    home_page => q(http://www.roxsoft.co.uk/munchies),
    requires  => {
-      'perl'                                 => 5.008,
+      'perl'                                 => 5.010,
       'namespace::autoclean'                 => 0.09,
       'parent'                               => 0.221,
       'version'                              => 0.87,
       'Catalyst'                             => 5.90010,
       'CatalystX::RoleApplicator'            => 0.005,
-      'CatalystX::Usul'                      => q(0.4.0),
+      'CatalystX::Usul'                      => q(0.5.1151),
       'Class::Accessor'                      => 0.31,
       'Class::Null'                          => 1.09,
       'DBIx::Class'                          => 0.08112,
@@ -25,8 +25,8 @@ Bob->new( {
       'Date::Discordian'                     => 1.36,
       'DateTime::Event::Sunrise'             => 0.0501,
       'DateTime::Fiction::JRRTolkien::Shire' => 0.02,
-      'File::DataClass'                      => q(0.7.335),
-      'HTML::Accessors'                      => q(0.4.0),
+      'File::DataClass'                      => q(0.8.0),
+      'HTML::Accessors'                      => q(0.6.0),
       'HTML::Entities'                       => 3.68,
       'KinoSearch'                           => 0.3,
       'Moose'                                => 2.0402,
@@ -41,10 +41,11 @@ Bob->new( {
       'SVN::Class'                           => 0.16, },
    configure_requires        => {
       'version'              => 0.87,
-      'CatalystX::Usul'      => q(0.4.0),
+      'CatalystX::Usul'      => q(0.5.1151),
       'Module::Build'        => 0.37, },
    build_requires            => {
       'version'              => 0.87,
+      'CatalystX::Usul'      => q(0.5.1151),
       'Test::More'           => 0.74, },
    no_index_dir              => [ qw(examples inc t), catdir( qw(var root) ) ],
    notes                     => {

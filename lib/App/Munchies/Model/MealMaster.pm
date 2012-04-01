@@ -1,10 +1,10 @@
-# @(#)$Id: MealMaster.pm 1267 2011-12-30 00:24:16Z pjf $
+# @(#)$Id: MealMaster.pm 1288 2012-03-29 00:20:38Z pjf $
 
 package App::Munchies::Model::MealMaster;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.5.%d', q$Rev: 1267 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.6.%d', q$Rev: 1288 $ =~ /\d+/gmx );
 use parent qw(CatalystX::Usul::Model CatalystX::Usul::IPC);
 
 use App::Munchies::MealMaster;
@@ -241,7 +241,7 @@ App::Munchies::Model::MealMaster - Manipulate food recipes stored in MMF format
 
 =head1 Version
 
-0.5.$Revision: 1267 $
+0.6.$Revision: 1288 $
 
 =head1 Synopsis
 

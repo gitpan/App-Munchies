@@ -1,10 +1,10 @@
-# @(#)$Id: Entrance.pm 1269 2012-01-11 16:28:05Z pjf $
+# @(#)$Id: Entrance.pm 1288 2012-03-29 00:20:38Z pjf $
 
 package App::Munchies::Controller::Entrance;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.5.%d', q$Rev: 1269 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.6.%d', q$Rev: 1288 $ =~ /\d+/gmx );
 use parent qw(CatalystX::Usul::Controller::Entrance);
 
 use CatalystX::Usul::Constants;
@@ -123,7 +123,7 @@ App::Munchies::Controller::Entrance - Welcome to this application framework
 
 =head1 Version
 
-$Revision: 1269 $
+$Revision: 1288 $
 
 =head1 Synopsis
 

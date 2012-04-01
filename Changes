@@ -2,6 +2,10 @@ Revision history for App::Munchies
 
 {{ $NEXT }}
 
+v0.6.1294 2012-04-02 00:14:43 BST
+
+          - Updated inc::Bob to 1.2
+
 v0.5.1285 2012-03-28 12:58:42 BST
           - Updated inc::Bob. Added inc::CPANTesting
           - Updated for Catalyst 5.9

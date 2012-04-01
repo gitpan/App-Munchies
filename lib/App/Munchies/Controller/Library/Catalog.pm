@@ -1,10 +1,10 @@
-# @(#)$Id: Catalog.pm 1269 2012-01-11 16:28:05Z pjf $
+# @(#)$Id: Catalog.pm 1288 2012-03-29 00:20:38Z pjf $
 
 package App::Munchies::Controller::Library::Catalog;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.5.%d', q$Rev: 1269 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.6.%d', q$Rev: 1288 $ =~ /\d+/gmx );
 use parent qw(App::Munchies::Controller::Library);
 
 use CatalystX::Usul::Constants;
@@ -75,7 +75,7 @@ App::Munchies::Controller::Library::Catalog - Server side bookmarks
 
 =head1 Version
 
-0.5.$Revision: 1269 $
+0.6.$Revision: 1288 $
 
 =head1 Synopsis
 
