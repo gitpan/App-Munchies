@@ -45,7 +45,7 @@
          "requires" : {
             "Catalyst" : "5.9001",
             "CatalystX::RoleApplicator" : "0.005",
-            "CatalystX::Usul" : "v0.5.1151",
+            "CatalystX::Usul" : "v0.5.1164",
             "Class::Accessor" : "0.31",
             "Class::Null" : "1.09",
             "DBIx::Class" : "0.08112",
@@ -73,7 +73,7 @@
    "provides" : {
       "App::Munchies" : {
          "file" : "lib/App/Munchies.pm",
-         "version" : "v0.6.1294"
+         "version" : "v0.6.1298"
       },
       "App::Munchies::Admin" : {
          "file" : "lib/App/Munchies/Admin.pm",
@@ -190,5 +190,5 @@
          "http://dev.perl.org/licenses/"
       ]
    },
-   "version" : "0.6.1294"
+   "version" : "0.6.1298"
 }

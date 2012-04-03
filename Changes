@@ -2,8 +2,8 @@ Revision history for App::Munchies
 
 {{ $NEXT }}
 
-v0.6.1294 2012-04-02 00:14:43 BST
-
+v0.6.1298 2012-04-03 01:29:36 BST
+          - inc::Bob now requires CX::U::Build after Perl version test
           - Updated inc::Bob to 1.2
 
 v0.5.1285 2012-03-28 12:58:42 BST

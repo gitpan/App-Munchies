@@ -1,4 +1,4 @@
-# @(#)$Id: Bob.pm 1289 2012-03-29 12:18:07Z pjf $
+# @(#)$Id: Bob.pm 1297 2012-04-03 00:15:11Z pjf $
 
 package Bob;
 
@@ -24,10 +24,9 @@ BEGIN {
 }
 
 # Back to the normal program declarations
-use version; our $VERSION = qv( sprintf '0.6.%d', q$Rev: 1289 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.6.%d', q$Rev: 1297 $ =~ /\d+/gmx );
 
 use English qw( -no_match_vars );
-use CatalystX::Usul::Build;
 use Config;
 
 sub new {
@@ -38,6 +37,8 @@ sub new {
    my $perl_ver    = $params->{requires}->{perl} || 5.008_008;
 
    $] < $perl_ver and whimper "Perl minimum ${perl_ver}";
+
+   require CatalystX::Usul::Build;
 
    my $module      = $params->{module} or whimper 'No module name';
    my $distname    = $module; $distname =~ s{ :: }{-}gmx;
