@@ -2,6 +2,10 @@ Revision history for App::Munchies
 
 {{ $NEXT }}
 
+v0.6.1305 2012-04-04 19:32:27 BST
+          - Bingos smoker is still failing to install Sort::Naturally. Added
+            to broken toolchain function
+
 v0.6.1302 2012-04-04 13:07:47 BST
           - Turning CPAN testing off because
             08289c92-7e3f-11e1-9d6f-f6dbfa7543f5. Thats 24hrs after peregrins
