@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-# @(#)$Id: munchies_cli 1267 2011-12-30 00:24:16Z pjf $
+# @(#)$Id: munchies_cli 1300 2012-04-03 19:45:20Z pjf $
 
 use strict;
 use warnings;
@@ -14,7 +14,7 @@ BEGIN {
    do $path or die $EVAL_ERROR || "Path $path not done\n";
 }
 
-use version; our $VERSION = qv( sprintf '0.5.%d', q$Rev: 1267 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.6.%d', q$Rev: 1300 $ =~ /\d+/gmx );
 
 use App::Munchies::CLI;
 
@@ -44,7 +44,7 @@ Display man page/usage string
 
 =head1 VERSION
 
-0.5.$Rev: 1267 $
+0.6.$Rev: 1300 $
 
 =head1 DESCRIPTION
 
@@ -106,7 +106,7 @@ Peter Flanigan, C<< <Support at RoxSoft.co.uk> >>
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright (c) 2009 Peter Flanigan
+Copyright (c) 2012 Peter Flanigan
 
 This is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.

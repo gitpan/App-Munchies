@@ -1,9 +1,9 @@
 #!/usr/bin/perl
-# @(#)$Id: munchies_admin 1223 2011-08-01 20:55:53Z pjf $
+# @(#)$Id: munchies_admin 1300 2012-04-03 19:45:20Z pjf $
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.5.%d', q$Rev: 1223 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.6.%d', q$Rev: 1300 $ =~ /\d+/gmx );
 # Using FindBin is incompatible with taint mode and suid programs
 # This path is edited by Bob the Module::Builder on installation
 use lib q(/opt/app-munchies/default/lib);
@@ -61,7 +61,7 @@ Display man page/usage string
 
 =head1 VERSION
 
-0.5.$Rev: 1223 $
+0.6.$Rev: 1300 $
 
 =head1 DESCRIPTION
 
@@ -126,7 +126,7 @@ Peter Flanigan
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright (c) 2011 Peter Flanigan
+Copyright (c) 2012 Peter Flanigan
 
 This is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself

@@ -26,7 +26,7 @@ no_index:
 provides:
   App::Munchies:
     file: lib/App/Munchies.pm
-    version: v0.6.1298
+    version: v0.6.1301
   App::Munchies::Admin:
     file: lib/App/Munchies/Admin.pm
     version: v0.6.1288
@@ -112,7 +112,7 @@ recommends:
 requires:
   Catalyst: 5.9001
   CatalystX::RoleApplicator: 0.005
-  CatalystX::Usul: v0.5.1164
+  CatalystX::Usul: v0.6.0
   Class::Accessor: 0.31
   Class::Null: 1.09
   DBIx::Class: 0.08112
@@ -138,4 +138,4 @@ resources:
   bugtracker: http://rt.cpan.org/NoAuth/Bugs.html?Dist=App-Munchies
   homepage: http://www.roxsoft.co.uk/munchies
   license: http://dev.perl.org/licenses/
-version: 0.6.1298
+version: 0.6.1301

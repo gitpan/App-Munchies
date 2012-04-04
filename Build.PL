@@ -1,9 +1,9 @@
-# @(#)$Id: Build.PL 1298 2012-04-03 00:27:47Z pjf $
+# @(#)$Id: Build.PL 1301 2012-04-04 08:10:52Z pjf $
 
 use strict;
 use warnings;
 use inc::Bob; # Module::Build subclass
-use version; our $VERSION = qv( sprintf '0.6.%d', q$Rev: 1298 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.6.%d', q$Rev: 1301 $ =~ /\d+/gmx );
 
 use File::Spec::Functions;
 
@@ -17,7 +17,7 @@ Bob->new( {
       'version'                              => 0.87,
       'Catalyst'                             => 5.90010,
       'CatalystX::RoleApplicator'            => 0.005,
-      'CatalystX::Usul'                      => q(0.5.1164),
+      'CatalystX::Usul'                      => q(0.6.0),
       'Class::Accessor'                      => 0.31,
       'Class::Null'                          => 1.09,
       'DBIx::Class'                          => 0.08112,

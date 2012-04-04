@@ -14,32 +14,32 @@ not run its Makefile.PL or Build.PL.
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA1
 
-SHA1 a3e6f6871f72d9414d27dce6be994275841d77f6 Build.PL
-SHA1 f43bd319ebe52398e3de60a519e000e799d9fe8d Changes
+SHA1 a60b8320f8b5879bdb567f05ee6e3872e09eaf1f Build.PL
+SHA1 fed388d5e9baae596f68f28937c765f0f3c1725c Changes
 SHA1 0890c7d901c3958ec8476f1edc1c11ae676990fb LICENSE
 SHA1 433e77d81b024b59ab1ed0c9d1e83e89b75532f1 MANIFEST
-SHA1 b4911e2b2633ba265d367ab83d0d9b3e39415b9c META.json
-SHA1 0c050d1f06a05c5d67623c8302ab3bf9853b5bcc META.yml
-SHA1 c36c6641ba73efbf017c66973486c14c9d0601de README
+SHA1 f3131674d2cd7be666cb84d5d7934ad4344e4844 META.json
+SHA1 291bddf75e573d83cbed54fb7417261446e5a136 META.yml
+SHA1 54aa3e84ebc3e066088536bb1eec69b6032abadf README
 SHA1 37d6890ce59ae3a693eccab5e48fda2b8be85623 README.pod
-SHA1 c3b7fc8c4572379a5dbe1c92af4b2ec9dcaef98e bin/munchies_admin
-SHA1 0c05f0cae8eda5c7b3882016b4592f6a14204cf4 bin/munchies_cgi
-SHA1 7dedc0454333f02a906580513b030cffdc1fbe8a bin/munchies_cli
-SHA1 dbd6c61086e9d6ea4f774d94065e1234c0ad228e bin/munchies_create
-SHA1 40c45932abad373cd8ec860a1ce983f0ba4d9c09 bin/munchies_fastcgi
+SHA1 c4acf16836fd4981b6bdd119a6c417dc55fe8d7d bin/munchies_admin
+SHA1 c4d336c0b3dbda1b4fb3861481f0753fe6b29d1c bin/munchies_cgi
+SHA1 7d2ed3e4e24ba8739c636f62b859e41ed4244b30 bin/munchies_cli
+SHA1 655741602e67dbddacdfa94470dcfd53dff7fca2 bin/munchies_create
+SHA1 c20f51d06ad0e35630cd430b504122c30af561a4 bin/munchies_fastcgi
 SHA1 71150a43b3b28f5cbfaf93db7667ff3b916b31c5 bin/munchies_localenv
-SHA1 91ff19e9109e0526dcbb197b91c2ae8bf810a615 bin/munchies_lock
-SHA1 e51f14c99f40e1a056af3d1975f4b2b486cfec63 bin/munchies_psgi
-SHA1 d775b566c14ca51dcbce48f940d14726916d243d bin/munchies_schema
-SHA1 ab64f148bbe5029287c2e7a7b30c3ce47732c3c6 bin/munchies_server
+SHA1 2e873fec69c2c1b1eee2f9c4cf1ecc8cd33c3d5a bin/munchies_lock
+SHA1 c40cec4396b68838bba0545fe27a2124a16a535b bin/munchies_psgi
+SHA1 ff6e9d56a67a5e350acb639013d688ae7272d0a9 bin/munchies_schema
+SHA1 9d096559d109bdd93d009788dadbf061bf4299df bin/munchies_server
 SHA1 a3b27f2efe6097f0007e54d5976edf8b3cf3f555 bin/munchies_suenv
-SHA1 6655f8ac90dac49918944dd15d3a4907694c0868 bin/munchies_test
+SHA1 3714539fc51766433cc82e2339a53d6914d6aaec bin/munchies_test
 SHA1 a07f3a02510067c46bcbd1a261515abc5c6f42da inc/Bob.pm
 SHA1 d23e04c06098a92fbc4fb39bfbca736251e42dfe inc/CPANTesting.pm
 SHA1 23a46818fae695ea8ad6392be52de7d408757bad inc/M_B_Base.patch
 SHA1 09d10d0436b28956a2968c71f26ebb010cc0bfc5 inc/M_B_PodParser.patch
 SHA1 6965a70d70bf4454546e143e9b29d59c01787a59 install.sh
-SHA1 3da1df967452ca22a6a8d4fa329c775a00dd857d lib/App/Munchies.pm
+SHA1 4603710e2650efec08c70c5289aeb13fa2289ae6 lib/App/Munchies.pm
 SHA1 6786cc231a970a46811fd2a482f7f9685206a289 lib/App/Munchies/Admin.pm
 SHA1 db9a425dd580aa554c6043e8bd69734fcf41f339 lib/App/Munchies/CLI.pm
 SHA1 890da7a6a7c76d18eb8abed8954eaec11845b033 lib/App/Munchies/Controller/Admin.pm
@@ -227,11 +227,11 @@ SHA1 2870e547d9c2267b30a29a8450faeed4bb8247b2 var/secure/support.sub
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1.4.10 (GNU/Linux)
 
-iQEcBAEBAgAGBQJPekRwAAoJEK492j4Im1BpEVEH/jFVL7+aCcUOydcvVYvHozZz
-/NzvDdhIZcL/x9/Y2Ew6PmhGL5/R7EkrmTQGZ29M2FbSeF4/zQ7XYjc6jguod4AI
-4opLXBHq7evtGeDMYlRRKDe20RSEmMz8+Te2TlRf1XJaDMq8tuS364gSSqvCfWQh
-+Y4q4gsSKlTcc4VjqkPAAGOomOrl4R0ku5/Vv3DLWb1gKJR3UJuZARJ6ozux7gU4
-pD5EP48qRpdfXSPkza2AD1mK4ftO94KTCMgclnCRxGh5WVnbQqsqQjvvibww6vQ7
-9ep5NCnTzfumGUDh/xc1+Au9uTZusNfWCWk40fvRq1FWyhuhCy4AtJcW1FUOufE=
-=QXwN
+iQEcBAEBAgAGBQJPfAIwAAoJEK492j4Im1BpeNkH/i65jYoiQ5lxlq0+Ngs34RWF
+3v0hp1W6AbquP2ss+7haZQmAREgr0IKWo5NvvyIUdh//3+ZZLeyE8AK3HWEr5H4F
+nNtK/6E/BWGae93zMzgGMHEX+/+d3THBh/O1OD7lu+h0q4TqFcejYLoZI2hp1Sui
+0HcU/RyC8fOxsrh+WBkBxrnZEAp3ybZ7Ps+fnXu+WqmTgBOO2sfSI+5z7J+YHWPo
+H2lh8tbM7uvhvMImUbjPOJHWpBTFoCOT9yVDRmmumvuLY/Nc6HmEv6UtXG9clfz0
+BoIo0ORZw8IrS1uD96QhzjMwtaUDclzC29Z5/lB+jyp1/QHdURSb8RPm/YOTJDs=
+=EbGU
 -----END PGP SIGNATURE-----
