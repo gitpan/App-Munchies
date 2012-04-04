@@ -1,16 +1,17 @@
-# @(#)$Id: Build.PL 1301 2012-04-04 08:10:52Z pjf $
+# @(#)$Id: Build.PL 1302 2012-04-04 12:07:12Z pjf $
 
 use strict;
 use warnings;
 use inc::Bob; # Module::Build subclass
-use version; our $VERSION = qv( sprintf '0.6.%d', q$Rev: 1301 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.6.%d', q$Rev: 1302 $ =~ /\d+/gmx );
 
 use File::Spec::Functions;
 
 Bob->new( {
-   module    => q(App::Munchies),
-   home_page => q(http://www.roxsoft.co.uk/munchies),
-   requires  => {
+   stop_tests => 1,
+   module     => q(App::Munchies),
+   home_page  => q(http://www.roxsoft.co.uk/munchies),
+   requires   => {
       'perl'                                 => 5.010,
       'namespace::autoclean'                 => 0.09,
       'parent'                               => 0.221,

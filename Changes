@@ -2,6 +2,10 @@ Revision history for App::Munchies
 
 {{ $NEXT }}
 
+v0.6.1302 2012-04-04 13:07:47 BST
+          - Turning CPAN testing off because
+            08289c92-7e3f-11e1-9d6f-f6dbfa7543f5. Thats 24hrs after peregrins
+            fuck up and smokers are still reporting bollocks
           - Bumped version numbers of files in the bin directory
 
 v0.6.1301 2012-04-04 09:11:26 BST

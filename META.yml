@@ -26,7 +26,7 @@ no_index:
 provides:
   App::Munchies:
     file: lib/App/Munchies.pm
-    version: v0.6.1301
+    version: v0.6.1302
   App::Munchies::Admin:
     file: lib/App/Munchies/Admin.pm
     version: v0.6.1288
@@ -138,4 +138,4 @@ resources:
   bugtracker: http://rt.cpan.org/NoAuth/Bugs.html?Dist=App-Munchies
   homepage: http://www.roxsoft.co.uk/munchies
   license: http://dev.perl.org/licenses/
-version: 0.6.1301
+version: 0.6.1302
