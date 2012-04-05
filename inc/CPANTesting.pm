@@ -1,4 +1,4 @@
-# @(#)$Id: CPANTesting.pm 1305 2012-04-04 18:31:41Z pjf $
+# @(#)$Id: CPANTesting.pm 1307 2012-04-05 18:37:21Z pjf $
 
 package CPANTesting;
 
@@ -8,9 +8,9 @@ use warnings;
 my $uname = qx(uname -a);
 
 sub broken_toolchain {
-   $ENV{PATH} =~ m{ \A /home/sand         }mx and return 'Stopped Konig';
-   $ENV{PATH} =~ m{ \A /usr/home/cpan/pit }mx and return 'Stopped Bingos';
-   $uname     =~ m{ higgsboson            }mx and return 'Stopped dcollins';
+   $ENV{PATH} =~ m{ \A /home/sand }mx and return 'Stopped Konig';
+   $ENV{PATH} =~ m{ home/cpan/pit }mx and return 'Stopped Bingos';
+   $uname     =~ m{ higgsboson    }mx and return 'Stopped dcollins';
    return 0;
 }
 

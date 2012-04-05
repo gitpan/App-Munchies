@@ -2,6 +2,9 @@ Revision history for App::Munchies
 
 {{ $NEXT }}
 
+v0.6.1307 2012-04-05 19:38:02 BST
+          - Improved Bingos broken toolchain regex to include more smokers
+
 v0.6.1305 2012-04-04 19:32:27 BST
           - Bingos smoker is still failing to install Sort::Naturally. Added
             to broken toolchain function
