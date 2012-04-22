@@ -1,10 +1,10 @@
-# @(#)$Id: Links.pm 1288 2012-03-29 00:20:38Z pjf $
+# @(#)$Id: Links.pm 1318 2012-04-22 17:10:47Z pjf $
 
 package App::Munchies::Schema::Catalog::ResultSet::Links;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.6.%d', q$Rev: 1288 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.7.%d', q$Rev: 1318 $ =~ /\d+/gmx );
 use parent qw(DBIx::Class::ResultSet);
 
 use CatalystX::Usul::Constants;
@@ -64,7 +64,7 @@ App::Munchies::Schema::Catalog::ResultSet::Links - Canned queries against the li
 
 =head1 Version
 
-0.6.$Revision: 1288 $
+0.7.$Revision: 1318 $
 
 =head1 Synopsis
 

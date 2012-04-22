@@ -1,4 +1,4 @@
-# @(#)$Id: CPANTesting.pm 1307 2012-04-05 18:37:21Z pjf $
+# @(#)$Id: CPANTesting.pm 1315 2012-04-19 15:35:01Z pjf $
 
 package CPANTesting;
 
@@ -8,14 +8,16 @@ use warnings;
 my $uname = qx(uname -a);
 
 sub broken_toolchain {
-   $ENV{PATH} =~ m{ \A /home/sand }mx and return 'Stopped Konig';
-   $ENV{PATH} =~ m{ home/cpan/pit }mx and return 'Stopped Bingos';
-   $uname     =~ m{ higgsboson    }mx and return 'Stopped dcollins';
    return 0;
 }
 
 sub exceptions {
-   $uname =~ m{ slack64 }mx and return 'Stopped Bingos slack64';
+   lc $^O eq q(cygwin)       and return 'Cygwin not supported';
+   lc $^O eq q(mirbsd)       and return 'Mirbsd not supported';
+   lc $^O eq q(mswin32)      and return 'Mswin  not supported';
+   lc $^O eq q(netbsd)       and return 'Netbsd not supported';
+   $uname =~ m{ slack64  }mx and return 'Stopped Bingos slack64';
+   $uname =~ m{ bandsman }mx and return 'Stopped Horne bandsman';
    return 0;
 }
 

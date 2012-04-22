@@ -50,7 +50,6 @@ MANIFEST			This list of files
 META.json
 META.yml
 README
-README.pod
 t/01always_pass.t
 t/02pod.t
 t/03podcoverage.t

@@ -1,10 +1,10 @@
-# @(#)$Id: Catalog.pm 1288 2012-03-29 00:20:38Z pjf $
+# @(#)$Id: Catalog.pm 1318 2012-04-22 17:10:47Z pjf $
 
 package App::Munchies::Model::Catalog;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.6.%d', q$Rev: 1288 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.7.%d', q$Rev: 1318 $ =~ /\d+/gmx );
 use parent qw(CatalystX::Usul::Model::Schema);
 
 use CatalystX::Usul::Constants;
@@ -88,21 +88,15 @@ sub catalog_form {
 
          $num_subjects > $args->{min_count} or next;
 
-         $cloud->add( $data->{labels}->{ $subject },
-                      $num_subjects,
-                      { class_pref => $ns,
-                        id_pref    => $c->action->name,
-                        labels     => $data->{labels},
-                        name       => $subject,
-                        table_len  => $size,
-                        total      => $num_subjects,
-                        width      => $width } );
+         $cloud->add( $data->{labels}->{ $subject }, $num_subjects,
+                      { id => $c->action->name.q(_).$subject, } );
       }
 
-      $self->add_field( { class     => $ns.q(Cloud),
+      $self->add_field( { class     => $ns,
                           container => FALSE,
                           data      => $cloud->formation,
-                          type      => q(cloud) } );
+                          type      => q(cloud),
+                          width     => $width, } );
    }
    else {
       my $name = $c->action->name;
@@ -732,7 +726,7 @@ App::Munchies::Model::Catalog - Manipulate the library catalog database
 
 =head1 Version
 
-0.6.$Revision: 1288 $
+0.7.$Revision: 1318 $
 
 =head1 Synopsis
 

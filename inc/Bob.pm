@@ -1,4 +1,4 @@
-# @(#)$Id: Bob.pm 1297 2012-04-03 00:15:11Z pjf $
+# @(#)$Id: Bob.pm 1318 2012-04-22 17:10:47Z pjf $
 
 package Bob;
 
@@ -14,7 +14,7 @@ BEGIN {
 }
 
 # If we are using local::lib find and source the environment script
-use File::Spec::Functions;
+use File::Spec::Functions qw(catfile);
 use FindBin qw( $Bin );
 
 BEGIN {
@@ -24,7 +24,7 @@ BEGIN {
 }
 
 # Back to the normal program declarations
-use version; our $VERSION = qv( sprintf '0.6.%d', q$Rev: 1297 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.7.%d', q$Rev: 1318 $ =~ /\d+/gmx );
 
 use English qw( -no_match_vars );
 use Config;
@@ -38,15 +38,58 @@ sub new {
 
    $] < $perl_ver and whimper "Perl minimum ${perl_ver}";
 
-   require CatalystX::Usul::Build;
-
    my $module      = $params->{module} or whimper 'No module name';
    my $distname    = $module; $distname =~ s{ :: }{-}gmx;
    my $class_path  = catfile( q(lib), split m{ :: }mx, $module.q(.pm) );
    my $build_class = __get_build_class( $params );
-   my $sub_class   = $build_class->subclass( code => q{
-      # Application specific inline custom methods
+   my $builder     = $build_class->new
+   (  add_to_cleanup     => [ qw(Debian_CPANTS.txt blib), $distname.q(-*),
+                              map { ( q(*/) x $_ ).q(*~) } 0..5 ],
+      build_requires     => $params->{build_requires},
+      configure_requires => $params->{configure_requires},
+      create_license     => 1,
+      create_packlist    => 0,
+      create_readme      => 1,
+      dist_suffix        => __get_dist_suffix( $params ),
+      dist_version_from  => $class_path,
+      license            => $params->{license} || q(perl),
+      meta_merge         => __get_resources( $params, $distname ),
+      module_name        => $module,
+      no_index           => __get_no_index( $params ),
+      notes              => __get_notes( $params ),
+      recommends         => $params->{recommends},
+      release_status     => $params->{release_status},
+      requires           => $params->{requires},
+      sign               => defined $params->{sign} ? $params->{sign} : 1, );
 
+   # Add additional elements to the distro
+   $builder->add_build_element( q(data)  );
+   $builder->add_build_element( q(xml)   );
+   $builder->add_build_element( q(var)   );
+   $builder->add_build_element( q(local) );
+
+   return $builder;
+}
+
+# Private subroutines
+# Is this an attempted install on a CPAN testing platform?
+sub __cpan_testing { !! ($ENV{AUTOMATED_TESTING} || $ENV{PERL_CR_SMOKER_CURRENT}
+                     || ($ENV{PERL5OPT} || q()) =~ m{ CPAN-Reporter }mx) }
+
+sub __is_src {
+   # Is this the developer authoring a module?
+   return -f q(MANIFEST.SKIP);
+}
+
+sub __get_build_class {
+   # Which subclass of M::B should we create?
+   my $params = shift; my $build_class = q(CatalystX::Usul::Build);
+
+   if (exists $params->{build_class}) { $build_class = $params->{build_class} }
+   else { require CatalystX::Usul::Build; }
+
+   return $build_class->subclass( code => q{
+      # Application specific inline custom methods
       sub hook_local_deps {
          # Patch the locally installed copy of M::B
          my ($self, $cfg) = @_; my $cli = $self->cli; my ($patch, $path);
@@ -125,54 +168,6 @@ sub new {
          return $self->process_files( q(var) );
       }
    } ); # End of subclass
-
-   # Create an instance of the CX::Usul::Build subclass
-   my $builder = $sub_class->new
-   ( add_to_cleanup     => [ qw(Debian_CPANTS.txt blib), $distname.q(-*),
-                             map { ( q(*/) x $_ ).q(*~) } 0..5 ],
-     build_requires     => $params->{build_requires},
-     configure_requires => $params->{configure_requires},
-     create_license     => 1,
-     create_packlist    => 0,
-     create_readme      => 1,
-     dist_suffix        => __get_dist_suffix( $params ),
-     dist_version_from  => $class_path,
-     license            => $params->{license} || q(perl),
-     meta_merge         => __get_resources( $params, $distname ),
-     module_name        => $module,
-     no_index           => __get_no_index( $params ),
-     notes              => __get_notes( $params ),
-     recommends         => $params->{recommends},
-     release_status     => $params->{release_status},
-     requires           => $params->{requires},
-     sign               => defined $params->{sign} ? $params->{sign} : 1, );
-
-   # Add additional elements to the distro
-   $builder->add_build_element( q(data)  );
-   $builder->add_build_element( q(xml)   );
-   $builder->add_build_element( q(var)   );
-   $builder->add_build_element( q(local) );
-
-   return $builder;
-}
-
-# Private subroutines
-# Is this an attempted install on a CPAN testing platform?
-sub __cpan_testing { !! ($ENV{AUTOMATED_TESTING} || $ENV{PERL_CR_SMOKER_CURRENT}
-                     || ($ENV{PERL5OPT} || q()) =~ m{ CPAN-Reporter }mx) }
-
-sub __is_src {
-   # Is this the developer authoring a module?
-   return -f q(MANIFEST.SKIP);
-}
-
-sub __get_build_class {
-   # Which subclass of M::B should we create?
-   my $params = shift;
-   my $notes  = exists $params->{notes} ? $params->{notes} : {};
-
-   return exists $notes->{build_class}
-        ? $notes->{build_class} : q(CatalystX::Usul::Build);
 }
 
 sub __get_dist_suffix {
@@ -190,7 +185,8 @@ sub __get_no_index {
 }
 
 sub __get_notes {
-   my $params = shift; my $notes = $params->{notes} || {};
+   my $params = shift;
+   my $notes  = exists $params->{notes} ? $params->{notes} : {};
 
    # Optionally create a README.pod file
    $notes->{create_readme_pod} = $params->{create_readme_pod} || 0;

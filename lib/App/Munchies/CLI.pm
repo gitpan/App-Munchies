@@ -1,10 +1,10 @@
-# @(#)$Id: CLI.pm 1291 2012-03-31 22:48:18Z pjf $
+# @(#)$Id: CLI.pm 1318 2012-04-22 17:10:47Z pjf $
 
 package App::Munchies::CLI;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.6.%d', q$Rev: 1291 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.7.%d', q$Rev: 1318 $ =~ /\d+/gmx );
 use parent qw(CatalystX::Usul::CLI);
 
 1;
@@ -19,7 +19,7 @@ App::Munchies::CLI - Subroutines accessed from the command line
 
 =head1 Version
 
-0.6.$Revision: 1291 $
+0.7.$Revision: 1318 $
 
 =head1 Synopsis
 

@@ -1,10 +1,10 @@
-# @(#)$Id: Library.pm 1288 2012-03-29 00:20:38Z pjf $
+# @(#)$Id: Library.pm 1318 2012-04-22 17:10:47Z pjf $
 
 package App::Munchies::Controller::Library;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv( sprintf '0.6.%d', q$Rev: 1288 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.7.%d', q$Rev: 1318 $ =~ /\d+/gmx );
 use parent qw(CatalystX::Usul::Controller);
 
 use CatalystX::Usul::Constants;
@@ -90,7 +90,7 @@ App::Munchies::Controller::Library - A server side bookmark manager and food rec
 
 =head1 Version
 
-$Revision: 1288 $
+$Revision: 1318 $
 
 =head1 Synopsis
 
